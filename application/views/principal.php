@@ -2,6 +2,8 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/funcoes.js"); ?>"></script>
 <script>
   $(document).ready(function() {
+    
+    
     var tabelaServicos = $("#tabelaServicos").DataTable({
       paging: false,
       searching: false,
@@ -31,13 +33,13 @@
       pesquisa = "";
       pesquisa = "data_vencimento <= Date(now())";
       $.ajax({
-        url: '<?php echo base_url('PesquisarServico'); ?>',
+        url: pegarRotaBack('servico/2'),//
         type: "get",
         data: "pesquisa=" + pesquisa
       }).done(function(resposta) {
 
         var dataSet = [];
-        $.each(resposta, function(index, data) {
+        $.each(resposta.servicos, function(index, data) {
           dataSet.push([
             data.cod_servico,
             data.cod_servico,

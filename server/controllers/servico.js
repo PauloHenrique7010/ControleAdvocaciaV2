@@ -13,7 +13,7 @@ async function index(req, res) {
     const {
         teste
     } = req.body;
-    console.log(teste);
+    //console.log(teste);
 
 
     const servicos = await modelServico.listar();

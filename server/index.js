@@ -11,10 +11,11 @@ const log = require("./routes/log");*/
 
 const servico = require("./routes/servico");
 
+app.use(cors());
 
 app.use(express.json());
 
-app.use(cors());
+
 
 //Rotas
 /*

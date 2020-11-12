@@ -349,3 +349,7 @@ function formatarMoeda(i) {
         v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
         i.value = v;
 }
+
+function pegarRotaBack(rota){
+        return "http://localhost:8020/"+rota;
+}
