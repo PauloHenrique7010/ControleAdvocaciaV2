@@ -1,0 +1,27 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Servidor node para requisições do ControleAdvocacia",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PauloHenrique7010/ControleAdvocaciaNode.git"
+  },
+  "keywords": [
+    "Advogado;Financeiro"
+  ],
+  "author": "Paulo Henrique",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PauloHenrique7010/ControleAdvocaciaNode/issues"
+  },
+  "homepage": "https://github.com/PauloHenrique7010/ControleAdvocaciaNode#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  }
+}
