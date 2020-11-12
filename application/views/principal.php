@@ -60,11 +60,8 @@
 <div class="container-fluid">
   <div class="container">
     <h3>Controle financeiro e de Clientes para advogados</h3>
-    <p>Feito por Paulo Henrique.</p>
+    Mostrando pagamentos pendentes do mes atual
   </div>
-
-
-  Mostrando pagamentos pendentes do mes atual
   <table class="table table-hover table-striped" id="tabelaServicos">
 
   </table>
@@ -72,8 +69,10 @@
 <footer class="footer fixed-bottom">
 
   <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">© 2020 Copyright:
-    <a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
+  <div class="footer-copyright text-center py-3">
+  
+    Feito por <b>Paulo Henrique</b> © 2020 Copyright:
+    <!--<a href="https://mdbootstrap.com/"> MDBootstrap.com</a>-->
   </div>
   <!-- Copyright -->
 
