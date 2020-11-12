@@ -1,0 +1,69 @@
+<script>
+$('#tabelaForo').DataTable({
+            "oLanguage": {
+                    "sProcessing":   "Processando...",
+                    "sLengthMenu":   "Mostrar _MENU_ registros",
+                    "sZeroRecords":  "Não foram encontrados resultados",
+                    "sInfo":         "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty":    "Mostrando de 0 até 0 de 0 registros",
+                    "sInfoFiltered": "",
+                    "sInfoPostFix":  "",
+                    "sSearch":       "Buscar:",
+                    "sUrl":          "",
+                    "oPaginate": {
+                        "sFirst":    "Primeiro",
+                        "sPrevious": "Anterior",
+                        "sNext":     "Seguinte",
+                        "sLast":     "Último"
+                    }
+                }
+        }); 
+</script>
+
+
+$("#btnPesqForo").on('click', function(e){
+            let pesquisa = $("#iptPesqForo").val();
+            $.ajax({
+                url: '<?php echo base_url('fCompetencia');?>',
+                type: "post",
+                data: "pesquisa="+pesquisa                
+            }).done(function(resposta){
+                var t = $('#tabelaForo').DataTable();
+
+                $('#tabelaForo').dataTable().api().rows().remove().draw();
+                
+                //$("#tabela  tbody tr").remove(); //limpa os itn               
+                let itens = resposta.message;                
+                
+                for(var i=0;itens.length>i;i++){
+
+                    t.row.add( [ "","<input class=\"form-check-input\" type=\"radio\" name=\"rdbFrame\" id=\""+itens[i].cod_foro+"\" value=\""+itens[i].nome_foro+"\">","<label class=\"form-check-label\" name=\"lbl\" for=\""+itens[i].cod_foro+"\">"+
+                                                        itens[i].nome_foro+
+                                                    "</label>"] ).draw( false );
+                }
+                
+                
+  
+                
+                /*for(var i=0;itens.length>i;i++){
+                    //Adicionando registros retornados na tabela
+                    $("#tabela tbody").append("<tr>"+
+                                            "<td></td>"+
+                                            "<td>"+
+                                                "<input class=\"form-check-input\" type=\"radio\" name=\"rdbFrame\" id=\""+itens[i].cod_foro+"\" value=\""+itens[i].nome_foro+"\">"+
+                                            "</td>"+
+                                            "<td>"+
+                                                "<label class=\"form-check-label\" name=\"lbl\" for=\""+itens[i].cod_foro+"\">"+
+                                                    itens[i].nome_foro+
+                                                "</label>"+
+                                            "</td>"+
+                                        "</tr>");
+                }*/
+                
+            });            
+        });
+
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" />
+<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.20/i18n/Portuguese-Brasil.json"></script>

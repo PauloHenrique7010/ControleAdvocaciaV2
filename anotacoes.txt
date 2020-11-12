@@ -1,0 +1,29 @@
+Servicos {
+    Informar AS partes(codigo do cliente, tipo partes)
+    TipoProcesso(Civil, fazendo publica)
+    Tipos serviço(consulta juridica, acessoria juridica)
+    valorServiço
+    FormaPagamento()    
+    dataPagamento
+    TipoAcão(Alimentos, Declaratória)
+
+    ->
+    pode escolher em quantas prestaçoes (12, 10)
+    apos isso, perguntar se vai ser mensal ou personalizado
+    valorEntrada
+
+    OPPago
+    Campo observacao
+
+    [Paulo] -> lancar no caixa as parcelas e ter opção de ser pago
+    representante
+}
+
+Caixa {
+    Informar AS partes(codigo do cliente, tipo partes)
+    Tipos serviço(consulta juridica, assessoria juridica)
+    Recursos
+    Tipo Processo
+    valor final
+    Condição pagamento()
+}
