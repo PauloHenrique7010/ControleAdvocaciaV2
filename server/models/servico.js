@@ -25,7 +25,7 @@ async function criar(responsavel_comunicado, email_comunicado, hash_comunicado, 
 }*/
 
 async function listar(cod_comunicado) {
-    return await selectPromise('select * from servico_pagamento');
+    return await selectPromise('select s.cod_servico, s.valor_servico, sc.valor_parcela from servico_pagamento sc left join servico s');
 
     const comunicado = {
         cod_comunicado: result.cod_comunicado,

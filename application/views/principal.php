@@ -1,4 +1,4 @@
-<?php $this->load->view('cabecalho'); ?>
+﻿<?php $this->load->view('cabecalho'); ?>
 <script type="text/javascript" src="<?php echo base_url("assets/js/funcoes.js"); ?>"></script>
 <script>
   $(document).ready(function() {
@@ -41,10 +41,11 @@
         var dataSet = [];
         $.each(resposta.servicos, function(index, data) {
           dataSet.push([
+            data.numero_parcela,
+            data.data_vencimento,
             data.cod_servico,
-            data.cod_servico,
-            data.cod_servico,
-            '<button type="button" class="btn btn-warning btnExcluirParte">Boleto</button>'
+            '<button type="button" class="btn btn-warning btnExcluirParte">Boleto</button>'+
+            '<button type="button" class="btn btn-success btnDarBaixa">Dar Baixa</button>'
           ]);
         });
 
