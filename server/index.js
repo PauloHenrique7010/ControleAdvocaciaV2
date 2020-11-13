@@ -16,7 +16,6 @@ app.use(cors());
 app.use(express.json());
 
 
-
 //Rotas
 /*
 app.use('/comunicado', comunicado);

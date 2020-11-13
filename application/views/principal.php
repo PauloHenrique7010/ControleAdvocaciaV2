@@ -29,13 +29,21 @@
 
     pesquisarServico();
 
-    function pesquisarServico() {
-      pesquisa = "";
-      pesquisa = "data_vencimento <= Date(now())";
+    function pesquisarServico() {  
+      let dataAtual = new Date();
+      let dtInicial, dtFinal;
+      
+
+      dtInicial = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), 1);
+      dtFinal   = new Date(dataAtual.getFullYear(), dataAtual.getMonth(),dataAtual.getDate()); 
+      
+      var filtro = new Object();
+      filtro.dtInicial = dtInicial;
+      filtro.dtFinal = dtFinal;
       $.ajax({
-        url: pegarRotaBack('servico/2'),//
-        type: "get",
-        data: "pesquisa=" + pesquisa        
+        url: pegarRotaBack('servico/'),
+        type:"GET",
+        data: filtro
       }).done(function(resposta) {
         var dataSet = [];
         $.each(resposta.servicos, function(index, data) {

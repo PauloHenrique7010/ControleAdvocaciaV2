@@ -23,15 +23,49 @@ async function criar(responsavel_comunicado, email_comunicado, hash_comunicado, 
 
     return comunicado;
 }*/
+function formatarData(dataInput){
+    var data = new Date(dataInput),
+        dia  = data.getDate().toString(),
+        diaF = (dia.length == 1) ? '0'+dia : dia,
+        mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+        mesF = (mes.length == 1) ? '0'+mes : mes,
+        anoF = data.getFullYear();
+    if (isNaN(diaF))
+      return "";
+    return diaF+"/"+mesF+"/"+anoF;
+}
 
-async function listar(cod_comunicado) {
+async function listar(filtros) {
+    let dtInicial   = formatarData(filtros.dtInicial);
+    let dtFinal     = formatarData(filtros.dtFinal);
+       
+    
+    pesquisa = "";
+    
+    if (dtInicial != ""){
+        if (pesquisa != ""){
+            pesquisa += " and ";
+        }
+        pesquisa += "sc.data_vencimento >= "+dtInicial;
+    }
+    if (dtFinal != ""){
+        if (pesquisa != ""){
+            pesquisa += " and ";
+        }
+        pesquisa += "sc.data_vencimento <= "+dtFinal;
+    }
+
+    if (pesquisa != ""){
+        pesquisa = "WHERE "+pesquisa;
+    }
+
     return await selectPromise('select s.cod_servico, '+
                                       's.valor_servico, '+
                                       'sc.valor_parcela, '+
                                       'sc.numero_parcela, '+
                                       'sc.data_vencimento '+
                                'from servico_pagamento sc '+
-                               'left join servico s on s.cod_servico = sc.cod_servico');
+                               'left join servico s on s.cod_servico = sc.cod_servico '+pesquisa);
     
 
     const comunicado = {

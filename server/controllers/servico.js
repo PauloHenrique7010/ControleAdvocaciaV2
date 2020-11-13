@@ -9,14 +9,17 @@ const logService = require('../servicos/logger');*/
 const modelServico = require('../models/servico');
 
 async function index(req, res) {
-    //const id = req.params.cod_dpo;
+    var filtro = new Object();
+    //console.log("filtro1: "+req.params.filtro);
     const {
-        teste
-    } = req.body;
-    //console.log(teste);
+        dtInicial,
+        dtFinal
+    } = req.query;
 
+    filtro.dtInicial = dtInicial;
+    filtro.dtFinal = dtFinal;
 
-    const servicos = await modelServico.listar();
+    const servicos = await modelServico.listar(filtro);
     res.json({servicos});
 }
 /*
