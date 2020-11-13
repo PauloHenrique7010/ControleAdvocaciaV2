@@ -25,7 +25,14 @@ async function criar(responsavel_comunicado, email_comunicado, hash_comunicado, 
 }*/
 
 async function listar(cod_comunicado) {
-    return await selectPromise('select s.cod_servico, s.valor_servico, sc.valor_parcela from servico_pagamento sc left join servico s');
+    return await selectPromise('select s.cod_servico, '+
+                                      's.valor_servico, '+
+                                      'sc.valor_parcela, '+
+                                      'sc.numero_parcela, '+
+                                      'sc.data_vencimento '+
+                               'from servico_pagamento sc '+
+                               'left join servico s on s.cod_servico = sc.cod_servico');
+    
 
     const comunicado = {
         cod_comunicado: result.cod_comunicado,

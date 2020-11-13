@@ -17,7 +17,7 @@ async function index(req, res) {
 
 
     const servicos = await modelServico.listar();
-    res.json({servicos: servicos});
+    res.json({servicos});
 }
 /*
     const cod_comunicado = req.params.cod_comunicado;
