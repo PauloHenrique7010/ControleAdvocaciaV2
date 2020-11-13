@@ -35,9 +35,8 @@
       $.ajax({
         url: pegarRotaBack('servico/2'),//
         type: "get",
-        data: "pesquisa=" + pesquisa
+        data: "pesquisa=" + pesquisa        
       }).done(function(resposta) {
-        
         var dataSet = [];
         $.each(resposta.servicos, function(index, data) {
           dataSet.push([
@@ -51,6 +50,10 @@
 
         tabelaServicos.clear();
         tabelaServicos.rows.add(dataSet).draw();
+      }).fail(function(jqXHR,status,err){        
+        if (StrToInt(status) == 0){
+          exibirMensagemAviso('Aviso!', 'Servidor não encontrado');
+        }
       });
     }
 
