@@ -42,7 +42,7 @@ async function listar(filtros) {
     
     pesquisa = "";
     
-    if (dtInicial != ""){
+    /*if (dtInicial != ""){
         if (pesquisa != ""){
             pesquisa += " and ";
         }
@@ -57,7 +57,7 @@ async function listar(filtros) {
 
     if (pesquisa != ""){
         pesquisa = "WHERE "+pesquisa;
-    }
+    }*/
 
     return await selectPromise('select s.cod_servico, '+
                                       's.valor_servico, '+

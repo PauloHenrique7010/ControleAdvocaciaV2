@@ -105,6 +105,17 @@
             }
         });
 
+        $('#btnConfirmaSemCadastro').on('click', function() {
+            let nomeParteSemCadastro = $("#edtNomeSemCadastro").val();
+            tabelaPartesServico.row.add(["",
+                nomeParteSemCadastro,
+                '<button type="button" class="btn btn-danger btnExcluirParte">Excluir</button>'
+            ]).draw();
+            $("#btnFecharSemCadastro").trigger("click");
+        });
+
+
+
         //se der duplo clique, seleciona e fecha o modal
         $('#tabelaPesquisaCliente tbody').on('dblclick', 'tr', function() {
             $(this).removeClass('selected');
@@ -284,7 +295,7 @@
             msgConfirmacao = "";
 
             let vlTotalServico = StrToFloat($("#edtValorServico").val());
-            
+
             if (vlTotalServico == 0) {
                 msgConfirmacao += "Informe o valor do serviço<br>";
                 OPConfirmar = false;
@@ -320,7 +331,7 @@
                 tabelaPrestacoesCartao.data().each(function(value, index) {
                     dataVencimento = tabelaPrestacoesCartao.cell(index, 1).nodes().to$().find('input').val();
 
-                    dataVencimento = StrToDate(dataVencimento);//se nao for valida, volta como null
+                    dataVencimento = StrToDate(dataVencimento); //se nao for valida, volta como null
 
                     var novoObjeto = new Object();
                     novoObjeto.numParcela = tabelaPrestacoesCartao.cell(index, 0).data();
@@ -342,7 +353,7 @@
                 objeto.partesServico = datasetPartesServico;
 
                 var json = JSON.stringify(objeto);
-                
+
                 $.ajax({
                     url: '<?php echo base_url('ConfirmarNovoServico'); ?>',
                     type: "POST",
@@ -468,8 +479,32 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a data-toggle="modal" href="#mdlAdicionarPartesProcesso" class="btn btn-primary">Adicionar</a>
+               
+                <a data-toggle="modal" href="#mdlAdicionarPartesProcessoSemCadastro" class="btn btn-warning">Sem cadastro</a>
+                <a data-toggle="modal" href="#mdlAdicionarPartesProcesso" class="btn btn-primary">Adicionar</a>                
                 <a href="#" data-dismiss="modal" class="btn btn-secondary">Fechar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlAdicionarPartesProcessoSemCadastro" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Digite o nome da parte <b>não</b> contratante</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <input type="text" id="edtNomeSemCadastro" class="form-group col-12"></input>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-success" id="btnConfirmaSemCadastro">Confirmar</a>
+                <a href="#" data-dismiss="modal" id="btnFecharSemCadastro" class="btn btn-secondary">Fechar</a>
             </div>
         </div>
     </div>
