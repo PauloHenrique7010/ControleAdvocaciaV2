@@ -363,5 +363,5 @@ function formatarMoeda(i) {
 }
 
 function pegarRotaBack(rota){
-        return "http://localhost:8020/"+rota;
+        return "http://192.168.0.20:8020/"+rota;
 }

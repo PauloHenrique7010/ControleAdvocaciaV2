@@ -18,8 +18,18 @@ async function index(req, res) {
 
     filtro.dtInicial = dtInicial;
     filtro.dtFinal = dtFinal;
-
+    
     const servicos = await modelServico.listar(filtro);
+    
+    servicos.teste = "";
+    console.log(servicos[0]);
+
+    //partesServico = await modelServico.pegarPartesServico(servicos.cod_servico);
+
+
+    //servicos = {};
+    
+
     res.json({servicos});
 }
 

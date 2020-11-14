@@ -23,7 +23,10 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "gerar-boletos": "^1.4.5",
+    "moment": "^2.29.1",
     "mysql": "^2.18.1",
+    "node-boleto": "^2.1.1",
     "nodemon": "^2.0.6"
   }
 }

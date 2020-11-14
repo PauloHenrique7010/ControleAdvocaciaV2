@@ -6,14 +6,14 @@
     $('#tabelaServicos').on('click', 'tbody tr .btnVerDetalhes', function() {
       var itemEscolhido = tabelaServicos.row($(this)).data();
       itemEscolhido = tabelaServicos.row($(this).parents('tr')).data();
-      
 
-      codServicoPagamento = StrToInt(itemEscolhido[0]);      
+
+      codServico = StrToInt(itemEscolhido[0]);
 
       $.ajax({
         url: pegarRotaBack('servico/partes'),
         type: "GET",
-        data: "codigo="+codServicoPagamento
+        data: "codigo=" + codServico
       }).done(function(resposta) {
         console.log(resposta.partes);
       }).fail(function(jqXHR, status, err) {
@@ -23,16 +23,47 @@
       });
     });
 
+    $('#tabelaServicos').on('click', 'tbody tr .btnBoleto', function() {
+      var itemEscolhido = tabelaServicos.row($(this)).data();
+      itemEscolhido = tabelaServicos.row($(this).parents('tr')).data();
+      codServicoPagamento = StrToInt(itemEscolhido[1]);
+
+
+      var json = new Object();
+      json.valor = itemEscolhido[4];
+      json.dataVencimento = itemEscolhido[3];
+      
+      $.ajax({
+        url: pegarRotaBack('boleto/'),
+        type: "GET",
+        data: json       
+      }).done(function(resposta) {
+        setTimeout(function() {
+          window.open(resposta.diretorio);
+        }, 2000);
+
+      }).fail(function(jqXHR, status, err) {
+        if (StrToInt(status) == 0) {
+          exibirMensagemAviso('Aviso!', 'Servidor não está respondendo');
+        }
+      });
+    });
+
+
+
 
     var tabelaServicos = $("#tabelaServicos").DataTable({
       paging: false,
       searching: false,
       ordering: false,
       info: false,
-      columns: [
+      columns: [{
+          title: 'Cód servico',
+          visible: false
+        },
         {
           title: 'Cód servico pagamento',
-          visible:false
+          visible: false
         },
         {
           title: 'Nº Prestação'
@@ -72,10 +103,11 @@
       }).done(function(resposta) {
         var dataSet = [];
         $.each(resposta.servicos, function(index, data) {
-          dataVencimentoFormatada  = formatDateTime(data.data_vencimento);
-           
+          dataVencimentoFormatada = formatDateTime(data.data_vencimento);
+
           dataSet.push([
             data.cod_servico,
+            data.cod_servico_pagamento, 
             data.numero_parcela,
             dataVencimentoFormatada,
             data.valor_parcela,

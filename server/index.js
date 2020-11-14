@@ -10,6 +10,7 @@ const dpo = require("./routes/dpo");
 const log = require("./routes/log");*/
 
 const servico = require("./routes/servico");
+const boleto = require("./routes/boleto");
 
 app.use(cors());
 
@@ -17,15 +18,8 @@ app.use(express.json());
 
 
 //Rotas
-/*
-app.use('/comunicado', comunicado);
-app.use('/resposta', resposta);
-app.use('/validar', validacao);
-app.use('/login', login);
-app.use('/dpo', dpo);
-app.use('/log', log);*/
-
 app.use('/servico', servico);
+app.use('/boleto', boleto)
 
 app.get('/', (req, res) => {
   res.send('Rota principal');
