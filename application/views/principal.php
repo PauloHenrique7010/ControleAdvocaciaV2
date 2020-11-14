@@ -72,10 +72,12 @@
       }).done(function(resposta) {
         var dataSet = [];
         $.each(resposta.servicos, function(index, data) {
+          dataVencimentoFormatada  = formatDateTime(data.data_vencimento);
+           
           dataSet.push([
             data.cod_servico,
             data.numero_parcela,
-            data.data_vencimento,
+            dataVencimentoFormatada,
             data.valor_parcela,
             '<button type="button" class="btn btn-warning btnBoleto">Boleto</button>' +
             '<button type="button" class="btn btn-success btnDarBaixa">Dar Baixa</button>' +
