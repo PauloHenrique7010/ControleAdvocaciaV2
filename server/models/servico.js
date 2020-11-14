@@ -63,23 +63,20 @@ async function listar(filtros) {
                                       's.valor_servico, '+
                                       'sc.valor_parcela, '+
                                       'sc.numero_parcela, '+
-                                      'sc.data_vencimento '+
+                                      'sc.data_vencimento, '+
+                                      'sc.cod_servico_pagamento '+
                                'from servico_pagamento sc '+
-                               'left join servico s on s.cod_servico = sc.cod_servico '+pesquisa);
-    
+                               'left join servico s on s.cod_servico = sc.cod_servico '+pesquisa);   
+}
 
-    const comunicado = {
-        cod_comunicado: result.cod_comunicado,
-        data_comunicado: data_atual,
-        responsavel_comunicado: responsavel_comunicado,
-        email_comunicado: email_comunicado,
-        data_comunicado_criado: data_atual,
-        data_comunicado_atualizado: data_atual,
-        hash_comunicado: hash_comunicado,
-        cod_dpo: cod_dpo
-    };
+async function pegarPartesServico(codServico){
 
-    return comunicado;    
+    return await selectPromise('SELECT s.cod_servico_parte, '+
+                                      's.cod_parte, '+
+                                      's.nome_parte, '+
+                                      's.cod_servico '+
+                               'FROM servico_parte s '+
+                               'WHERE cod_servico = '+codServico);     
 }
 /*
 async function listarTodosComunicado(){
@@ -96,5 +93,6 @@ async function validarComunicado(token, id_comunicado){
 }
 */
 module.exports = {
-    listar
+    listar,
+    pegarPartesServico
 };

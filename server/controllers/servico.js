@@ -22,6 +22,16 @@ async function index(req, res) {
     const servicos = await modelServico.listar(filtro);
     res.json({servicos});
 }
+
+async function pegarPartesServico(req, res) {    
+    const {
+        codigo        
+    } = req.query;
+
+    
+    const partes = await modelServico.pegarPartesServico(codigo);
+    res.json({partes});
+}
 /*
     const cod_comunicado = req.params.cod_comunicado;
     const comunicados = await modelComunicado.listar(cod_comunicado);
@@ -76,7 +86,6 @@ async function criarComunicado(req, res) {
 }*/
 
 module.exports = {
-    index/*,
-    criarComunicado,
-    retornarTodosComunicados*/
+    index,
+    pegarPartesServico
 }
