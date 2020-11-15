@@ -6,41 +6,47 @@ const email = require('../servicos/email');
 const servCrypto = require('../servicos/criptografia');
 const logService = require('../servicos/logger');*/
 
+const servico = require('../models/servico');
 const modelServico = require('../models/servico');
 
 async function index(req, res) {
-    var filtro = new Object();
-    //console.log("filtro1: "+req.params.filtro);
+
     const {
         dtInicial,
         dtFinal
     } = req.query;
 
+    var filtro = new Object();
     filtro.dtInicial = dtInicial;
     filtro.dtFinal = dtFinal;
-    
+
+    let nomeParte = "";
     const servicos = await modelServico.listar(filtro);
-    
-    servicos.teste = "";
-    console.log(servicos[0]);
+    for (const linha of servicos) {
+        const partes = await modelServico.pegarPartesServico(linha.cod_servico);
+        
+        nomeParte = "";
+        for (const linha1 of partes) {
+            if (nomeParte !==  ""){
+                nomeParte += ", ";
+            }
+            nomeParte += linha1.nome_parte;
+        }
+        linha.nomeParte = nomeParte;
+    }
 
-    //partesServico = await modelServico.pegarPartesServico(servicos.cod_servico);
 
-
-    //servicos = {};
-    
-
-    res.json({servicos});
+    res.json({ servicos });
 }
 
-async function pegarPartesServico(req, res) {    
+async function pegarPartesServico(req, res) {
     const {
-        codigo        
+        codigo
     } = req.query;
 
-    
+
     const partes = await modelServico.pegarPartesServico(codigo);
-    res.json({partes});
+    res.json({ partes });
 }
 /*
     const cod_comunicado = req.params.cod_comunicado;

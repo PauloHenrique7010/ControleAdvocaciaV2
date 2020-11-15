@@ -75,6 +75,9 @@
           title: 'Valor'
         },
         {
+          title: 'Partes'
+        },
+        {
           title: 'Ações'
         }
       ],
@@ -102,6 +105,7 @@
         data: filtro
       }).done(function(resposta) {
         var dataSet = [];
+        console.log(resposta);
         $.each(resposta.servicos, function(index, data) {
           dataVencimentoFormatada = formatDateTime(data.data_vencimento);
 
@@ -111,6 +115,7 @@
             data.numero_parcela,
             dataVencimentoFormatada,
             data.valor_parcela,
+            data.nomeParte,
             '<button type="button" class="btn btn-warning btnBoleto">Boleto</button>' +
             '<button type="button" class="btn btn-success btnDarBaixa">Dar Baixa</button>' +
             '<button type="button" class="btn btn-info btnVerDetalhes" data-toggle="modal" data-target="#mdlDetalhesServico">Detalhes</button>'
