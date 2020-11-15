@@ -1,6 +1,8 @@
 Se eu estou na branch main e dou um merge na development
 eu vou jogar as coisas da main para a development
 
+git checkout <nomebranch>
+git merge <nomebranche2> -> vou pegar as coisas da branch2 e colocar na minha branch atual
 
 Servicos {
     Informar AS partes(codigo do cliente, tipo partes)
