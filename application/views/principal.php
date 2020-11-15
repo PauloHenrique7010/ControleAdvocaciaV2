@@ -129,7 +129,6 @@
           exibirMensagemAviso('Aviso!', 'Servidor não encontrado');
         }
       });
-      fiz algo na branch development
     }
 
   });
