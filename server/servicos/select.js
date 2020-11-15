@@ -1,10 +1,20 @@
 var mysql = require('mysql');
-var connection = mysql.createConnection({
-    host: 'localhost',
+desenvolvimento = ({
+    host : 'localhost',
     user: 'root',
     password: '',
     database: 'controle_advocacia'
 });
+
+producao = ({
+    host : 'localhost',
+    user: 'root',
+    password: '',
+    database: 'advocacia'
+});
+
+var connection = mysql.createConnection(producao);
+//var connection = mysql.createConnection(desenvolvimento);
 
 
 const selectPromise = (select) => {
