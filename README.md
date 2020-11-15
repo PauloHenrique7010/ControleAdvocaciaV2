@@ -45,5 +45,6 @@ $ cd server
 ```
 
 ### Referências
-https://blog.rocketseat.com.br/como-fazer-um-bom-readme/
-https://github.com/tgmarinho/meetapp
+[Como fazer um bom README](https://blog.rocketseat.com.br/como-fazer-um-bom-readme/)
+[Exemplo ReadMe](https://github.com/tgmarinho/meetapp)
+
