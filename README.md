@@ -4,6 +4,7 @@
 <h4 align="center"> 
 	🚧  Programa  🚀 Em construção...  🚧
 </h4>
+
 ### Funções
 
 - [x] CRUD de usuário.
@@ -42,3 +43,7 @@ $ cd server
 
 # O servidor inciará na porta:8020 - acesse <http://localhost:8020>
 ```
+
+### Referências
+https://blog.rocketseat.com.br/como-fazer-um-bom-readme/
+https://github.com/tgmarinho/meetapp
