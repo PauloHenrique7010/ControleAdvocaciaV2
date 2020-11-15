@@ -122,8 +122,11 @@
           ]);
         });
 
+<<<<<<< HEAD
         estou na desenvolvimento
 
+=======
+>>>>>>> main
         tabelaServicos.clear();
         tabelaServicos.rows.add(dataSet).draw();
       }).fail(function(jqXHR, status, err) {
