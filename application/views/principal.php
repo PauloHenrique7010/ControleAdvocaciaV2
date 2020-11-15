@@ -1,4 +1,21 @@
 ﻿<?php $this->load->view('cabecalho'); ?>
+<style>
+    /*deixa o modal com scrool*/
+    .tabela {
+      max-height: calc(100vh - 200px);
+      overflow-y:auto;
+}
+
+    /*deixa o modal com scrool*/
+    .modal-dialog {
+        overflow-y: initial !important
+    }
+
+    .modal-body {
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
+    }
+</style>
 <script type="text/javascript" src="<?php echo base_url("assets/js/funcoes.js"); ?>"></script>
 <script>
   $(document).ready(function() {
@@ -32,11 +49,11 @@
       var json = new Object();
       json.valor = itemEscolhido[4];
       json.dataVencimento = itemEscolhido[3];
-      
+
       $.ajax({
         url: pegarRotaBack('boleto/'),
         type: "GET",
-        data: json       
+        data: json
       }).done(function(resposta) {
         setTimeout(function() {
           window.open(resposta.diretorio);
@@ -66,7 +83,7 @@
           visible: false
         },
         {
-          title: 'Nº Prestação'
+          title: 'Nº Parcela'
         },
         {
           title: 'Data'
@@ -80,6 +97,24 @@
         {
           title: 'Ações'
         }
+      ],
+      columnDefs: [{
+          "width": "2%",
+          "targets": 2
+        }, //n prestaacao
+        {
+          "width": "2%",
+          "targets": 3
+        }, //data
+        {
+          "width": "2%",
+          "targets": 4
+        }, //valor
+        {
+          "width": "15%",
+          "targets": 6
+        } //ações
+
       ],
       language: {
         "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Portuguese.json"
@@ -111,10 +146,13 @@
 
           dataSet.push([
             data.cod_servico,
-            data.cod_servico_pagamento, 
+            data.cod_servico_pagamento,
             data.numero_parcela,
             dataVencimentoFormatada,
-            data.valor_parcela,
+            data.valor_parcela.toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL'
+            }),
             data.nomeParte,
             '<button type="button" class="btn btn-warning btnBoleto">Boleto</button>' +
             '<button type="button" class="btn btn-success btnDarBaixa">Dar Baixa</button>' +
@@ -140,9 +178,10 @@
     <h3>Controle financeiro e de Clientes para advogados</h3>
     Mostrando pagamentos pendentes do mes atual
   </div>
-  <table class="table table-hover table-striped" id="tabelaServicos">
-
-  </table>
+  <div class="col-12 tabela">
+    <table class="table table-hover table-striped" id="tabelaServicos">
+    </table>
+  </div>
 </div>
 
 
@@ -159,7 +198,8 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-12">
-            <table class="table table-hover table-striped" id="tabelaDetalhesServico">
+            <!--<table class="table table-hover table-striped" id="tabelaDetalhesServico">--->
+            <table class="" id="tabelaDetalhesServico">
             </table>
           </div>
         </div>

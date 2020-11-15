@@ -9,6 +9,10 @@
         max-height: calc(100vh - 200px);
         overflow-y: auto;
     }
+    .tabela{
+        max-height: calc(100vh - 450px);
+      overflow-y:auto;
+    }
 </style>
 <script type="text/javascript" src="<?php echo base_url("assets/js/funcoes.js"); ?>"></script>
 <script type="text/javascript">
@@ -590,7 +594,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-12 tabela">
                             <table id="tabelaPrestacoesCartao" class="table table-hover table-striped">
                             </table>
                         </div>
