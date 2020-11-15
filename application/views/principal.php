@@ -116,7 +116,7 @@
             dataVencimentoFormatada,
             data.valor_parcela,
             data.nomeParte,
-            '<button type="button" class="btn btn-warning btnBoleto">Boletao</button>' +
+            '<button type="button" class="btn btn-warning btnBoleto">Boleto</button>' +
             '<button type="button" class="btn btn-success btnDarBaixa">Dar Baixa</button>' +
             '<button type="button" class="btn btn-info btnVerDetalhes" data-toggle="modal" data-target="#mdlDetalhesServico">Detalhes</button>'
           ]);
