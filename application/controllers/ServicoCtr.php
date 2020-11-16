@@ -83,6 +83,7 @@ class ServicoCtr extends CI_Controller
                 $json = array('type' => 'success',
                         'registros' => "cadastrado");
                 echo json_encode($json);
+                redirect('','refresh');
             } 
 
         }

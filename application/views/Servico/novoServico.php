@@ -365,7 +365,7 @@
                         MyData: json
                     }
                 }).done(function(resposta) {
-                    //console.log(resposta);
+                    window.location.href = "http://localhost/ControleAdvocaciaV2";//voltar para a pagina inicial
                 });
             }
         }

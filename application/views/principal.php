@@ -73,7 +73,7 @@
       paging: false,
       searching: false,
       ordering: false,
-      info: false,
+      info: false,      
       columns: [{
           title: 'Cód servico',
           visible: false
