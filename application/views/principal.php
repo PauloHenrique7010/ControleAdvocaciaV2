@@ -66,6 +66,34 @@
       });
     });
 
+    $('#tabelaServicos').on('click', 'tbody tr .btnDarBaixa', function() {
+      var itemEscolhido = tabelaServicos.row($(this)).data();
+      itemEscolhido = tabelaServicos.row($(this).parents('tr')).data();
+      
+      var json = new Object();
+      json.codigo = StrToInt(itemEscolhido[1]);    
+
+      
+      $.ajax({
+        url: pegarRotaBack('servico/darBaixaPagamento'),
+        type: "post",
+        data: JSON.stringify(json),
+				contentType: 'application/json',
+      }).done(function(resposta, status, response) {
+
+        let titulo = response.responseJSON.title;
+        let msg = response.responseJSON.message;
+        
+        if (response.status == 200){
+          exibirMensagemSucesso(titulo, msg);
+        }
+        else{
+          exibirMensagemAviso(titulo, msg);
+        }        
+      }).fail(function(jqXHR, status, err) {
+        exibirMensagemErro(jqXHR.responseJSON.title, jqXHR.responseJSON.message);        
+      });
+    });
 
 
 
@@ -140,7 +168,7 @@
         data: filtro
       }).done(function(resposta) {
         var dataSet = [];
-        console.log(resposta);
+        //console.log(resposta);
         $.each(resposta.servicos, function(index, data) {
           dataVencimentoFormatada = formatDateTime(data.data_vencimento);
 

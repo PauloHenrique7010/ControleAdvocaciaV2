@@ -12,11 +12,7 @@ producao = ({
     database: 'advocacia'
 });
 
-let conexao = producao;
-
-function pegarConexao(){
-    return conexao;
-}
+let conexao = desenvolvimento;
 
 
 module.exports = { conexao };

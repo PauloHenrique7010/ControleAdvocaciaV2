@@ -1,14 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-
-/*const comunicado = require("./routes/comunicado");
-const validacao = require("./routes/validacao");
-const resposta = require("./routes/resposta");
-const login = require("./routes/login");
-const dpo = require("./routes/dpo");
-const log = require("./routes/log");*/
-
 const servico = require("./routes/servico");
 const boleto = require("./routes/boleto");
 

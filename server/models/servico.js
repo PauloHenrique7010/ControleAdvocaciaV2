@@ -78,6 +78,12 @@ async function pegarPartesServico(codServico){
                                'FROM servico_parte s '+
                                'WHERE cod_servico = '+codServico);     
 }
+
+
+async function darBaixaPagamento(codigo){
+    return await selectPromise('update servico_pagamento set data_pago = Date(Now()) where cod_servico_pagamento='+codigo);
+    
+}
 /*
 async function listarTodosComunicado(){
     return (await servicoComunicado.selectTodosComunicado());
@@ -94,5 +100,6 @@ async function validarComunicado(token, id_comunicado){
 */
 module.exports = {
     listar,
-    pegarPartesServico
+    pegarPartesServico,
+    darBaixaPagamento
 };
