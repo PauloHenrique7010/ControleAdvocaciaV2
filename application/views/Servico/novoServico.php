@@ -554,7 +554,7 @@
                 <div class="container">
                     <div class="form-row">
                         <div class="col-12">
-                            <h4>Informe o valor a ser pago no dinheiro ou como entrada</h4>
+                            <h4>Informe o valor da entrada</h4>
                         </div>
                     </div>
                     <div class="form-row">
