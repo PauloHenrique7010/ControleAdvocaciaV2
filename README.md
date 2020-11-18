@@ -13,14 +13,18 @@
 - [x] Cadastro de serviços.
 - [ ] Visualização de pagamentos pendentes (Com filtros).
 - [ ] Emissão de boleto.
-- [ ] Gerar peça em .doc após criação de serviço. <p sytle="red">(Em estudos)</p>
+- [ ] Gerar peça em .doc após criação de serviço. (Em estudo)
 
 ### Pré-requisitos
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
+
 -> [Git for windows](https://git-scm.com)
+
 -> [Node.js](https://nodejs.org/en/)
+
 -> [Xampp](https://www.apachefriends.org/) <b>(Instalação Mínima: Apache, PHP e Mysql)</b>.
+
 - Após a instalação do xampp, verifique se o rewrite_mod está ativo.
 - Execute o painel de controle do xampp e inicie o Mysql e o Apache.
 - <b> Caso seja pedido permissão do firewall, permita o acesso! </b>.
@@ -29,19 +33,21 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 
 ```bash
 
-# Com o Apache e o MySQL rodando pelo xamp, crie um banco de dados chamado "controle_advocacia". Mais a frente será efetuado a restauração do backup!
+# Com o Apache e o MySQL rodando pelo xamp, crie um banco de dados chamado "controle_advocacia". 
+# Mais a frente será efetuado a restauração do backup com as tabelas!
 
-# Pelo terminal, navegue até a pasta C:\xampp\htdocs\ (Para instalação do xampp no windows)
+# Através do terminal, navegue até a pasta C:\xampp\htdocs\ (Local de instalação do xampp no Windows)
 
 # Baixe o projeto
 $ git clone <https://github.com/PauloHenrique7010/ControleAdvocaciaV2/>
 
-# Dentro da pasta do projeto
+# Acesse a pasta ControleAdvocaciaV2/
 
 # Navegue até a pasta ./server/ e digite:
 $ npm install
 
 # Volte para a pasta raiz do projeto e navegue até a pasta ./application/outros/
+
 # Suba o arquivo controle_advocacia.sql para o banco de dados utilizando o comando
 $ mysql -u root controle_advocacia < controle_advocacia.sql
 
@@ -56,8 +62,9 @@ $ mysql -u root controle_advocacia < controle_advocacia.sql
 # Abrir com o terminal a pasta server que está localizada na raiz do projeto 
 
 # Inicie o servidor
+
 $ node index
-#ou
+# ou
 $ nodemon index
 
 # O servidor inciará na porta:8020 - acesse <http://localhost:8020>
