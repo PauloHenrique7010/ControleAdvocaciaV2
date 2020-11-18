@@ -1,36 +1,35 @@
 # ControleAdvocacia
 
-
-### Sobre
-<p> ControleAdvocacia é um sistema feito para advogados onde o mesmo pode adicionar seus clientes e após isso, cadastrar serviços prestados para eles. 
-	O sistema mostra os pagamentos pendentes de cada serviço, assim como o valor da parcela(caso parcelado)</p>
-<span> Feito com Nodejs, Codeigniter </span>
 <h4 align="center"> 
 	🚧  Programa  🚀 Em construção...  🚧
 </h4>
 
+### Sobre
+<p> ControleAdvocacia é um sistema feito para advogados para o controle de seus clientes e serviços prestados. A aplicação mostra os pagamentos pendentes de cada serviço, permitindo gerar boletos</p>
+
 ### Funções
 
-- [x] CRUD de usuário.
+- [x] Gerenciamento de usuários
 - [x] Cadastro de serviços.
 - [ ] Visualização de pagamentos pendentes (Com filtros).
 - [ ] Emissão de boleto.
-- [ ] Gerar peça em .doc após criação de serviço.
+- [ ] Gerar peça em .doc após criação de serviço. <p sytle="red">(Em estudos)</p>
 
 ### Pré-requisitos
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
-[Git](https://git-scm.com), [Node.js](https://nodejs.org/en/), [Xampp](https://www.apachefriends.org/) 
-- Após a instalação do xampp, verifique se o rewrite_mod está ativo
-- Execute o painel de controle do xampp e inicie o Mysql e o Apache
-- <b> Caso seja pedido permissão do firewall, permita! </b>
+-> [Git for windows](https://git-scm.com)
+-> [Node.js](https://nodejs.org/en/)
+-> [Xampp](https://www.apachefriends.org/) <b>(Instalação Mínima: Apache, PHP e Mysql)</b>.
+- Após a instalação do xampp, verifique se o rewrite_mod está ativo.
+- Execute o painel de controle do xampp e inicie o Mysql e o Apache.
+- <b> Caso seja pedido permissão do firewall, permita o acesso! </b>.
 
 ### 🎲 Instalar o projeto
 
 ```bash
 
-# Crie um banco de dados chamado "controle_advocacia". Mais a frente será efetuado a restauração do backup!
-
+# Com o Apache e o MySQL rodando pelo xamp, crie um banco de dados chamado "controle_advocacia". Mais a frente será efetuado a restauração do backup!
 
 # Pelo terminal, navegue até a pasta C:\xampp\htdocs\ (Para instalação do xampp no windows)
 
