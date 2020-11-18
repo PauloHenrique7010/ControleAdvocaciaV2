@@ -27,18 +27,17 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 
 - Após a instalação do xampp, verifique se o rewrite_mod está ativo.
 - Execute o painel de controle do xampp e inicie o Mysql e o Apache.
-- <b> Caso seja pedido permissão do firewall, permita o acesso! </b>.
+- <b>Caso seja pedido permissão do firewall, permita o acesso!</b>
 
-### 🎲 Instalar o projeto
+### 🎲 Instalando o projeto
 
 ```bash
 
-# Com o Apache e o MySQL rodando pelo xamp, crie um banco de dados chamado "controle_advocacia". 
-# Mais a frente será efetuado a restauração do backup com as tabelas!
+# Com o Apache e o MySQL rodando pelo xampp, crie um banco de dados chamado "controle_advocacia". 
 
 # Através do terminal, navegue até a pasta C:\xampp\htdocs\ (Local de instalação do xampp no Windows)
 
-# Baixe o projeto
+# Baixe o projeto na pasta htdocs
 $ git clone <https://github.com/PauloHenrique7010/ControleAdvocaciaV2/>
 
 # Acesse a pasta ControleAdvocaciaV2/
@@ -59,7 +58,7 @@ $ mysql -u root controle_advocacia < controle_advocacia.sql
 
 ```bash
 
-# Abrir com o terminal a pasta server que está localizada na raiz do projeto 
+# Através do terminal, vá até a pasta ./server/ (localizada na raiz do projeto).
 
 # Inicie o servidor
 
@@ -67,13 +66,11 @@ $ node index
 # ou
 $ nodemon index
 
-# O servidor inciará na porta:8020 - acesse <http://localhost:8020>
-
-# Após isso, tudo deve estar funcionando corretamente!
+# O servidor inciará na porta 8020 - acesse <http://localhost:8020>
 ```
 ### 🎲 Rodando a aplicação 
 ```bash
-# No seu navegador abra a pagina "http:/localhos/ControleAdvocaciaV2/
+# No seu navegador abra a pagina "http:/localhost/ControleAdvocaciaV2/
 ```
 
 
