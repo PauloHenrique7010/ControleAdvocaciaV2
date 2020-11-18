@@ -13,7 +13,7 @@
 - [x] Cadastro de serviços.
 - [ ] Visualização de pagamentos pendentes (Com filtros).
 - [ ] Emissão de boleto.
-- [ ] Gerar peça em .doc após criação de serviço. (Em estudo)
+- [ ] Gerar peça em .doc após cadastrar um novo serviço. (Em estudo)
 
 ### Pré-requisitos
 
@@ -70,7 +70,7 @@ $ nodemon index
 ```
 ### 🎲 Rodando a aplicação 
 ```bash
-# No seu navegador abra a pagina "http:/localhost/ControleAdvocaciaV2/
+# No seu navegador abra a página "http:/localhost/ControleAdvocaciaV2/
 ```
 
 
