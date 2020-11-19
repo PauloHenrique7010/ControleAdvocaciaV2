@@ -94,25 +94,26 @@
       });
     });
 
-    $('#edtDtInicial').on('keyup', function() {
-      data = $(this).val();
-      if (data.length == 10) { //quando completar a data joga pro data time
+    let edtDtInicial = $("#edtDtInicial");
+    let edtDtFinal = $("#edtDtFinal");
+    edtDtInicial.on('keyup', function() {
+      if (edtDtInicial.val().length == 10) { //quando completar a data joga pro data time
         var json = new Object();
-        json.data = $('#edtDtInicial').val(),
-        json.formato = "DD/MM/YYYY"
+        json.data = edtDtInicial.val();
+        json.formato = "DD/MM/YYYY";
         $.ajax({
           url: pegarRotaBack('funcoes/strToDate'),
           type: "get",
           data: json,
-          contentType: 'application/json',          
+          contentType: 'application/json',
         }).done(function(resposta, status, response) {
           let titulo = response.responseJSON.title;
           let msg = response.responseJSON.message;
-          
+
           novaData = new Date(resposta.retorno);
-                    
+
           if (response.status == 200) {
-            datePicker.data('datepicker').selectDate(novaData);
+            dtpDtInicial.data('datepicker').selectDate(novaData);
           } else {
             exibirMensagemAviso(titulo, msg);
           }
@@ -128,7 +129,39 @@
 
     });
 
-    var datePicker = $('.datepicker-here').datepicker({
+    edtDtFinal.on('keyup', function() {
+      if (edtDtFinal.val().length == 10) { //quando completar a data joga pro data time
+        var json = new Object();
+        json.data = edtDtFinal.val();
+        json.formato = "DD/MM/YYYY";
+        $.ajax({
+          url: pegarRotaBack('funcoes/strToDate'),
+          type: "get",
+          data: json,
+          contentType: 'application/json',
+        }).done(function(resposta, status, response) {
+          let titulo = response.responseJSON.title;
+          let msg = response.responseJSON.message;
+
+          novaData = new Date(resposta.retorno);
+
+          if (response.status == 200) {
+            dtpDtFinal.data('datepicker').selectDate(novaData);
+          } else {
+            exibirMensagemAviso(titulo, msg);
+          }
+        }).fail(function(jqXHR, status, err) {
+          exibirMensagemErro(jqXHR.responseJSON.title, jqXHR.responseJSON.message);
+        });
+
+        /*var dp = $('.datepicker-here').datepicker().data('datepicker');
+
+        dp.selectDate(new Date(2019,11,20));*/
+
+      }
+    });
+
+    var dtpDtInicial = $('.dtpDtInicial').datepicker({
       language: {
         days: ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado'],
         daysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
@@ -140,14 +173,30 @@
         dateFormat: 'dd/mm/yyyy',
         timeFormat: 'hh:ii aa',
         firstDay: 0
-      },
-      onRenderCell: function(date, cellType) {
-        if (cellType == 'day' && date.getDate() == 11) {
-          return {
-            classes: 'my-class',
-            disabled: true
-          }
-        }
+      }
+      /*,
+            onRenderCell: function(date, cellType) {
+              if (cellType == 'day' && date.getDate() == 11) {
+                return {
+                  classes: 'my-class',
+                  disabled: true
+                }
+              }
+            }*/
+    });
+
+    var dtpDtFinal = $('.dtpDtFinal').datepicker({
+      language: {
+        days: ['Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado'],
+        daysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+        daysMin: ['Do', 'Se', 'Te', 'Qa', 'Qi', 'Se', 'Sa'],
+        months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembr', 'Outubro', 'Novembro', 'Dezembro'],
+        monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+        today: 'Hoje',
+        clear: 'Limpar',
+        dateFormat: 'dd/mm/yyyy',
+        timeFormat: 'hh:ii aa',
+        firstDay: 0
       }
     });
 
@@ -206,13 +255,21 @@
 
     pesquisarServico();
 
-    function pesquisarServico() {
+    function pesquisarServico(primeiraConsulta = true) {      
       let dataAtual = new Date();
       let dtInicial, dtFinal;
 
+      //apenas na primeira consulta ele tras o do mes
+      if (primeiraConsulta){
+        dtInicial = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), 1);
+        dtFinal = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), dataAtual.getDate());
+      }
 
-      dtInicial = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), 1);
-      dtFinal = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), dataAtual.getDate());
+      //se nao passar nenhuma data, ele pesquisa da primeira data do mes até a data atual
+      if ($("#chcPeriodo").is(':checked')) {
+        dtInicial = StrToDate(edtDtInicial.val());
+        dtFinal = StrToDate(edtDtFinal.val());
+      }
 
       var filtro = new Object();
       filtro.dtInicial = dtInicial;
@@ -252,6 +309,10 @@
       });
     }
 
+    $("#btnAplicarFiltro").on('click', function() {
+      pesquisarServico(false);
+    });
+
   });
 </script>
 
@@ -262,6 +323,7 @@
     Mostrando pagamentos pendentes do mes atual
   </div>
 
+  <!-- Div collapse para os filtros -->
   <div class="col-12">
     <div class="panel-group form-group">
       <div class="panel panel-default">
@@ -272,13 +334,30 @@
         </div>
         <div id="collapse1" class="panel-collapse collapse">
           <div class="panel-body">
-            <label> Data Inicial </label>
-            <input type='text' class="datepicker-here" id="edtDtInicial" maxlength="10" onKeyPress="MascaraData(this)" data-position='bottom right' />
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="chcPeriodo">
+              <label class="form-check-label" for="defaultCheck1">
+                Periodo
+              </label>
+            </div>
+            <div class="col-6">
+              <label> Data Inicial </label>
+              <input type='text' class="form-control dtpDtInicial" id="edtDtInicial" maxlength="10" onKeyPress="MascaraData(this)" data-position='bottom right' />
+            </div>
+            <div class="col-6">
+              <label> Data Inicial </label>
+              <input type='text' class="form-control dtpDtFinal" id="edtDtFinal" maxlength="10" onKeyPress="MascaraData(this)" data-position='bottom right' />
+            </div>
           </div>
           <div class="panel-footer">Panel Footer</div>
         </div>
       </div>
     </div>
+  </div>
+  <!-- Div collapse para os filtros -->
+
+  <div class="col-12">
+    <button type="button" id="btnAplicarFiltro" class="btn btn-success">Success</button>
   </div>
 
 

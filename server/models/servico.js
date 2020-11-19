@@ -1,3 +1,4 @@
+const { funcoes } = require('../servicos/funcoes');
 const selectPromise = require('../servicos/select');
 /*const insertPromise = require('../servicos/insert');
 const servicoComunicado = require('../servicos/comunicado');
@@ -32,32 +33,43 @@ function formatarData(dataInput){
         anoF = data.getFullYear();
     if (isNaN(diaF))
       return "";
-    return diaF+"/"+mesF+"/"+anoF;
+    return anoF+"-"+mesF+"-"+diaF;
 }
 
 async function listar(filtros) {
-    let dtInicial   = formatarData(filtros.dtInicial);
-    let dtFinal     = formatarData(filtros.dtFinal);
-       
+    
+    let dtInicial = filtros.dtInicial;
+    let dtFinal = filtros.dtFinal;
+
+    if (dtInicial != undefined){
+        dtInicial = formatarData(dtInicial);
+        dtFinal = formatarData(dtFinal);
+    }
+    
+    console.log(dtInicial);
+
+           
     
     pesquisa = "";
     
-    /*if (dtInicial != ""){
+    if (dtInicial != undefined){
         if (pesquisa != ""){
             pesquisa += " and ";
         }
-        pesquisa += "sc.data_vencimento >= "+dtInicial;
+        pesquisa += "sc.data_vencimento >= '"+dtInicial+"'";
     }
-    if (dtFinal != ""){
+    if (dtFinal != undefined){
         if (pesquisa != ""){
             pesquisa += " and ";
         }
-        pesquisa += "sc.data_vencimento <= "+dtFinal;
+        pesquisa += "sc.data_vencimento <= '"+dtFinal+"'";
     }
 
     if (pesquisa != ""){
         pesquisa = "WHERE "+pesquisa;
-    }*/
+    }
+
+    console.log(pesquisa);
 
     return await selectPromise('select s.cod_servico, '+
                                       's.valor_servico, '+
@@ -66,7 +78,8 @@ async function listar(filtros) {
                                       'sc.data_vencimento, '+
                                       'sc.cod_servico_pagamento '+
                                'from servico_pagamento sc '+
-                               'left join servico s on s.cod_servico = sc.cod_servico '+pesquisa);   
+                               'left join servico s on s.cod_servico = sc.cod_servico '+pesquisa+' '+
+                               'order by sc.data_vencimento ');   
 }
 
 async function pegarPartesServico(codServico){
