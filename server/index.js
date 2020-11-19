@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const servico = require("./routes/servico");
 const boleto = require("./routes/boleto");
+const funcoes = require("./routes/funcoes");
 
 app.use(cors());
 
@@ -11,7 +12,8 @@ app.use(express.json());
 
 //Rotas
 app.use('/servico', servico);
-app.use('/boleto', boleto)
+app.use('/boleto', boleto);
+app.use('/funcoes', funcoes);
 
 app.get('/', (req, res) => {
   res.send('Rota principal');
