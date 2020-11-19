@@ -1,48 +1,52 @@
 # ControleAdvocacia
 
-
-### Sobre
-<p> ControleAdvocacia é um sistema feito para advogados onde o mesmo pode adicionar seus clientes e após isso, cadastrar serviços prestados para eles. 
-	O sistema mostra os pagamentos pendentes de cada serviço, assim como o valor da parcela(caso parcelado)</p>
-<span> Feito com Nodejs, Codeigniter </span>
 <h4 align="center"> 
 	🚧  Programa  🚀 Em construção...  🚧
 </h4>
 
+### Sobre
+<p> ControleAdvocacia é um sistema feito para advogados para o controle de seus clientes e serviços prestados. A aplicação mostra os pagamentos pendentes de cada serviço, permitindo gerar boletos</p>
+
 ### Funções
 
-- [x] CRUD de usuário.
+- [x] Gerenciamento de usuários
 - [x] Cadastro de serviços.
 - [ ] Visualização de pagamentos pendentes (Com filtros).
 - [ ] Emissão de boleto.
-- [ ] Gerar peça em .doc após criação de serviço.
+- [ ] Gerar peça em .doc após cadastrar um novo serviço. (Em estudo)
 
 ### Pré-requisitos
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
-[Git](https://git-scm.com), [Node.js](https://nodejs.org/en/), [Xampp](https://www.apachefriends.org/) 
-- Após a instalação do xampp, verifique se o rewrite_mod está ativo
-- Execute o painel de controle do xampp e inicie o Mysql e o Apache
-- <b> Caso seja pedido permissão do firewall, permita! </b>
 
-### 🎲 Instalar o projeto
+-> [Git for windows](https://git-scm.com)
+
+-> [Node.js](https://nodejs.org/en/)
+
+-> [Xampp](https://www.apachefriends.org/) <b>(Instalação Mínima: Apache, PHP e Mysql)</b>.
+
+- Após a instalação do xampp, verifique se o rewrite_mod está ativo.
+- Execute o painel de controle do xampp e inicie o Mysql e o Apache.
+- <b>Caso seja pedido permissão do firewall, permita o acesso!</b>
+
+### 🎲 Instalando o projeto
 
 ```bash
 
-# Crie um banco de dados chamado "controle_advocacia". Mais a frente será efetuado a restauração do backup!
+# Com o Apache e o MySQL rodando pelo xampp, crie um banco de dados chamado "controle_advocacia". 
 
+# Através do terminal, navegue até a pasta C:\xampp\htdocs\ (Local de instalação do xampp no Windows)
 
-# Pelo terminal, navegue até a pasta C:\xampp\htdocs\ (Para instalação do xampp no windows)
-
-# Baixe o projeto
+# Baixe o projeto na pasta htdocs
 $ git clone <https://github.com/PauloHenrique7010/ControleAdvocaciaV2/>
 
-# Dentro da pasta do projeto
+# Acesse a pasta ControleAdvocaciaV2/
 
 # Navegue até a pasta ./server/ e digite:
 $ npm install
 
 # Volte para a pasta raiz do projeto e navegue até a pasta ./application/outros/
+
 # Suba o arquivo controle_advocacia.sql para o banco de dados utilizando o comando
 $ mysql -u root controle_advocacia < controle_advocacia.sql
 
@@ -54,20 +58,19 @@ $ mysql -u root controle_advocacia < controle_advocacia.sql
 
 ```bash
 
-# Abrir com o terminal a pasta server que está localizada na raiz do projeto 
+# Através do terminal, vá até a pasta ./server/ (localizada na raiz do projeto).
 
 # Inicie o servidor
+
 $ node index
-#ou
+# ou
 $ nodemon index
 
-# O servidor inciará na porta:8020 - acesse <http://localhost:8020>
-
-# Após isso, tudo deve estar funcionando corretamente!
+# O servidor inciará na porta 8020 - acesse <http://localhost:8020>
 ```
 ### 🎲 Rodando a aplicação 
 ```bash
-# No seu navegador abra a pagina "http:/localhos/ControleAdvocaciaV2/
+# No seu navegador abra a página "http:/localhost/ControleAdvocaciaV2/
 ```
 
 
