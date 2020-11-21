@@ -357,8 +357,9 @@
   <!-- Div collapse para os filtros -->
 
   <div class="col-12">
-    <button type="button" id="btnAplicarFiltro" class="btn btn-success">Success</button>
+    <button type="button" id="btnAplicarFiltro" class="btn btn-success">Pesquisar</button>
   </div>
+  <br>
 
 
   <div class="col-12 tabela">
