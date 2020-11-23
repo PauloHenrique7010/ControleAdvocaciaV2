@@ -17,6 +17,8 @@
 
 ## Screenshots
 
+
+
 #### Tela Principal
 ![Tela Principal](https://github.com/PauloHenrique7010/ControleAdvocaciaV2/blob/main/anexos/screenshots/telaPrincipal.png)
 
@@ -29,7 +31,8 @@
 #### Tela cadastro servico
 ![Tela Principal](https://github.com/PauloHenrique7010/ControleAdvocaciaV2/blob/main/anexos/screenshots/telaNovoServico.png)
 
-### 🎲 Instalar o projeto
+
+# 🎲 Instalando o projeto
 
 ## Pré-requisitos
 
