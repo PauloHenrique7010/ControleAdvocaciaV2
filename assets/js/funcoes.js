@@ -290,6 +290,17 @@ function exibirMensagemSucesso(titulo, texto) {
         })
 };
 
+function exibirMensagem(titulo, texto, tipo) {
+        var texto = texto.replace(/<p>/g, " ");
+        var texto = texto.replace(/<\/p>/g, " ");
+        Swal.fire({
+                title: titulo,
+                html: texto,
+                icon: tipo,
+                confirmButtonText: 'OK'
+        });
+};
+
 function StrToInt(string) {
         string = parseInt(string);
         if (isNaN(string))

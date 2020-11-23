@@ -360,5 +360,20 @@ class AdminCtr extends CI_Controller {
         $dados['tituloGuia'] = 'Login Admin';
         $this->load->view('Administrador/login',$dados);    
     }
+
+    public function TipoProcesso(){
+        $dados['tituloGuia'] = 'Tipo processo';
+        $this->load->view('Administrador/cadastroTipoProcesso',$dados);  
+    }
+
+    public function NovoTipoProcesso(){
+        $dados['tituloGuia'] = 'Novo Tipo processo';
+        $this->load->view('Administrador/novoTipoProcesso',$dados);  
+    }
+
+    public function AlterarTipoProcesso(){
+        $dados['tituloGuia'] = 'Alterar Tipo processo';
+        $this->load->view('Administrador/novoTipoProcesso',$dados);  
+    }
 }
 ?>

@@ -1,3 +1,9 @@
+200 -> efetuou a operação soliciatda com exito -> se cadastrou, se excluiu
+201 -> algum erro de verificacao feita pelo codigo
+202 -> erro em alguma coisa do bd
+203 -> catch
+
+
 Se eu estou na branch main e dou um merge na development
 eu vou jogar as coisas da main para a development
 
@@ -33,3 +39,10 @@ Caixa {
     valor final
     Condição pagamento()
 }
+
+var dados = JSON.stringify($('input').val());
+  sessionStorage.setItem('chave', dados );
+
+  //... depois ...
+
+  var dadosArquivados = JSON.parse(sessionStorage.getItem('chave'));

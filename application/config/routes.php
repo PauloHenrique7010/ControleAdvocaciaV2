@@ -113,6 +113,10 @@ $route['Admin/AlterarForo/(:any)'] = 'AdminCtr/AlterarForo/$1';
 $route['Admin/AlterarForo'] = 'AdminCtr/Foro';
 $route['eForo'] = 'AjaxCtr/eForo';
 
+$route['Admin/TipoProcesso'] = 'AdminCtr/TipoProcesso';
+$route['Admin/NovoTipoProcesso'] = 'AdminCtr/NovoTipoProcesso';
+$route['Admin/AlterarTipoProcesso'] = 'AdminCtr/AlterarTipoProcesso';
+
 $route['Admin/ConfiguracaoEscavador'] = 'ConfiguracaoCtr/ConfiguracaoToken';
 $route['Admin/ConfiguracaoEscavador/Confirmar'] = 'ConfiguracaoCtr/ConfirmarConfiguracaoToken';
 
@@ -124,3 +128,6 @@ $route['pAdvogado'] = 'PesquisaCtr/advogado';
 $route['pTokenEscavador'] = 'PesquisaCtr/tokenEscavador';
 $route['pCliente'] = 'PesquisaCtr/cliente';
 $route['pFormaPagamento'] = 'PesquisaCtr/formaPagamento';
+
+
+$route['Configuracoes'] = 'AdminCtr';

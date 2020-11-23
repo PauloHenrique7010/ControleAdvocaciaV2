@@ -44,15 +44,14 @@
         </a>
         <div class="dropdown-menu">
           <a class="dropdown-item" href="<?php echo base_url('NovoCliente'); ?>">Cliente</a>
-          <a class="dropdown-item" href="<?php echo base_url('NovoServico'); ?>">Serviço</a>
-          <a class="dropdown-item" href="#">Link 3</a>
+          <a class="dropdown-item" href="<?php echo base_url('NovoServico'); ?>">Serviço</a>          
         </div>
       </li>
-
-
-
       <li class="nav-item">
         <a class="nav-link" href="#">Sobre</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<?php echo base_url('Configuracoes'); ?>">Configurações</a>
       </li>
     </ul>
   </nav>
