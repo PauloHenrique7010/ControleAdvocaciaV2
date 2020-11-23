@@ -285,6 +285,12 @@ Header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE'); //metho
                 </a>
               </li>
               <li class="nav-item">
+                <a href="<?php echo base_url("Admin/FormaPagamento"); ?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Formas de pagamento</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="<?php echo base_url("Admin/Foro"); ?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Foro</p>

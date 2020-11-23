@@ -17,23 +17,23 @@
 <script type="text/javascript">
     $(document).ready(function() {
         let OPCadastro = "N";
-        var codTipoAcao= 0;
+        var codFormaPagamento= 0;
         var URLAtual = window.location.href;
 
         //se nao for um cadastro novo, preenche o campo
         if (URLAtual.indexOf("Novo") == -1) {
             OPCadastro = "A";
-            codTipoAcao = JSON.parse(sessionStorage.getItem('codTipoAcao'));
+            codFormaPagamento = JSON.parse(sessionStorage.getItem('codFormaPagamento'));
 
             var json = new Object();
-            json.codTipoAcao = codTipoAcao;
+            json.codFormaPagamento = codFormaPagamento;
             $.ajax({
-                url: pegarRotaBack('tipoAcao/'),
+                url: pegarRotaBack('formaPagamento/'),
                 type: 'GET',
                 data: json
             }).done(function(resposta, status, response) {
                 if (response.status == 200)
-                    $("#edtNomeTipoAcao").val(resposta.registros[0].nome_tipo_acao)
+                    $("#edtNomeFormaPagamento").val(resposta.registros[0].nome_forma_pagamento)
                 else {
                     let titulo = response.responseJSON.title;
                     let msg = response.responseJSON.message;
@@ -75,14 +75,14 @@
 
         function Confirmar(event) {
             //declara todas as variaveis 
-            var nomeTipoAcao = $("#edtNomeTipoAcao").val();
+            var nomeFormaPagamento = $("#edtNomeFormaPagamento").val();
 
             event.preventDefault();
             OPConfirmar = true;
             msgConfirmacao = "";
 
-            if (nomeTipoAcao == "") {
-                msgConfirmacao += "Informe o nome do tipo de ação<br>";
+            if (nomeFormaPagamento == "") {
+                msgConfirmacao += "Informe o nome da forma de pagamento<br>";
                 OPConfirmar = false;
             }
             if (OPConfirmar == false) {
@@ -94,11 +94,11 @@
 
                 //monto o json para mandaar pro back
                 var json = new Object();
-                json.codTipoAcao = codTipoAcao;
-                json.nomeTipoAcao = nomeTipoAcao;
+                json.codFormaPagamento = codFormaPagamento;
+                json.nomeFormaPagamento = nomeFormaPagamento;
 
                 $.ajax({
-                    url: pegarRotaBack('tipoAcao/'),
+                    url: pegarRotaBack('formaPagamento/'),
                     type: tipoRequisicao,
                     contentType: 'application/json',
                     data: JSON.stringify(json)
@@ -111,7 +111,7 @@
                     if (response.status != 200)
                         exibirMensagem(titulo, msg, tipo)
                     else
-                        window.location.href = "http://localhost/ControleAdvocaciaV2/Admin/TipoAcao"; //voltar para a pagina inicial                  
+                        window.location.href = "http://localhost/ControleAdvocaciaV2/Admin/FormaPagamento"; //voltar para a pagina inicial                  
                 }).fail(function(jqXHR, status, err) {
                     exibirMensagemErro(jqXHR.responseJSON.title, jqXHR.responseJSON.message);
                 });
@@ -126,7 +126,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Cadastrar tipo ação</h1>
+                    <h1 class="m-0 text-dark">Cadastrar forma de pagamento</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -154,8 +154,8 @@
                         <!-- form start -->
                         <div class="card-body">
                             <div class="form-group">
-                                <label>Nome tipo ação</label>
-                                <input type="text" id="edtNomeTipoAcao" class="form-control" placeholder="Exemplo: Alimentos, Declaratória" maxlength="30" autofocus="autofocus">
+                                <label>Nome forma de pagamento</label>
+                                <input type="text" id="edtNomeFormaPagamento" class="form-control" placeholder="Exemplo: Dinheiro, Cartão" maxlength="30" autofocus="autofocus">
                             </div>
                         </div>
                         <!-- /.card-body -->

@@ -391,5 +391,19 @@ class AdminCtr extends CI_Controller {
         $this->load->view('Administrador/novoTipoAcao',$dados);  
     }
 
+    public function FormaPagamento(){
+        $dados['tituloGuia'] = 'Forma pagamento';
+        $this->load->view('Administrador/cadastroFormaPagamento',$dados);  
+    }
+
+    public function NovoFormaPagamento(){
+        $dados['tituloGuia'] = 'Novo Forma pagamento';
+        $this->load->view('Administrador/novoFormaPagamento',$dados);  
+    }
+
+    public function AlterarFormaPagamento(){
+        $dados['tituloGuia'] = 'Alterar Forma pagamento';
+        $this->load->view('Administrador/novoFormaPagamento',$dados);  
+    }
 }
 ?>
