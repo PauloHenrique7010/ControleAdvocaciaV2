@@ -15,7 +15,15 @@
 - [ ] Emissão de boleto.
 - [ ] Gerar peça em .doc após cadastrar um novo serviço. (Em estudo)
 
-### Pré-requisitos
+### Screenshots
+
+# Tela Principal
+![Tela Principal](https://github.com/PauloHenrique7010/ControleAdvocaciaV2/blob/main/anexos/screenshots/telaPrincipal.png)
+
+
+### 🎲 Instalar o projeto
+
+## Pré-requisitos
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
 
@@ -29,8 +37,8 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 - Execute o painel de controle do xampp e inicie o Mysql e o Apache.
 - <b>Caso seja pedido permissão do firewall, permita o acesso!</b>
 
-### 🎲 Instalando o projeto
 
+### 🎲 Instalando o projeto
 ```bash
 
 # Com o Apache e o MySQL rodando pelo xampp, crie um banco de dados chamado "controle_advocacia". 
