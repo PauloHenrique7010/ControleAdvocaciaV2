@@ -375,5 +375,21 @@ class AdminCtr extends CI_Controller {
         $dados['tituloGuia'] = 'Alterar Tipo processo';
         $this->load->view('Administrador/novoTipoProcesso',$dados);  
     }
+
+    public function TipoAcao(){
+        $dados['tituloGuia'] = 'Tipo ação';
+        $this->load->view('Administrador/cadastroTipoAcao',$dados);  
+    }
+
+    public function NovoTipoAcao(){
+        $dados['tituloGuia'] = 'Novo Tipo ação';
+        $this->load->view('Administrador/novoTipoAcao',$dados);  
+    }
+
+    public function AlterarTipoAcao(){
+        $dados['tituloGuia'] = 'Alterar Tipo ação';
+        $this->load->view('Administrador/novoTipoAcao',$dados);  
+    }
+
 }
 ?>

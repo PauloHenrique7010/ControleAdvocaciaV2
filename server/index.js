@@ -5,6 +5,7 @@ const servico = require("./routes/servico");
 const boleto = require("./routes/boleto");
 const funcoes = require("./routes/funcoes");
 const tipoProcesso = require("./routes/tipoProcesso");
+const tipoAcao = require("./routes/tipoAcao");
 
 app.use(cors());
 
@@ -13,6 +14,7 @@ app.use(express.json());
 
 //Rotas
 app.use('/tipoProcesso', tipoProcesso);
+app.use('/tipoAcao', tipoAcao);
 app.use('/servico', servico);
 app.use('/boleto', boleto);
 app.use('/funcoes', funcoes);
