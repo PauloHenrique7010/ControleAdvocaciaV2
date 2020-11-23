@@ -26,11 +26,7 @@
 
     }
 
-    var tabelaTipoAcao = $("#tabelaTipoAcao").DataTable({
-      paging: false,
-      searching: false,
-      ordering: false,
-      info: false,
+    var tabelaTipoAcao = $("#tabelaTipoAcao").DataTable({      
       columns: [{
           title: 'Código'
 
@@ -113,6 +109,10 @@
       });
     });
 
+    $("#btnPesquisar").on('click', function() {
+      pesquisar();
+    });
+
 
     function pesquisar() {
       $.ajax({
@@ -174,6 +174,10 @@
                 Cadastrar
               </button>
             </a>
+            <button class="btn btn-success" id="btnPesquisar">
+                Pesquisar
+            </button>
+            
 
           </div>
           <!-- /.card-header -->

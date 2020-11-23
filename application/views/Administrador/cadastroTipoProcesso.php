@@ -27,11 +27,7 @@
     }
 
     var tabelaTipoProcesso = $("#tabelaTipoProcesso").DataTable({
-      paging: false,
-      searching: false,
-      ordering: false,
-      info: false,
-      columns: [{
+     columns: [{
           title: 'Código'
 
         },
@@ -63,6 +59,10 @@
 
     //Assim que carregar a pagina, pesquisa no banco
     pesquisar();
+
+    $("#btnPesquisar").on('click', function() {
+      pesquisar();
+    });
 
     $('#tabelaTipoProcesso').on('click', 'tbody tr .btnAlterar', function(e){
       let codigo = $(this).data("codigo");
@@ -174,6 +174,9 @@
                 Cadastrar
               </button>
             </a>
+            <button class="btn btn-success" id="btnPesquisar">
+                Pesquisar
+            </button>
 
           </div>
           <!-- /.card-header -->
