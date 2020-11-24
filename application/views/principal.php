@@ -255,12 +255,12 @@
 
     pesquisarServico();
 
-    function pesquisarServico(primeiraConsulta = true) {      
+    function pesquisarServico(primeiraConsulta = true) {
       let dataAtual = new Date();
       let dtInicial, dtFinal;
 
       //apenas na primeira consulta ele tras o do mes
-      if (primeiraConsulta){
+      if (primeiraConsulta) {
         dtInicial = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), 1);
         dtFinal = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), dataAtual.getDate());
       }
@@ -270,10 +270,15 @@
         dtInicial = StrToDate(edtDtInicial.val());
         dtFinal = StrToDate(edtDtFinal.val());
       }
+      OPApenasEmAberto = false;
+      if ($("#chcApenasEmAberto").is(':checked')) {
+        OPApenasEmAberto = true;
+      }      
 
       var filtro = new Object();
       filtro.dtInicial = dtInicial;
       filtro.dtFinal = dtFinal;
+      filtro.OPApenasEmAberto = OPApenasEmAberto;
       $.ajax({
         url: pegarRotaBack('servico/'),
         type: "GET",
@@ -340,17 +345,28 @@
                 Periodo
               </label>
             </div>
-            <div class="col-6">
-              <label> Data Inicial </label>
-              <input type='text' class="form-control dtpDtInicial" id="edtDtInicial" maxlength="10" onKeyPress="MascaraData(this)" data-position='bottom right' />
+            <div class="row">
+              <div class="col-6">
+                <label> Data Inicial </label>
+                <input type='text' class="form-control dtpDtInicial" id="edtDtInicial" maxlength="10" onKeyPress="MascaraData(this)" data-position='bottom right' />
+              </div>
+              <div class="col-6">
+                <label> Data Inicial </label>
+                <input type='text' class="form-control dtpDtFinal" id="edtDtFinal" maxlength="10" onKeyPress="MascaraData(this)" data-position='bottom right' />
+              </div>
             </div>
-            <div class="col-6">
-              <label> Data Inicial </label>
-              <input type='text' class="form-control dtpDtFinal" id="edtDtFinal" maxlength="10" onKeyPress="MascaraData(this)" data-position='bottom right' />
+            <div class="row">
+              <div class="col-6">
+              <input class="form-check-input" type="checkbox" id="chcApenasEmAberto" checked="checked">
+              <label class="form-check-label" for="defaultCheck1">
+                Apenas em aberto
+              </label>
+              </div>
+
             </div>
-          </div>
+          <!--</div>
           <div class="panel-footer">Panel Footer</div>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
