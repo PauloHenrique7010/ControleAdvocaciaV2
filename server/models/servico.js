@@ -40,15 +40,17 @@ async function listar(filtros) {
     
     let dtInicial = filtros.dtInicial;
     let dtFinal = filtros.dtFinal;
+    let OPApenasEmAberto = filtros.OPApenasEmAberto;
+    if (OPApenasEmAberto == 'true')
+      OPApenasEmAberto = true
+    else
+      OPApenasEmAberto = false;
 
+    
     if (dtInicial != undefined){
         dtInicial = formatarData(dtInicial);
         dtFinal = formatarData(dtFinal);
     }
-    
-    console.log(dtInicial);
-
-           
     
     pesquisa = "";
     
@@ -64,12 +66,17 @@ async function listar(filtros) {
         }
         pesquisa += "sc.data_vencimento <= '"+dtFinal+"'";
     }
+    
+    if (OPApenasEmAberto == true){
+        if (pesquisa != "")
+            pesquisa += " and ";        
+        pesquisa += "sc.data_pago is null";
+    }
 
     if (pesquisa != ""){
         pesquisa = "WHERE "+pesquisa;
-    }
+    }   
 
-    console.log(pesquisa);
 
     return await selectPromise('select s.cod_servico, '+
                                       's.valor_servico, '+

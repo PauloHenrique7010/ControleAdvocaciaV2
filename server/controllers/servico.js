@@ -13,12 +13,16 @@ async function index(req, res) {
 
     const {
         dtInicial,
-        dtFinal
+        dtFinal,
+        OPApenasEmAberto
     } = req.query;
 
     var filtro = new Object();
     filtro.dtInicial = dtInicial;
     filtro.dtFinal = dtFinal;
+    filtro.OPApenasEmAberto = OPApenasEmAberto;
+    
+
 
     let nomeParte = "";
     const servicos = await modelServico.listar(filtro);

@@ -117,6 +117,14 @@ $route['Admin/TipoProcesso'] = 'AdminCtr/TipoProcesso';
 $route['Admin/NovoTipoProcesso'] = 'AdminCtr/NovoTipoProcesso';
 $route['Admin/AlterarTipoProcesso'] = 'AdminCtr/AlterarTipoProcesso';
 
+$route['Admin/TipoAcao'] = 'AdminCtr/TipoAcao';
+$route['Admin/NovoTipoAcao'] = 'AdminCtr/NovoTipoAcao';
+$route['Admin/AlterarTipoAcao'] = 'AdminCtr/AlterarTipoAcao';
+
+$route['Admin/FormaPagamento'] = 'AdminCtr/FormaPagamento';
+$route['Admin/NovoFormaPagamento'] = 'AdminCtr/NovoFormaPagamento';
+$route['Admin/AlterarFormaPagamento'] = 'AdminCtr/AlterarFormaPagamento';
+
 $route['Admin/ConfiguracaoEscavador'] = 'ConfiguracaoCtr/ConfiguracaoToken';
 $route['Admin/ConfiguracaoEscavador/Confirmar'] = 'ConfiguracaoCtr/ConfirmarConfiguracaoToken';
 

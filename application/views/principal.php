@@ -255,12 +255,12 @@
 
     pesquisarServico();
 
-    function pesquisarServico(primeiraConsulta = true) {      
+    function pesquisarServico(primeiraConsulta = true) {
       let dataAtual = new Date();
       let dtInicial, dtFinal;
 
       //apenas na primeira consulta ele tras o do mes
-      if (primeiraConsulta){
+      if (primeiraConsulta) {
         dtInicial = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), 1);
         dtFinal = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), dataAtual.getDate());
       }
@@ -270,10 +270,15 @@
         dtInicial = StrToDate(edtDtInicial.val());
         dtFinal = StrToDate(edtDtFinal.val());
       }
+      OPApenasEmAberto = false;
+      if ($("#chcApenasEmAberto").is(':checked')) {
+        OPApenasEmAberto = true;
+      }
 
       var filtro = new Object();
       filtro.dtInicial = dtInicial;
       filtro.dtFinal = dtFinal;
+      filtro.OPApenasEmAberto = OPApenasEmAberto;
       $.ajax({
         url: pegarRotaBack('servico/'),
         type: "GET",
@@ -340,75 +345,85 @@
                 Periodo
               </label>
             </div>
-            <div class="col-6">
-              <label> Data Inicial </label>
-              <input type='text' class="form-control dtpDtInicial" id="edtDtInicial" maxlength="10" onKeyPress="MascaraData(this)" data-position='bottom right' />
+            <div class="row">
+              <div class="col-6">
+                <label> Data Inicial </label>
+                <input type='text' class="form-control dtpDtInicial" id="edtDtInicial" maxlength="10" onKeyPress="MascaraData(this)" data-position='bottom right' />
+              </div>
+              <div class="col-6">
+                <label> Data Inicial </label>
+                <input type='text' class="form-control dtpDtFinal" id="edtDtFinal" maxlength="10" onKeyPress="MascaraData(this)" data-position='bottom right' />
+              </div>
             </div>
-            <div class="col-6">
-              <label> Data Inicial </label>
-              <input type='text' class="form-control dtpDtFinal" id="edtDtFinal" maxlength="10" onKeyPress="MascaraData(this)" data-position='bottom right' />
+            <div class="row">
+              <div class="col-6 ml-4">              
+                <input class="form-check-input" type="checkbox" id="chcApenasEmAberto" checked="checked">
+                <label class="form-check-label" for="defaultCheck1">
+                  Apenas em aberto
+                </label>                
+              </div>
             </div>
-          </div>
-          <div class="panel-footer">Panel Footer</div>
+            </div>
+          <div class="panel-footer"></div>
         </div>
+          </div>
+        </div>
+      </div>
+      <!-- Div collapse para os filtros -->
+
+      <div class="col-12">
+        <button type="button" id="btnAplicarFiltro" class="btn btn-success">Pesquisar</button>
+      </div>
+      <br>
+
+
+      <div class="col-12 tabela">
+        <table class="table table-hover table-striped" id="tabelaServicos">
+        </table>
       </div>
     </div>
-  </div>
-  <!-- Div collapse para os filtros -->
-
-  <div class="col-12">
-    <button type="button" id="btnAplicarFiltro" class="btn btn-success">Pesquisar</button>
-  </div>
-  <br>
-
-
-  <div class="col-12 tabela">
-    <table class="table table-hover table-striped" id="tabelaServicos">
-    </table>
-  </div>
-</div>
 
 
 
-<!-- modais -->
-<div class="modal fade" id="mdlDetalhesServico" tabindex="-1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Detalhes do serviço</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      </div>
-      <div class="container"></div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-12">
-            <!--<table class="table table-hover table-striped" id="tabelaDetalhesServico">--->
-            <table class="" id="tabelaDetalhesServico">
-            </table>
+    <!-- modais -->
+    <div class="modal fade" id="mdlDetalhesServico" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Detalhes do serviço</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           </div>
-        </div>
-      </div>
-      <div class="modal-footer">
+          <div class="container"></div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <!--<table class="table table-hover table-striped" id="tabelaDetalhesServico">--->
+                <table class="" id="tabelaDetalhesServico">
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
 
-        <!--<a data-toggle="modal" href="#mdlAdicionarPartesProcessoSemCadastro" class="btn btn-warning">Sem cadastro</a>
+            <!--<a data-toggle="modal" href="#mdlAdicionarPartesProcessoSemCadastro" class="btn btn-warning">Sem cadastro</a>
                 <a data-toggle="modal" href="#mdlAdicionarPartesProcesso" class="btn btn-primary">Adicionar</a>                -->
-        <a href="#" data-dismiss="modal" class="btn btn-danger">Fechar</a>
+            <a href="#" data-dismiss="modal" class="btn btn-danger">Fechar</a>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
 
-<footer class="footer fixed-bottom">
+    <footer class="footer fixed-bottom">
 
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">
+      <!-- Copyright -->
+      <div class="footer-copyright text-center py-3">
 
-    Feito por <b>Paulo Henrique</b> © 2020 Copyright:
-    <!--<a href="https://mdbootstrap.com/"> MDBootstrap.com</a>-->
-  </div>
-  <!-- Copyright -->
+        Feito por <b>Paulo Henrique</b> © 2020 Copyright:
+        <!--<a href="https://mdbootstrap.com/"> MDBootstrap.com</a>-->
+      </div>
+      <!-- Copyright -->
 
-</footer>
+    </footer>
 
-<?php $this->load->view('rodape'); ?>
+    <?php $this->load->view('rodape'); ?>

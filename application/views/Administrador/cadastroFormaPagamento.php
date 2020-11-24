@@ -26,8 +26,8 @@
 
     }
 
-    var tabelaTipoProcesso = $("#tabelaTipoProcesso").DataTable({
-     columns: [{
+    var tabelaFormaPagamento = $("#tabelaFormaPagamento").DataTable({      
+      columns: [{
           title: 'Código'
 
         },
@@ -64,12 +64,12 @@
       pesquisar();
     });
 
-    $('#tabelaTipoProcesso').on('click', 'tbody tr .btnAlterar', function(e){
+    $('#tabelaFormaPagamento').on('click', 'tbody tr .btnAlterar', function(e){
       let codigo = $(this).data("codigo");
       var dados = JSON.stringify(codigo);
-      sessionStorage.setItem('codigo', dados );
+      sessionStorage.setItem('codFormaPagamento', dados );
     })
-    $('#tabelaTipoProcesso').on('click', 'tbody tr .btnExcluir', function(e) {
+    $('#tabelaFormaPagamento').on('click', 'tbody tr .btnExcluir', function(e) {
       let codigo = $(this).data("codigo");
       let nome = $(this).data("nome");
 
@@ -87,7 +87,7 @@
           let linha = $(this).parent().parent(); //pego a linha antes de ser excluida ??? na faz sentido.. mas se o bd excluir e o datatable tentar pegar.. ele n faz nada
           $.ajax({
             type: 'DELETE',
-            url: pegarRotaBack('tipoProcesso/'),
+            url: pegarRotaBack('FormaPagamento/'),
             contentType: 'application/json',
             data: JSON.stringify({
               'codigo': codigo
@@ -100,7 +100,7 @@
 
             if (response.status == 200) { //excluiu
               linha.fadeOut(500, function() {
-                tabelaTipoProcesso.row(linha).remove().draw();
+                tabelaFormaPagamento.row(linha).remove().draw();
               });
 
             } else
@@ -116,7 +116,7 @@
 
     function pesquisar() {
       $.ajax({
-        url: pegarRotaBack('tipoProcesso/'),
+        url: pegarRotaBack('FormaPagamento/'),
         type: "GET"
         //data: filtro
       }).done(function(resposta) {
@@ -124,15 +124,15 @@
         console.log(resposta);
         $.each(resposta.registros, function(index, data) {
           dataSet.push([
-            data.cod_tipo_processo,
-            data.nome_tipo_processo,
-            '<a href="<?php echo base_url("Admin/AlterarTipoProcesso/"); ?>"><button type="button" class="btn btn-warning btnAlterar" data-codigo="' + data.cod_tipo_processo + '">Alterar</button></a> &nbsp;&nbsp;' +
-            '<button type="button" class="btn btn-danger btnExcluir" data-codigo="' + data.cod_tipo_processo + '" data-nome="' + data.nome_tipo_processo + '">Excluir</button>'
+            data.cod_forma_pagamento,
+            data.nome_forma_pagamento,
+            '<a href="<?php echo base_url("Admin/AlterarFormaPagamento/"); ?>"><button type="button" class="btn btn-warning btnAlterar" data-codigo="' + data.cod_forma_pagamento + '">Alterar</button></a> &nbsp;&nbsp;' +
+            '<button type="button" class="btn btn-danger btnExcluir" data-codigo="' + data.cod_forma_pagamento + '" data-nome="' + data.nome_forma_pagamento + '">Excluir</button>'
           ]);
         });
 
-        tabelaTipoProcesso.clear();
-        tabelaTipoProcesso.rows.add(dataSet).draw();
+        tabelaFormaPagamento.clear();
+        tabelaFormaPagamento.rows.add(dataSet).draw();
       }).fail(function(jqXHR, status, err) {
         if (StrToInt(status) == 0) {
           exibirMensagemAviso('Aviso!', 'Servidor não encontrado');
@@ -150,12 +150,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0 text-dark">Cadastro tipo processo</h1>
+          <h1 class="m-0 text-dark">Cadastro forma de pagamento</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="Configuracoes">Home</a></li>
-            <li class="breadcrumb-item active">Tipo Processo</li>
+            <li class="breadcrumb-item active">Formas de pagamento</li>
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
@@ -169,7 +169,7 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <a href="<?php echo base_url('Admin/NovoTipoProcesso'); ?>">
+            <a href="<?php echo base_url('Admin/NovoFormaPagamento'); ?>">
               <button class="btn btn-success" id="btnConfirmar">
                 Cadastrar
               </button>
@@ -182,7 +182,7 @@
           <!-- /.card-header -->
           <div class="card-body">
             <div class="col-sm-12" style="padding-bottom: 5px;">
-              <table id="tabelaTipoProcesso" class="table table-bordered table-striped">
+              <table id="tabelaFormaPagamento" class="table table-bordered table-striped">
 
               </table>
             </div>
