@@ -83,7 +83,8 @@ async function listar(filtros) {
                                       'sc.valor_parcela, '+
                                       'sc.numero_parcela, '+
                                       'sc.data_vencimento, '+
-                                      'sc.cod_servico_pagamento '+
+                                      'sc.cod_servico_pagamento, '+
+                                      'sc.data_pago '+
                                'from servico_pagamento sc '+
                                'left join servico s on s.cod_servico = sc.cod_servico '+pesquisa+' '+
                                'order by sc.data_vencimento ');   

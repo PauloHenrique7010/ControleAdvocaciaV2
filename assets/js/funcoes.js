@@ -319,6 +319,9 @@ function StrToFloat(string) {
 }
 
 function formatDateTime(dataInput) {
+        if (dataInput == null)
+                return "";        
+        
         var data = new Date(dataInput),
                 dia = data.getDate().toString(),
                 diaF = (dia.length == 1) ? '0' + dia : dia,

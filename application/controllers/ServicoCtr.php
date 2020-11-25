@@ -76,7 +76,7 @@ class ServicoCtr extends CI_Controller
         $prestacoesCartao = $phpObject->prestacoesCartao;
         
         $partesServico = $phpObject->partesServico;
-           
+
 
         try{
             if ($this->servico_model->cadastrarServico($servico, $prestacoesCartao, $partesServico)){

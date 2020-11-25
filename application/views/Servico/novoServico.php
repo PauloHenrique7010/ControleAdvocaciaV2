@@ -222,7 +222,8 @@
                         '<input type="text" class="form-control" style="text-align:right" onKeyUp="formatarMoeda(this);" value="' + valorVez + '">',
                         //Formas de pagamento
                         '<select class="form-control cmbFormaPagamento"> ' +
-                        '</select> '
+                        '</select> ',
+                        '<input class="form-check-input mx-auto px-auto" type="checkbox" class="chcPago">'
                     ]);
 
                     tabelaPrestacoesCartao.clear();
@@ -270,6 +271,9 @@
                 },
                 {
                     title: 'Forma Pagamento'
+                },
+                {
+                    title: 'Pago'
                 }
             ],
             language: {
@@ -316,6 +320,8 @@
             if (OPConfirmar == false) {
                 exibirCamposObrigatorios(msgConfirmacao);
             } else {
+                console.log();
+                
                 //monto o json para mandaar pro back
                 var objeto = new Object();
                 objeto.valorServico = vlTotalServico;
@@ -327,7 +333,6 @@
 
                 tabelaPrestacoesCartao.data().each(function(value, index) {
                     dataVencimento = tabelaPrestacoesCartao.cell(index, 1).nodes().to$().find('input').val();
-
                     dataVencimento = StrToDate(dataVencimento); //se nao for valida, volta como null
 
                     var novoObjeto = new Object();
@@ -335,6 +340,7 @@
                     novoObjeto.dataVencimento = dataVencimento;
                     novoObjeto.valor = tabelaPrestacoesCartao.cell(index, 2).nodes().to$().find('input').val();
                     novoObjeto.formaPagamento = tabelaPrestacoesCartao.cell(index, 3).nodes().to$().find('select').val();
+                    novoObjeto.OPPago = tabelaPrestacoesCartao.cell(index, 4).nodes().to$().find('input').is(':checked');
 
                     dataSet.push(novoObjeto);
                 });
@@ -350,6 +356,7 @@
                 objeto.partesServico = datasetPartesServico;
 
                 var json = JSON.stringify(objeto);
+  
 
                 $.ajax({
                     url: '<?php echo base_url('ConfirmarNovoServico'); ?>',

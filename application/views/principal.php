@@ -224,6 +224,9 @@
           title: 'Valor'
         },
         {
+          title: 'Pago'
+        },
+        {
           title: 'Partes'
         },
         {
@@ -288,20 +291,25 @@
         //console.log(resposta);
         $.each(resposta.servicos, function(index, data) {
           dataVencimentoFormatada = formatDateTime(data.data_vencimento);
+          dataPagoFormatado = formatDateTime(data.data_pago);         
 
           dataSet.push([
+            //Invisivel
             data.cod_servico,
             data.cod_servico_pagamento,
+            //invisivel
+
             data.numero_parcela,
             dataVencimentoFormatada,
             data.valor_parcela.toLocaleString('pt-BR', {
               style: 'currency',
               currency: 'BRL'
             }),
+            dataPagoFormatado,
             data.nomeParte,
-            '<button type="button" class="btn btn-warning btnBoleto">Boleto</button>' +
-            '<button type="button" class="btn btn-success btnDarBaixa">Dar Baixa</button>' +
-            '<button type="button" class="btn btn-info btnVerDetalhes" data-toggle="modal" data-target="#mdlDetalhesServico">Detalhes</button>'
+            '<button type="button" class="btn btn-warning btnBoleto">Boleto</button>' + '&nbsp;&nbsp;'+ //espaço entre os bt
+            '<button type="button" class="btn btn-success btnDarBaixa">Dar Baixa</button>' 
+            //'<button type="button" class="btn btn-info btnVerDetalhes" data-toggle="modal" data-target="#mdlDetalhesServico">Detalhes</button>'
           ]);
         });
 
@@ -325,7 +333,7 @@
 <div class="container-fluid">
   <div class="container">
     <h3>Controle financeiro e de Clientes para advogados</h3>
-    Mostrando pagamentos pendentes do mes atual
+    Mostrando pagamentos pendentes do mês atual
   </div>
 
   <!-- Div collapse para os filtros -->
