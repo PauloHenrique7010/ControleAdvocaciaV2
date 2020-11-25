@@ -7,6 +7,7 @@ const funcoes = require("./routes/funcoes");
 const tipoProcesso = require("./routes/tipoProcesso");
 const tipoAcao = require("./routes/tipoAcao");
 const formaPagamento = require("./routes/formaPagamento");
+const contrato = require('./routes/contrato');
 
 app.use(cors());
 
@@ -20,6 +21,7 @@ app.use('/formaPagamento', formaPagamento);
 app.use('/servico', servico);
 app.use('/boleto', boleto);
 app.use('/funcoes', funcoes);
+app.use('/contrato', contrato);
 
 app.get('/', (req, res) => {
   res.send('Rota principal');

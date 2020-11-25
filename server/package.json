@@ -24,6 +24,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "gerar-boletos": "^1.4.5",
+    "jspdf": "^2.1.1",
     "moment": "^2.29.1",
     "mysql": "^2.18.1",
     "node-boleto": "^2.1.1",
