@@ -318,25 +318,25 @@ function StrToFloat(string) {
         return string;
 }
 
-function formatDateTime(dataInput){
+function formatDateTime(dataInput) {
         var data = new Date(dataInput),
-            dia  = data.getDate().toString(),
-            diaF = (dia.length == 1) ? '0'+dia : dia,
-            mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
-            mesF = (mes.length == 1) ? '0'+mes : mes,
-            anoF = data.getFullYear();
+                dia = data.getDate().toString(),
+                diaF = (dia.length == 1) ? '0' + dia : dia,
+                mes = (data.getMonth() + 1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+                mesF = (mes.length == 1) ? '0' + mes : mes,
+                anoF = data.getFullYear();
         if (isNaN(diaF))
-          return "";
-        return diaF+"/"+mesF+"/"+anoF;
-    }
+                return "";
+        return diaF + "/" + mesF + "/" + anoF;
+}
 
 function StrToDate(string) {
-        if (validaData(string)){
+        if (validaData(string)) {
                 let novaData = string.split('/');
-                novaData = new Date(novaData[2], novaData[1]-1, novaData[0]);
+                novaData = new Date(novaData[2], novaData[1] - 1, novaData[0]);
                 return novaData;
         }
-        else{
+        else {
                 return null;
         }
 }
@@ -373,6 +373,30 @@ function formatarMoeda(i) {
         i.value = v;
 }
 
-function pegarRotaBack(rota){
-        return "http://localhost:8020/"+rota;
+function pegarRotaBack(rota) {
+        return "http://localhost:8020/" + rota;
+}
+
+function pularCampos() {
+        jQuery('body').on('keydown', 'input, select, textarea', function (e) {
+                var self = $(this),
+                        form = self.parents('form:eq(0)'),
+                        focusable, next;
+
+                //se pressionar ctrl + enter, confirma o cadastro
+                console.log(e.ctrlKey + ' - ' + e.keyCode);
+                if (e.ctrlKey && e.keyCode == 13) {
+                        $("#enviar").trigger('click');
+                } else if (e.keyCode == 13) {
+                        focusable = form.find('input,a,select,button,textarea').filter(':visible');
+                        next = focusable.eq(focusable.index(this) + 1);
+                        if (next.length) {
+                                next.focus();
+                        } else {
+                                Confirmar();
+                        }
+                        return false;
+                }
+
+        });
 }

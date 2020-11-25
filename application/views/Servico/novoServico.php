@@ -18,27 +18,8 @@
 <script type="text/javascript">
     $(document).ready(function() {
         //ao apertar enter pula para o proximo campo
-        //----------------------------------------------------------------------------------------
-        jQuery('body').on('keydown', 'input, select, textarea, button', function(e) {
-            var self = $(this),
-                form = self.parents('form:eq(0)'),
-                focusable, next;
-
-            //se pressionar ctrl + enter, confirma o cadastro
-            if (e.ctrlKey && e.keyCode == 13) {
-                $("#enviar").trigger('click');
-            } else if (e.keyCode == 13) {
-                focusable = form.find('input,a,select,button,textarea').filter(':visible');
-                next = focusable.eq(focusable.index(this) + 1);
-                if (next.length) {
-                    next.focus();
-                } else {
-                    form.submit();
-                }
-                return false;
-            }
-
-        });
+        //----------------------------------------------------------------------------------------        
+        pularCampos();
         //----------------------------------------------------------------------------------------
         $('#edtPesquisaCliente').on('keyup', function(e) {
             pesquisaCliente();
@@ -137,6 +118,22 @@
             }
         });
 
+        //quando clicar no botao de abrir a forma de pagamento, verifica se ja digitou algum valor
+        $("#btnAbrirFormaPagamento").on('click', function(e){
+            let vlServico = $("#edtValorServico").val();
+            vlServico = StrToFloat(vlServico);
+
+            if (vlServico == 0)
+                exibirMensagem('Aviso!','Não é possível adicionar forma de pagamento sem o valor do serviço definido!','info');
+            else{
+                $('#mdlFormaPagamento').modal('show');
+                if ($("#edtNumeroPrestacoes").val() == ""){
+                    $("#edtNumeroPrestacoes").val("1");
+                    calcularPrestacoes();
+                }
+            }
+        });
+
         //pesquisa o cliente informado no modal de pesquisar cliente
         function pesquisaCliente() {
             let pesquisa = $('#edtPesquisaCliente').val();
@@ -155,8 +152,6 @@
                         data.nome_cliente,
                         data.cpf,
                         '<button type="button" class="btn btn-danger btnExcluirParte">Excluir</button>'
-
-
                     ]);
                 });
 
@@ -216,12 +211,10 @@
                     valorVez = parseFloat(valorVez.toFixed(2));
 
 
-                    if (n > 1) {
-                        dataParcela = new Date(dataParcela.getFullYear(), dataParcela.getMonth() + (n - 1), dataParcela.getDate())
-                    }
-                    dataParcela = dataParcela.toLocaleDateString('pt-BR');
-                    dataParcela = dataParcela.toString();
-
+                    //pega um mes afrente
+                    dataParcela = new Date(dataParcela.getFullYear(), dataParcela.getMonth() + (n), dataParcela.getDate())                    
+                    dataParcela = formatDateTime(dataParcela);
+                    
 
                     dataSet.push([
                         n,
@@ -382,7 +375,8 @@
                     array(
                         'class' => 'form-control',
                         'name' => 'cmbTipoServico',
-                        'id' => 'cmbTipoServico'
+                        'id' => 'cmbTipoServico',
+                        'autofocus' => 'true'                        
                     ),
                     $tipoServico,
                     set_value('cmbTipoServico')
@@ -443,7 +437,7 @@
             </div>
             <div class="col-4">
                 <h4>Forma de pagamento</h4>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdlFormaPagamento">
+                <button type="button" class="btn btn-primary" id="btnAbrirFormaPagamento" >
                     Abrir
                 </button>
             </div>
@@ -604,7 +598,7 @@
             </div>
             <div class="modal-footer">
 
-                <a href="#" data-dismiss="modal" class="btn btn-secondary">Fechar</a>
+                <a href="#" data-dismiss="modal" class="btn btn-secondary btnFecharModalFormaPagamento">Fechar</a>
             </div>
         </div>
     </div>
