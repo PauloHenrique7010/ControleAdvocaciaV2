@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const servico = require("./routes/servico");
+const servicoPagamento = require("./routes/servicoPagamento");
 const boleto = require("./routes/boleto");
 const funcoes = require("./routes/funcoes");
 const tipoProcesso = require("./routes/tipoProcesso");
@@ -18,7 +18,7 @@ app.use(express.json());
 app.use('/tipoProcesso', tipoProcesso);
 app.use('/tipoAcao', tipoAcao);
 app.use('/formaPagamento', formaPagamento);
-app.use('/servico', servico);
+app.use('/servicoPagamento', servicoPagamento);
 app.use('/boleto', boleto);
 app.use('/funcoes', funcoes);
 app.use('/contrato', contrato);

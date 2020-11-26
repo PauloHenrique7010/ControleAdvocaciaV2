@@ -1,4 +1,4 @@
-﻿<?php $this->load->view('cabecalho'); ?>
+<?php $this->load->view('cabecalho'); ?>
 <style>
   /*deixa o modal com scrool*/
   .tabela {
@@ -28,7 +28,7 @@
       codServico = StrToInt(itemEscolhido[0]);
 
       $.ajax({
-        url: pegarRotaBack('servicoPagamento/partes'),
+        url: pegarRotaBack('servico/partes'),
         type: "GET",
         data: "codigo=" + codServico
       }).done(function(resposta) {
@@ -75,7 +75,7 @@
 
 
       $.ajax({
-        url: pegarRotaBack('servicoPagamento/darBaixaPagamento'),
+        url: pegarRotaBack('servico/darBaixaPagamento'),
         type: "post",
         data: JSON.stringify(json),
         contentType: 'application/json',
@@ -283,7 +283,7 @@
       filtro.dtFinal = dtFinal;
       filtro.OPApenasEmAberto = OPApenasEmAberto;
       $.ajax({
-        url: pegarRotaBack('servicoPagamento/'),
+        url: pegarRotaBack('servico/'),
         type: "GET",
         data: filtro
       }).done(function(resposta) {
