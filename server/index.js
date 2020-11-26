@@ -8,6 +8,7 @@ const tipoProcesso = require("./routes/tipoProcesso");
 const tipoAcao = require("./routes/tipoAcao");
 const formaPagamento = require("./routes/formaPagamento");
 const contrato = require('./routes/contrato');
+const cliente = require('./routes/cliente');
 
 app.use(cors());
 
@@ -22,6 +23,7 @@ app.use('/servicoPagamento', servicoPagamento);
 app.use('/boleto', boleto);
 app.use('/funcoes', funcoes);
 app.use('/contrato', contrato);
+app.use('/cliente',cliente);
 
 app.get('/', (req, res) => {
   res.send('Rota principal');
