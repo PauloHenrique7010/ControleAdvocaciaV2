@@ -1,5 +1,50 @@
-const { funcoes } = require('../servicos/funcoes');
 const selectPromise = require('../servicos/select');
+
+async function pesquisarServico(filtros) {
+    
+    let dtInicial = filtros.dtInicial;
+    let dtFinal = filtros.dtFinal;
+    let OPApenasEmAberto = filtros.OPApenasEmAberto;
+    if (OPApenasEmAberto == 'true')
+      OPApenasEmAberto = true
+    else
+      OPApenasEmAberto = false;
+
+    
+    if (dtInicial != undefined){
+        dtInicial = formatarData(dtInicial);
+        dtFinal = formatarData(dtFinal);
+    }
+    
+    pesquisa = "";
+    
+    if (dtInicial != undefined){
+        if (pesquisa != ""){
+            pesquisa += " and ";
+        }
+        pesquisa += "sc.data_vencimento >= '"+dtInicial+"'";
+    }
+    if (dtFinal != undefined){
+        if (pesquisa != ""){
+            pesquisa += " and ";
+        }
+        pesquisa += "sc.data_vencimento <= '"+dtFinal+"'";
+    }
+    
+    if (OPApenasEmAberto == true){
+        if (pesquisa != "")
+            pesquisa += " and ";        
+        pesquisa += "sc.data_pago is null";
+    }
+
+    if (pesquisa != ""){
+        pesquisa = "WHERE "+pesquisa;
+    }   
+
+
+    return await selectPromise('select * from servico '+pesquisa);
+}
+
 /*const insertPromise = require('../servicos/insert');
 const servicoComunicado = require('../servicos/comunicado');
 const dataService = require('../servicos/data');
@@ -36,7 +81,7 @@ function formatarData(dataInput){
     return anoF+"-"+mesF+"-"+diaF;
 }
 
-async function listar(filtros) {
+async function pesquisarPagamento(filtros) {
     
     let dtInicial = filtros.dtInicial;
     let dtFinal = filtros.dtFinal;
@@ -105,22 +150,10 @@ async function darBaixaPagamento(codigo){
     return await selectPromise('update servico_pagamento set data_pago = Date(Now()) where cod_servico_pagamento='+codigo);
     
 }
-/*
-async function listarTodosComunicado(){
-    return (await servicoComunicado.selectTodosComunicado());
-}
 
-async function validarComunicado(token, id_comunicado){
-    tableHash = await selectPromise('select hash_comunicado from comunicado where cod_comunicado = '+id_comunicado);
-    hash = tableHash[0].hash_comunicado;
-    if (token == hash)
-        return true;
-        
-    return false;
-}
-*/
 module.exports = {
-    listar,
+    pesquisarServico,
+    pesquisarPagamento,
     pegarPartesServico,
     darBaixaPagamento
 };

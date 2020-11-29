@@ -1,6 +1,6 @@
-const modelServicoPagamento = require('../models/servicoPagamento');
+const modelServico = require('../models/servico');
 
-async function index(req, res) {
+async function pesquisarServico(req, res) {
 
     const {
         dtInicial,
@@ -12,13 +12,47 @@ async function index(req, res) {
     filtro.dtInicial = dtInicial;
     filtro.dtFinal = dtFinal;
     filtro.OPApenasEmAberto = OPApenasEmAberto;
-    
+
+    const registros = await modelServico.pesquisarServico(filtro);
 
 
-    let nomeParte = "";
-    const servicos = await modelServicoPagamento.listar(filtro);
+
+    /*let nomeParte = "";
+    const servicos = await modelServico.listar(filtro);
     for (const linha of servicos) {
         const partes = await modelServicoPagamento.pegarPartesServico(linha.cod_servico);
+
+        nomeParte = "";
+        for (const linha1 of partes) {
+            if (nomeParte !== "") {
+                nomeParte += ", ";
+            }
+            nomeParte += linha1.nome_parte;
+        }
+        linha.nomeParte = nomeParte;
+    }*/
+
+
+    res.json({ registros });
+}
+
+async function pesquisarPagamento(req, res) {
+
+    const {
+        dtInicial,
+        dtFinal,
+        OPApenasEmAberto
+    } = req.query;
+
+    var filtro = new Object();
+    filtro.dtInicial = dtInicial;
+    filtro.dtFinal = dtFinal;
+    filtro.OPApenasEmAberto = OPApenasEmAberto;
+
+    let nomeParte = "";
+    const servicos = await modelServico.pesquisarPagamento(filtro);
+    for (const linha of servicos) {
+        const partes = await modelServico.pegarPartesServico(linha.cod_servico);
 
         nomeParte = "";
         for (const linha1 of partes) {
@@ -40,7 +74,7 @@ async function pegarPartesServico(req, res) {
     } = req.query;
 
 
-    const partes = await modelServicoPagamento.pegarPartesServico(codigo);
+    const partes = await modelServico.pegarPartesServico(codigo);
     res.json({ partes });
 }
 
@@ -72,9 +106,10 @@ async function darBaixaPagamento(req, res) {
 
 }
 
-
 module.exports = {
-    index,
-    pegarPartesServico,
-    darBaixaPagamento
+    pesquisarServico,    
+    pesquisarPagamento,
+    darBaixaPagamento,
+    pegarPartesServico
+
 }
