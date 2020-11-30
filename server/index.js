@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-
 const app = express();
+
+const configuracao = require('./servicos/configuracaoServidor');
 
 const boleto = require("./routes/boleto");
 const funcoes = require("./routes/funcoes");
@@ -29,6 +30,9 @@ app.use('/tipoAcao', tipoAcao);
 app.use('/tipoProcesso', tipoProcesso);
 app.use('/tipoServico', tipoServico);
 
+
+process.env.versaoServidor = 1.0;
+configuracao.atualizarTabela();
 
 app.get('/', (req, res) => {
   res.send('Rota principal');
