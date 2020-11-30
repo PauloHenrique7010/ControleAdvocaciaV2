@@ -23,7 +23,7 @@
         //se nao for um cadastro novo, preenche o campo
         if (URLAtual.indexOf("Novo") == -1) {
             OPCadastro = "A";
-            codTipoProcesso = JSON.parse(sessionStorage.getItem('codigo'));
+            codTipoProcesso = <?php if (isset($codTipoProcesso)) echo $codTipoProcesso; else echo "0" ?>;           
 
             var json = new Object();
             json.codTipoProcesso = codTipoProcesso;

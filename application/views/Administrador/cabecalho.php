@@ -10,7 +10,7 @@ Header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE'); //metho
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <script type="text/javascript" src="<?php echo base_url("assets/js/funcoes.js");?>"></script>
-  <title>Administrador</title>
+  <title><?php if (isset($tituloGuia)) echo $tituloGuia; else echo "Admin"; ?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -268,9 +268,15 @@ Header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE'); //metho
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo base_url("Admin/Profissao"); ?>" class="nav-link">
+                <a href="<?php echo base_url("Admin/EstadoCivil"); ?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Profissão</p>
+                  <p>Estado civil</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?php echo base_url("Admin/FormaPagamento"); ?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Formas de pagamento</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -280,29 +286,30 @@ Header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE'); //metho
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo base_url("Admin/EstadoCivil"); ?>" class="nav-link">
+                <a href="<?php echo base_url("Admin/Profissao"); ?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Estado civil</p>
+                  <p>Profissão</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo base_url("Admin/TipoProcesso"); ?>" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Tipo Processo</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="<?php echo base_url("Admin/TipoAcao"); ?>" class="nav-link">
+                <a href="<?php echo base_url("Admin/TipoAcao"); ?>" class="nav-link <?php if ((isset($subMenuAtivo) && ($subMenuAtivo == "tipoAcao"))) echo "active";?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Tipo Ação</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo base_url("Admin/FormaPagamento"); ?>" class="nav-link">
+                <a href="<?php echo base_url("Admin/TipoProcesso"); ?>" class="nav-link <?php if ((isset($subMenuAtivo) && ($subMenuAtivo == "tipoProcesso"))) echo "active";?>">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Formas de pagamento</p>
+                  <p>Tipo Processo</p>
                 </a>
-              </li>
+              </li>    
+              <li class="nav-item">
+                <a href="<?php echo base_url("Admin/TipoServico"); ?>" class="nav-link <?php if ((isset($subMenuAtivo) && ($subMenuAtivo == "tipoServico"))) echo "active";?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Tipo Serviço</p>
+                </a>
+              </li>           
+              
               <!--       
               
               <li class="nav-item">

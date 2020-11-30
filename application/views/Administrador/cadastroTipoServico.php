@@ -26,8 +26,8 @@
 
     }
 
-    var tabelaTipoAcao = $("#tabelaTipoAcao").DataTable({      
-      columns: [{
+    var tabelaTipoServico = $("#tabelaTipoServico").DataTable({
+     columns: [{
           title: 'Código'
 
         },
@@ -60,7 +60,12 @@
     //Assim que carregar a pagina, pesquisa no banco
     pesquisar();
 
-    $('#tabelaTipoAcao').on('click', 'tbody tr .btnExcluir', function(e) {
+    $("#btnPesquisar").on('click', function() {
+      pesquisar();
+    });
+
+  
+    $('#tabelaTipoServico').on('click', 'tbody tr .btnExcluir', function(e) {
       let codigo = $(this).data("codigo");
       let nome = $(this).data("nome");
 
@@ -78,7 +83,7 @@
           let linha = $(this).parent().parent(); //pego a linha antes de ser excluida ??? na faz sentido.. mas se o bd excluir e o datatable tentar pegar.. ele n faz nada
           $.ajax({
             type: 'DELETE',
-            url: pegarRotaBack('tipoAcao/'),
+            url: pegarRotaBack('tipoServico/'),
             contentType: 'application/json',
             data: JSON.stringify({
               'codigo': codigo
@@ -91,7 +96,7 @@
 
             if (response.status == 200) { //excluiu
               linha.fadeOut(500, function() {
-                tabelaTipoAcao.row(linha).remove().draw();
+                tabelaTipoServico.row(linha).remove().draw();
               });
 
             } else
@@ -104,14 +109,10 @@
       });
     });
 
-    $("#btnPesquisar").on('click', function() {
-      pesquisar();
-    });
-
 
     function pesquisar() {
       $.ajax({
-        url: pegarRotaBack('tipoAcao/'),
+        url: pegarRotaBack('tipoServico/'),
         type: "GET"
         //data: filtro
       }).done(function(resposta) {
@@ -119,15 +120,15 @@
         console.log(resposta);
         $.each(resposta.registros, function(index, data) {
           dataSet.push([
-            data.cod_tipo_acao,
-            data.nome_tipo_acao,
-            '<a href="AlterarTipoAcao/'+data.cod_tipo_acao+'"><button type="button" class="btn btn-warning">Alterar</button></a> &nbsp;&nbsp;' +
-            '<button type="button" class="btn btn-danger btnExcluir" data-codigo="' + data.cod_tipo_acao + '" data-nome="' + data.nome_tipo_acao + '">Excluir</button>'
+            data.cod_tipo_servico,
+            data.nome_tipo_servico,
+            '<a href="./AlterarTipoServico/'+data.cod_tipo_servico+'"><button type="button" class="btn btn-warning">Alterar</button></a> &nbsp;&nbsp;' +
+            '<button type="button" class="btn btn-danger btnExcluir" data-codigo="' + data.cod_tipo_servico + '" data-nome="' + data.nome_tipo_servico + '">Excluir</button>'
           ]);
         });
 
-        tabelaTipoAcao.clear();
-        tabelaTipoAcao.rows.add(dataSet).draw();
+        tabelaTipoServico.clear();
+        tabelaTipoServico.rows.add(dataSet).draw();
       }).fail(function(jqXHR, status, err) {
         if (StrToInt(status) == 0) {
           exibirMensagemAviso('Aviso!', 'Servidor não encontrado');
@@ -145,12 +146,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0 text-dark">Cadastro tipo ação</h1>
+          <h1 class="m-0 text-dark">Cadastro tipo serviço</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="Configuracoes">Home</a></li>
-            <li class="breadcrumb-item active">Tipo Ação</li>
+            <li class="breadcrumb-item active">Tipo Serviço</li>
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
@@ -164,7 +165,7 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <a href="<?php echo base_url('Admin/NovoTipoAcao'); ?>">
+            <a href="<?php echo base_url('Admin/NovoTipoServico'); ?>">
               <button class="btn btn-success" id="btnConfirmar">
                 Cadastrar
               </button>
@@ -172,13 +173,12 @@
             <button class="btn btn-success" id="btnPesquisar">
                 Pesquisar
             </button>
-            
 
           </div>
           <!-- /.card-header -->
           <div class="card-body">
             <div class="col-sm-12" style="padding-bottom: 5px;">
-              <table id="tabelaTipoAcao" class="table table-bordered table-striped">
+              <table id="tabelaTipoServico" class="table table-bordered table-striped">
 
               </table>
             </div>

@@ -27,6 +27,7 @@ async function cadastrarTipoAcao(nome){
 }
 
 async function alterarTipoAcao(codigo, nome){
+    console.log(codigo+' - '+nome);
     return await insertPromise("UPDATE tipo_acao set nome_tipo_acao ='"+nome+"' where cod_tipo_acao="+codigo);
 }
 

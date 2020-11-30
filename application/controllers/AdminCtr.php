@@ -361,33 +361,56 @@ class AdminCtr extends CI_Controller {
         $this->load->view('Administrador/login',$dados);    
     }
 
+    // TIPO PROCESSO
     public function TipoProcesso(){
+        $dados['subMenuAtivo'] = 'tipoProcesso';
         $dados['tituloGuia'] = 'Tipo processo';
         $this->load->view('Administrador/cadastroTipoProcesso',$dados);  
     }
 
-    public function NovoTipoProcesso(){
+    public function NovoTipoProcesso($codigo = 0){   
+        $dados['subMenuAtivo'] = 'tipoProcesso';     
         $dados['tituloGuia'] = 'Novo Tipo processo';
+        if ($codigo > 0){
+            $dados['tituloGuia'] = 'Alterar Tipo processo';
+            $dados['codTipoProcesso'] = $codigo;            
+        }
         $this->load->view('Administrador/novoTipoProcesso',$dados);  
     }
 
-    public function AlterarTipoProcesso(){
-        $dados['tituloGuia'] = 'Alterar Tipo processo';
-        $this->load->view('Administrador/novoTipoProcesso',$dados);  
+    public function TipoServico(){
+        $dados['subMenuAtivo'] = 'tipoServico';
+        $dados['tituloGuia'] = 'Tipo serviço';
+        $this->load->view('Administrador/cadastroTipoServico',$dados);  
+    }
+
+    public function NovoTipoServico($codigo = 0){  
+        $dados['subMenuAtivo'] = 'tipoServico';      
+        $dados['tituloGuia'] = 'Novo Tipo serviço';
+
+        //se receber por parametro o codigo, entao vai alterar o registro
+        if ($codigo > 0){
+            $dados['codTipoServico'] = $codigo;
+            $dados['tituloGuia'] = 'Alterar Tipo serviço';
+        }
+
+        $this->load->view('Administrador/novoTipoServico',$dados);  
     }
 
     public function TipoAcao(){
         $dados['tituloGuia'] = 'Tipo ação';
+        $dados['subMenuAtivo'] = 'tipoAcao';
         $this->load->view('Administrador/cadastroTipoAcao',$dados);  
     }
 
-    public function NovoTipoAcao(){
+    public function NovoTipoAcao($codigo = 0){
         $dados['tituloGuia'] = 'Novo Tipo ação';
-        $this->load->view('Administrador/novoTipoAcao',$dados);  
-    }
+        $dados['subMenuAtivo'] = 'tipoAcao';
+        if ($codigo > 0){
+            $dados['codTipoAcao'] = $codigo;
+            $dados['tituloGuia'] = 'Alterar Tipo ação';
+        }
 
-    public function AlterarTipoAcao(){
-        $dados['tituloGuia'] = 'Alterar Tipo ação';
         $this->load->view('Administrador/novoTipoAcao',$dados);  
     }
 
@@ -396,14 +419,14 @@ class AdminCtr extends CI_Controller {
         $this->load->view('Administrador/cadastroFormaPagamento',$dados);  
     }
 
-    public function NovoFormaPagamento(){
+    public function NovoFormaPagamento($codigo = 0){
         $dados['tituloGuia'] = 'Novo Forma pagamento';
+        if ($codigo > 0){
+            $dados['codFormaPagamento'] = $codigo;
+            $dados['tituloGuia'] = 'Alterar Forma pagamento';
+        }
         $this->load->view('Administrador/novoFormaPagamento',$dados);  
     }
 
-    public function AlterarFormaPagamento(){
-        $dados['tituloGuia'] = 'Alterar Forma pagamento';
-        $this->load->view('Administrador/novoFormaPagamento',$dados);  
-    }
 }
 ?>

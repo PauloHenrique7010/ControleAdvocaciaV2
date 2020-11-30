@@ -36,9 +36,9 @@
         {
           title: 'Nome'
         },
-        {
-          title: 'Serviços'
-        },
+        // {
+          // title: 'Serviços'
+        // },
         {
           title: 'Editar'
         },
@@ -68,7 +68,7 @@
         <tr>
           <th>Código</th>
           <th>Nome Cliente</th>
-          <th>Serviços</th>
+          <!--<th>Serviços</th>-->
           <th>Editar</th>
           <th>Excluir</th>
         </tr>
@@ -79,7 +79,7 @@
           echo "<tr>";
           echo "<td>" . $linha->cod_cliente . "</td>";
           echo "<td>" . $linha->nome_cliente . "</td>";
-          echo "<td><a href=\" " . base_url("EditarCliente/" . $linha->cod_cliente) . " \"><button type=\"button\" class=\"btn btn-info\">Serviços</button></a></td>";
+          // echo "<td><a href=\" " . base_url("EditarCliente/" . $linha->cod_cliente) . " \"><button type=\"button\" class=\"btn btn-info\">Serviços</button></a></td>";
           echo "<td><a href=\" " . base_url("EditarCliente/" . $linha->cod_cliente) . " \"><button type=\"button\" class=\"btn btn-warning\">Editar</button></a></td>";
           echo "<td><a href=\"#\"><button type=\"button\" onClick=\"msgDeletar(" . $linha->cod_cliente . ",'" . $linha->nome_cliente . "')\" class=\"btn btn-danger\">Excluir</button></a></td>";
           echo "</tr>";

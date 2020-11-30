@@ -64,11 +64,7 @@
       pesquisar();
     });
 
-    $('#tabelaTipoProcesso').on('click', 'tbody tr .btnAlterar', function(e){
-      let codigo = $(this).data("codigo");
-      var dados = JSON.stringify(codigo);
-      sessionStorage.setItem('codigo', dados );
-    })
+  
     $('#tabelaTipoProcesso').on('click', 'tbody tr .btnExcluir', function(e) {
       let codigo = $(this).data("codigo");
       let nome = $(this).data("nome");
@@ -126,7 +122,7 @@
           dataSet.push([
             data.cod_tipo_processo,
             data.nome_tipo_processo,
-            '<a href="<?php echo base_url("Admin/AlterarTipoProcesso/"); ?>"><button type="button" class="btn btn-warning btnAlterar" data-codigo="' + data.cod_tipo_processo + '">Alterar</button></a> &nbsp;&nbsp;' +
+            '<a href="./AlterarTipoProcesso/'+data.cod_tipo_processo+'"><button type="button" class="btn btn-warning">Alterar</button></a> &nbsp;&nbsp;' +
             '<button type="button" class="btn btn-danger btnExcluir" data-codigo="' + data.cod_tipo_processo + '" data-nome="' + data.nome_tipo_processo + '">Excluir</button>'
           ]);
         });

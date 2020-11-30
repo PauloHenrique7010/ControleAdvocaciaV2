@@ -16,37 +16,58 @@
 <!-- page script -->
 <script type="text/javascript">
     $(document).ready(function() {
-        pularCampos();
         let OPCadastro = "N";
-        var codTipoAcao= 0;
+        var codTipoServico = 0;
         var URLAtual = window.location.href;
 
         //se nao for um cadastro novo, preenche o campo
         if (URLAtual.indexOf("Novo") == -1) {
             OPCadastro = "A";
-            codTipoAcao = <?php if (isset($codTipoAcao)) echo $codTipoAcao; else echo "0" ?>;  
+            codTipoServico = <?php if (isset($codTipoServico)) echo $codTipoServico; else echo "0" ?>;           
 
             var json = new Object();
-            json.codTipoAcao = codTipoAcao;
+            json.codTipoServico = codTipoServico;
             $.ajax({
-                url: pegarRotaBack('tipoAcao/'),
+                url: pegarRotaBack('tipoServico/'),
                 type: 'GET',
                 data: json
             }).done(function(resposta, status, response) {
                 if (response.status == 200)
-                    $("#edtNomeTipoAcao").val(resposta.registros[0].nome_tipo_acao)
+                    $("#edtNomeTipoServico").val(resposta.registros[0].nome_tipo_servico)
                 else {
                     let titulo = response.responseJSON.title;
                     let msg = response.responseJSON.message;
                     let tipo = response.responseJSON.tipo;
 
                     exibirMensagem(titulo, msg, tipo);
-                }                
+                }
             }).fail(function(jqXHR, status, err) {
                 exibirMensagemErro(jqXHR.responseJSON.title, jqXHR.responseJSON.message);
             });
-            
         }
+
+        //ao apertar enter pula para o proximo campo
+        //----------------------------------------------------------------------------------------
+        jQuery('body').on('keydown', 'input, select, textarea, button', function(e) {
+            var self = $(this),
+                form = self.parents('form:eq(0)'),
+                focusable, next;
+
+            //se pressionar ctrl + enter, confirma o cadastro
+            if (e.ctrlKey && e.keyCode == 13) {
+                $("#enviar").trigger('click');
+            } else if (e.keyCode == 13) {
+                focusable = form.find('input,a,select,button,textarea').filter(':visible');
+                next = focusable.eq(focusable.index(this) + 1);
+                if (next.length) {
+                    next.focus();
+                } else {
+                    form.submit();
+                }
+                return false;
+            }
+
+        });
 
         $('#btnConfirmar').on('click', function(e) {
             Confirmar(e);
@@ -54,14 +75,14 @@
 
         function Confirmar(event) {
             //declara todas as variaveis 
-            var nomeTipoAcao = $("#edtNomeTipoAcao").val();
+            var nomeTipoServico = $("#edtNomeTipoServico").val();
 
             event.preventDefault();
             OPConfirmar = true;
             msgConfirmacao = "";
 
-            if (nomeTipoAcao == "") {
-                msgConfirmacao += "Informe o nome do tipo de ação<br>";
+            if (nomeTipoServico == "") {
+                msgConfirmacao += "Informe o nome do tipo do serviço<br>";
                 OPConfirmar = false;
             }
             if (OPConfirmar == false) {
@@ -73,11 +94,11 @@
 
                 //monto o json para mandaar pro back
                 var json = new Object();
-                json.codTipoAcao = codTipoAcao;
-                json.nomeTipoAcao = nomeTipoAcao;
+                json.codTipoServico = codTipoServico;
+                json.nomeTipoServico = nomeTipoServico;
 
                 $.ajax({
-                    url: pegarRotaBack('tipoAcao/'),
+                    url: pegarRotaBack('tipoServico/'),
                     type: tipoRequisicao,
                     contentType: 'application/json',
                     data: JSON.stringify(json)
@@ -90,7 +111,7 @@
                     if (response.status != 200)
                         exibirMensagem(titulo, msg, tipo)
                     else
-                        window.location.href = "http://localhost/ControleAdvocaciaV2/Admin/TipoAcao"; //voltar para a pagina inicial                  
+                        window.location.href = "http://localhost/ControleAdvocaciaV2/Admin/TipoServico"; //voltar para a pagina inicial                  
                 }).fail(function(jqXHR, status, err) {
                     exibirMensagemErro(jqXHR.responseJSON.title, jqXHR.responseJSON.message);
                 });
@@ -105,7 +126,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Cadastrar tipo ação</h1>
+                    <h1 class="m-0 text-dark">Cadastrar tipo serviço</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -133,8 +154,8 @@
                         <!-- form start -->
                         <div class="card-body">
                             <div class="form-group">
-                                <label>Nome tipo ação</label>
-                                <input type="text" id="edtNomeTipoAcao" class="form-control" placeholder="Exemplo: Alimentos, Declaratória" maxlength="30" autofocus="autofocus">
+                                <label>Nome tipo serviço</label>
+                                <input type="text" id="edtNomeTipoServico" class="form-control" placeholder="Exemplo: Cívil" maxlength="30" autofocus="autofocus">
                             </div>
                         </div>
                         <!-- /.card-body -->
