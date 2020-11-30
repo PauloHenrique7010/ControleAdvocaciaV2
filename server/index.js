@@ -34,6 +34,10 @@ app.use('/tipoServico', tipoServico);
 process.env.versaoServidor = 1.0;
 configuracao.atualizarTabela();
 
+const cont = require('./controllers/contrato');
+cont.criarContrato();
+
+
 app.get('/', (req, res) => {
   res.send('Rota principal');
 });
