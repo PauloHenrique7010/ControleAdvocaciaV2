@@ -10,15 +10,24 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
+              <li class="breadcrumb-item"><a href="<?php echo base_url('Configuracoes');?>">Inicio</a></li>
+              <li class="breadcrumb-item active">Principal</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+    <section class="content">
+      <div class="container-fluid">
+        <h1 class="text-danger">Em construção </h1>
+      </div>
+    </section>
 
+    <?php
+    
+
+    /*
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -605,7 +614,7 @@
           <!-- right col -->
         </div>
         <!-- /.row (main row) -->
-      </div><!-- /.container-fluid -->
+      </div><!-- /.container-fluid -->*/?>
     </section>
     <!-- /.content -->
   </div>
