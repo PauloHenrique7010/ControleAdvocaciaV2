@@ -9,12 +9,14 @@
         max-height: calc(100vh - 200px);
         overflow-y: auto;
     }
-    .tabela{
-        max-height: calc(100vh - 450px);
-      overflow-y:auto;
+
+    .tabela {
+        max-height: calc(100vh - 510px);
+        overflow-y: auto;
     }
 </style>
 <script type="text/javascript" src="<?php echo base_url("assets/js/funcoes.js"); ?>"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.1.1/jspdf.umd.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         //ao apertar enter pula para o proximo campo
@@ -39,6 +41,9 @@
                 },
                 {
                     title: 'CPF/CNPJ'
+                },
+                {
+                    title: 'RG'
                 }
             ],
             language: {
@@ -56,6 +61,12 @@
                 },
                 {
                     title: 'Nome'
+                },
+                {
+                    title: 'CPF'
+                },
+                {
+                    title: 'RG'
                 },
                 {
                     title: 'Excluir'
@@ -84,7 +95,7 @@
             if (itemEscolhido == undefined) {
                 exibirMensagemAviso('Aviso!', 'Escolha uma registro para confirmar.');
             } else {
-                itemEscolhido.splice(2, 1);
+                //itemEscolhido.splice(2, 1);
                 tabelaPartesServico.row.add(itemEscolhido).draw();
                 $("#btnFecharPesquisaCliente").trigger("click");
             }
@@ -94,6 +105,8 @@
             let nomeParteSemCadastro = $("#edtNomeSemCadastro").val();
             tabelaPartesServico.row.add(["",
                 nomeParteSemCadastro,
+                "",
+                "",
                 '<button type="button" class="btn btn-danger btnExcluirParte">Excluir</button>'
             ]).draw();
             $("#btnFecharSemCadastro").trigger("click");
@@ -119,18 +132,18 @@
         });
 
         //quando clicar no botao de abrir a forma de pagamento, verifica se ja digitou algum valor
-        $("#btnAbrirFormaPagamento").on('click', function(e){
+        $("#btnAbrirFormaPagamento").on('click', function(e) {
             let vlServico = $("#edtValorServico").val();
             vlServico = StrToFloat(vlServico);
 
             if (vlServico == 0)
-                exibirMensagem('Aviso!','Não é possível adicionar forma de pagamento sem o valor do serviço definido!','info');
-            else{
+                exibirMensagem('Aviso!', 'Não é possível adicionar forma de pagamento sem o valor do serviço definido!', 'info');
+            else {
                 $('#mdlFormaPagamento').modal('show');
-                if ($("#edtNumeroPrestacoes").val() == ""){
+                /*if ($("#edtNumeroPrestacoes").val() == "") {
                     $("#edtNumeroPrestacoes").val("1");
                     calcularPrestacoes();
-                }
+                }*/
             }
         });
 
@@ -151,6 +164,7 @@
                         data.cod_cliente,
                         data.nome_cliente,
                         data.cpf,
+                        data.rg,
                         '<button type="button" class="btn btn-danger btnExcluirParte">Excluir</button>'
                     ]);
                 });
@@ -164,9 +178,10 @@
             calcularPrestacoes();
         });
 
-        $('#edtVlDinheiro').on('keyup', function() {
+        $('#edtVlEntrada').on('keyup', function() {
             calcularPrestacoes();
         });
+
 
         function calcularPrestacoes() {
             var vlTotalServico = $("#edtValorServico").val();
@@ -177,12 +192,12 @@
                 vlTotalServico = 0;
             }
 
-            var vlDinheiroOuEntrada = $("#edtVlDinheiro").val();
-            vlDinheiroOuEntrada = vlDinheiroOuEntrada.replaceAll(".", "");
-            vlDinheiroOuEntrada = vlDinheiroOuEntrada.replaceAll(",", ".");
-            vlDinheiroOuEntrada = parseFloat(vlDinheiroOuEntrada).toFixed(2);
-            if (isNaN(vlDinheiroOuEntrada)) {
-                vlDinheiroOuEntrada = 0;
+            var vlEntrada = $("#edtVlEntrada").val();
+            vlEntrada = vlEntrada.replaceAll(".", "");
+            vlEntrada = vlEntrada.replaceAll(",", ".");
+            vlEntrada = parseFloat(vlEntrada).toFixed(2);
+            if (isNaN(vlEntrada)) {
+                vlEntrada = 0;
             }
 
             qtdePrestacoes = parseFloat($("#edtNumeroPrestacoes").val());
@@ -194,10 +209,10 @@
             if (qtdePrestacoes == 0) {
                 tabelaPrestacoesCartao.clear();
             }
-            //se possuir numero de parcela, calcula as prestacoes com base no valorServico - valorEntrada
+            //se possuir numero de parcela, calcula as prestacoes com base no valorServico - valorEntrada -valordinheiro
             else {
 
-                let vlTotalAPagarParcelado = vlTotalServico - vlDinheiroOuEntrada;
+                let vlTotalAPagarParcelado = vlTotalServico - vlEntrada;
                 let vlParcelaUnitaria = parseFloat((vlTotalAPagarParcelado / qtdePrestacoes).toFixed(2)); //arredondar
 
                 let vlPrimeiraParcelaCorrigida = vlParcelaUnitaria + (vlTotalAPagarParcelado - (vlParcelaUnitaria * qtdePrestacoes));
@@ -208,13 +223,19 @@
                     if (n == 1) {
                         valorVez = vlPrimeiraParcelaCorrigida;
                     }
-                    valorVez = parseFloat(valorVez.toFixed(2));
+                    valorVez = valorVez.toFixed(2);
+                    var v = valorVez.replace(/\D/g, '');
+                    v = (v / 100).toFixed(2) + '';
+                    v = v.replace(".", ",");
+                    v = v.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
+                    v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+                    valorVez = v;
 
 
                     //pega um mes afrente
-                    dataParcela = new Date(dataParcela.getFullYear(), dataParcela.getMonth() + (n), dataParcela.getDate())                    
+                    dataParcela = new Date(dataParcela.getFullYear(), dataParcela.getMonth() + (n), dataParcela.getDate())
                     dataParcela = formatDateTime(dataParcela);
-                    
+
 
                     dataSet.push([
                         n,
@@ -292,44 +313,60 @@
             let tipoProcesso = StrToInt($("#cmbTipoProcesso").val());
 
             event.preventDefault();
-            OPConfirmar = true;
             msgConfirmacao = "";
 
             let vlTotalServico = StrToFloat($("#edtValorServico").val());
+            let vlEntrada = StrToFloat($("#edtVlEntrada").val());
 
             if (vlTotalServico == 0) {
-                msgConfirmacao += "Informe o valor do serviço<br>";
-                OPConfirmar = false;
+                msgConfirmacao += "Informe o valor do serviço.<br>";
             }
 
             if (tipoServico == 0) {
-                msgConfirmacao += "Informe o tipo do serviço<br>";
+                msgConfirmacao += "Informe o tipo do serviço.<br>";
             }
 
             if (tipoAcao == 0) {
-                OPConfirmar = false;
-                msgConfirmacao += "Informe o tipo da ação<br>";
+                msgConfirmacao += "Informe o tipo da ação.<br>";
             }
 
             if (tipoProcesso == 0) {
-                OPConfirmar = false;
-                msgConfirmacao += "Informe o tipo de processo<br>";
+                msgConfirmacao += "Informe o tipo de processo.<br>";
             }
 
+            let somaParcelas = 0;
+            tabelaPrestacoesCartao.data().each(function(value, index) {
+                valorParcela = tabelaPrestacoesCartao.cell(index, 2).nodes().to$().find('input').val();
+                somaParcelas += StrToFloat(valorParcela); //valor
+            });
 
-            if (OPConfirmar == false) {
+            if (vlEntrada + somaParcelas != vlTotalServico) {
+                msgConfirmacao += "Valor de serviço em aberto. <br> Total: " + formatFloat(vlTotalServico) +
+                    "<br> Entrada: " + formatFloat(vlEntrada) +
+                    "<br> Soma das parcelas: " + formatFloat(somaParcelas) + ".<br>";
+
+            }
+
+            if (tabelaPartesServico.data().count() == 0)
+                msgConfirmacao += "Informe pelo menos uma parte no processo.<br>";
+
+
+
+            if (msgConfirmacao != "") {
                 exibirCamposObrigatorios(msgConfirmacao);
             } else {
-                console.log();
-                
+
                 //monto o json para mandaar pro back
                 var objeto = new Object();
                 objeto.valorServico = vlTotalServico;
+                objeto.valorEntrada = vlEntrada;
                 objeto.tipoServico = tipoServico;
                 objeto.tipoAcao = tipoAcao;
                 objeto.tipoProcesso = tipoProcesso;
 
                 let dataSet = [];
+
+
 
                 tabelaPrestacoesCartao.data().each(function(value, index) {
                     dataVencimento = tabelaPrestacoesCartao.cell(index, 1).nodes().to$().find('input').val();
@@ -338,7 +375,7 @@
                     var novoObjeto = new Object();
                     novoObjeto.numParcela = tabelaPrestacoesCartao.cell(index, 0).data();
                     novoObjeto.dataVencimento = dataVencimento;
-                    novoObjeto.valor = tabelaPrestacoesCartao.cell(index, 2).nodes().to$().find('input').val();
+                    novoObjeto.valor = StrToFloat(tabelaPrestacoesCartao.cell(index, 2).nodes().to$().find('input').val());
                     novoObjeto.formaPagamento = tabelaPrestacoesCartao.cell(index, 3).nodes().to$().find('select').val();
                     novoObjeto.OPPago = tabelaPrestacoesCartao.cell(index, 4).nodes().to$().find('input').is(':checked');
 
@@ -346,29 +383,286 @@
                 });
                 objeto.prestacoesCartao = dataSet;
 
+
                 datasetPartesServico = [];
                 tabelaPartesServico.data().each(function(value, index) {
                     var objPartesServico = new Object();
                     objPartesServico.codigo = StrToInt(tabelaPartesServico.cell(index, 0).data());
                     objPartesServico.nome = tabelaPartesServico.cell(index, 1).data();
+                    objPartesServico.cpf = tabelaPartesServico.cell(index, 2).data();
+                    objPartesServico.rg = tabelaPartesServico.cell(index, 3).data();
                     datasetPartesServico.push(objPartesServico);
                 });
                 objeto.partesServico = datasetPartesServico;
 
-                var json = JSON.stringify(objeto);
-  
+                var json = JSON.stringify(objeto);                
 
-                $.ajax({
-                    url: '<?php echo base_url('ConfirmarNovoServico'); ?>',
-                    type: "POST",
-                    data: {
-                        MyData: json
+                let OPGerarContrato = exibirPergunta('Deseja gerar o contrato?', '', 'question');
+
+                OPGerarContrato.then(function(e) {
+                    if (e == true) {
+                        OPGerarContrato = exibirPergunta('Contrato de risco?', '', 'question');
+                        OPGerarContrato.then(function(e) {
+                            if (e == true) {
+                                OPGerarContrato = exibirInput('Informe a porcentagem (apenas números)', '', 'info');
+                                OPGerarContrato.then(function(e) {
+                                    objeto.porcentagemRiscoContrato = StrToFloat(e);
+                                    gerarContrato(objeto);
+                                });
+                            } else
+                                gerarContrato(objeto);
+                        });
+
                     }
-                }).done(function(resposta) {
-                    window.location.href = "http://localhost/ControleAdvocaciaV2";//voltar para a pagina inicial
+                    $.ajax({
+                        url: pegarRotaBack('servico/cadastrar'),
+                        contentType: 'application/json',
+                        data: json,
+                        type: 'post'
+                    }).done(function(resposta, status, response) {
+                        if (response.status != 200)
+                          exibirMensagem(resposta.titulo, resposta.message, resposta.tipo)
+                        else
+                        window.location.href = "http://localhost/ControleAdvocaciaV2";//voltar para a pagina inicial                        
+
+
+                    }).fail(function(jqXHR, status, err) {
+                        exibirMensagem('Erro!', 'Ocorreu um erro inesperado!' 'error');
+                    });
                 });
             }
         }
+
+
+        async function gerarContrato(json) {
+            async function calcularNewLine(texto) {
+                var qtdeLinha = pdf.splitTextToSize(texto, 169);
+                qtdeLinha = qtdeLinha.length;
+                return (qtdeLinha * pdf.getLineHeight() / 2.3);
+            }
+
+            const {
+                jsPDF
+            } = window.jspdf;
+            const pdf = new jsPDF();
+            const {
+                valorServico,
+                valorEntrada,
+                prestacoesCartao,
+                partesServico,
+                porcentagemRiscoContrato
+            } = json;
+
+            valorServicoExtenso = valorMonetarioPorExtenso(valorServico); //true para valor quebrados(centavos)
+            valorServicoMonetario = valorServico.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+
+            valorEntradaMonetario = valorEntrada.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+
+            let pagamento = "";
+            if (json.porcentagemRiscoContrato == undefined) { //contrato normal
+                pagamento += "no valor de ";
+                if (valorServico > 0) {
+                    pagamento = valorServicoMonetario + " (" + valorServicoExtenso + ")";
+                }
+                if (valorEntrada == valorServico)
+                    pagamento += ", já pagos " + valorEntradaMonetario
+                else if (valorEntrada > 0)
+                    pagamento += ", pagos " + valorEntradaMonetario + " iniciais ";
+                if (prestacoesCartao.length > 0) {
+                    pagamento += "e demais parcelas mensais e consecutivas a partir de " + formatDateTime(prestacoesCartao[0].dataVencimento, 'DD/MM/YY');
+                }
+            } else { //contrato de risco
+                pagamento = "o valor relativo a " + porcentagemRiscoContrato + "% " +
+                    "de todo o valor recebido ao final do processo, independentemente de título";
+            }
+
+
+            let stringPartesServico = "";
+            for (let i = 0; i < partesServico.length; i++) {
+                if (partesServico[i].codigo > 0) {
+                    if (stringPartesServico != "")
+                        stringPartesServico += ", ";
+                    stringPartesServico += partesServico[i].nome;
+                }
+            }
+
+            let margemEsquerda = 20;
+            let limiteLinha = 169;
+            let YPos = 29;
+            let texto = "";
+
+            await pdf.setFontSize(12);
+            await pdf.setFont('helvetica'); //sinonimo para Arial
+
+            //var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; //quintafeira, 22 de dezembro de 2333
+            let dataAtual = new Date();
+            let options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+            let formato = dataAtual.toLocaleString('pt-BR', options);
+
+
+            await pdf.text("São José dos Campos, " + formato + ".", margemEsquerda, YPos);
+            YPos = 48.5;
+            texto = "       Prezados Sr(s). " + stringPartesServico;
+            await pdf.text(texto, margemEsquerda, YPos, {
+                maxWidth: limiteLinha,
+                align: 'justify'
+            });
+            YPos += await calcularNewLine(texto) * 1.3;
+
+
+            texto = "       Cordiais saudações:";
+            await pdf.text(texto, margemEsquerda, YPos, {
+                maxWidth: limiteLinha,
+                align: 'justify'
+            });
+            YPos += await calcularNewLine(texto) * 2;
+
+
+            texto = "    Venho por meio desta, confirmar nossos atendimentos, segundo os quais estou disposta a " +
+                "prestar-lhe os meus serviços profissionais, consistentes nas ações: Embargos de Terceiro " +
+                "contra ação de Imissão de posse do imóvel sito Rua Benedito Henrique, 20, Campo dos Alemães. ";
+            await pdf.text(texto, margemEsquerda, YPos, {
+                maxWidth: limiteLinha,
+                align: 'justify'
+            });
+            YPos += await calcularNewLine(texto);
+
+
+
+            texto = "    Por tais serviços, V. S.a me pagará os honorários, certos e ajustados por esta carta com " +
+                "força de contrato, " + pagamento + ", sendo que os honorários de sucumbência também " +
+                "serão como definidos em lei, exclusivos do advogado.";
+
+            await pdf.text(texto, margemEsquerda, YPos, {
+                maxWidth: limiteLinha,
+                align: 'justify'
+            });
+            YPos += await calcularNewLine(texto);
+
+            texto = "   Caso haja desistência por parte do cliente, ou qualquer outro ato que venha perder o objeto " +
+                "da ação, ficará obrigado ao pagamento de honorários, à época do ato, no valor mínimo tabelado na " +
+                "OAB, independente do estado em que se encontrar a ação, ainda, importa destacar, que os honorários " +
+                "pactuados serão devidos, na ocorrência de outro advogado assumir as ações, seja por renúncia ou por rescisão.";
+            await pdf.text(texto, margemEsquerda, YPos, {
+                maxWidth: limiteLinha,
+                align: 'justify'
+            });
+            YPos += await calcularNewLine(texto) / 1.2;
+
+            texto = "   Fica pactuado que os herdeiros e sucessores se obrigarão a cumprir os termos desta minuta de contrato. ";
+            await pdf.text(texto, margemEsquerda, YPos, {
+                maxWidth: limiteLinha,
+                align: 'justify'
+            });
+            YPos += await calcularNewLine(texto);
+
+            texto = "   Estando V. S.a de acordo, e ciente que a presente contratação é serviço meio, onde " +
+                "a contratada não se responsabiliza pela decisão feita pelo magistrado, queira devolver-me " +
+                "a inclusa cópia, devidamente assinada e com o seu ACEITO.";
+            await pdf.text(texto, margemEsquerda, YPos, {
+                maxWidth: limiteLinha,
+                align: 'justify'
+            });
+            YPos += await calcularNewLine(texto);
+
+            texto = "       Sendo só para o momento, agradecendo a distinção de sua preferência e confiança, subscrevo-me, atenciosamente.";
+            await pdf.text(texto, margemEsquerda, YPos, {
+                maxWidth: limiteLinha,
+                align: 'justify'
+            });
+            YPos += await calcularNewLine(texto) * 2;
+
+
+            //assinaturas
+
+            let XPos = 140;
+            for (let i = 0; i < partesServico.length; i++) {
+                //so imprime no contrato se for cliente cadastrado
+                if (partesServico[i].codigo > 0) {
+                    //alterna entre esquerda e direita
+                    if (XPos == 140)
+                        XPos = 60
+                    else
+                        XPos = 140;
+
+                    yposicao = YPos;
+
+                    texto = "__________________________";
+                    await pdf.text(texto, XPos, YPos, {
+                        align: 'center'
+                    });
+                    YPos += await calcularNewLine(texto)
+
+                    texto = partesServico[i].nome;
+                    await pdf.text(texto, XPos, YPos, {
+                        align: 'center'
+                    });
+                    YPos += await calcularNewLine(texto)
+
+                    if (partesServico[i].cpf != "") {
+                        texto = "CPF nº " + partesServico[i].cpf; // nº 48545815";
+                        await pdf.text(texto, XPos, YPos, {
+                            align: 'center'
+                        });
+                        YPos += await calcularNewLine(texto);
+                    }
+
+
+                    if (partesServico[i].rg != "") {
+                        texto = "RG nº " + partesServico[i].rg; // nº 48545815";
+                        await pdf.text(texto, XPos, YPos, {
+                            align: 'center'
+                        });
+                        YPos += await calcularNewLine(texto);
+                    }
+
+
+                    YPos = yposicao;
+
+                    if (XPos == 140)
+                        YPos += 30;
+                }
+            } //fecha o for
+            if (XPos == 140)
+                XPos = 60
+            else
+                XPos = 140;
+
+            texto = "__________________________";
+            await pdf.text(texto, XPos, YPos, {
+                align: 'center'
+            });
+            YPos += await calcularNewLine(texto);
+
+            texto = 'TAIZ PRISCILA DA SILVA';
+            await pdf.text(texto, XPos, YPos, {
+                align: 'center'
+            });
+            YPos += await calcularNewLine(texto)
+
+            texto = "OAB/SP 335.199";
+            await pdf.text(texto, XPos, YPos, {
+                align: 'center'
+            });
+            YPos += await calcularNewLine(texto);
+
+
+
+
+            await pdf.output("dataurlnewwindow");
+        }
+
+
     });
 </script>
 
@@ -383,7 +677,7 @@
                         'class' => 'form-control',
                         'name' => 'cmbTipoServico',
                         'id' => 'cmbTipoServico',
-                        'autofocus' => 'true'                        
+                        'autofocus' => 'true'
                     ),
                     $tipoServico,
                     set_value('cmbTipoServico')
@@ -444,7 +738,7 @@
             </div>
             <div class="col-4">
                 <h4>Forma de pagamento</h4>
-                <button type="button" class="btn btn-primary" id="btnAbrirFormaPagamento" >
+                <button type="button" class="btn btn-primary" id="btnAbrirFormaPagamento">
                     Abrir
                 </button>
             </div>
@@ -484,9 +778,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-               
+
                 <a data-toggle="modal" href="#mdlAdicionarPartesProcessoSemCadastro" class="btn btn-warning">Sem cadastro</a>
-                <a data-toggle="modal" href="#mdlAdicionarPartesProcesso" class="btn btn-primary">Adicionar</a>                
+                <a data-toggle="modal" href="#mdlAdicionarPartesProcesso" class="btn btn-primary">Adicionar</a>
                 <a href="#" data-dismiss="modal" class="btn btn-secondary">Fechar</a>
             </div>
         </div>
@@ -563,13 +857,13 @@
                             <?php
                             echo form_input(
                                 array(
-                                    'id'  => 'edtVlDinheiro',
-                                    'name'  => 'edtVlDinheiro',
+                                    'id'  => 'edtVlEntrada',
+                                    'name'  => 'edtVlEntrada',
                                     'onKeyUp' => 'formatarMoeda(this);',
                                     'class' => 'form-control',
                                     'style' => 'text-align:right',
                                 ),
-                                set_value('edtVlDinheiro')
+                                set_value('edtVlEntrada')
                             );
                             ?>
                         </div>

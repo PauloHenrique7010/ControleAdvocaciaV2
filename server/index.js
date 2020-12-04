@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 
 const configuracao = require('./servicos/configuracaoServidor');
+const configuracoes = require('./routes/configuracoesServidor');
 
 const boleto = require("./routes/boleto");
 const funcoes = require("./routes/funcoes");
@@ -20,6 +21,7 @@ app.use(express.json());
 
 
 //Rotas
+app.use('/configuracoes',configuracoes);
 app.use('/boleto', boleto);
 app.use('/cliente',cliente);
 app.use('/contrato', contrato);
@@ -33,10 +35,6 @@ app.use('/tipoServico', tipoServico);
 
 process.env.versaoServidor = 1.0;
 configuracao.atualizarTabela();
-
-const cont = require('./controllers/contrato');
-cont.criarContrato();
-
 
 app.get('/', (req, res) => {
   res.send('Rota principal');

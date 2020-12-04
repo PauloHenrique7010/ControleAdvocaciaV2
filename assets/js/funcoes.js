@@ -275,7 +275,7 @@ function exibirCamposObrigatorios(texto) {
                 title: 'Verifique os campos abaixo!',
                 html: texto,
                 icon: 'warning',
-                confirmButtonText: 'ok'
+                confirmButtonText: 'OK'
         })
 };
 
@@ -301,6 +301,39 @@ function exibirMensagem(titulo, texto, tipo) {
         });
 };
 
+async function exibirPergunta(titulo, texto, tipo) {
+       const p = await Swal.fire({
+                title: titulo,
+                text: texto,
+                icon: tipo,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Não',
+                confirmButtonText: 'Sim'
+        });
+        return p.isConfirmed;
+}
+
+async function exibirInput(titulo, texto, tipo){
+        const p = await Swal.fire({
+                input: 'text',
+                inputAttributes: {
+                        autocapitalize: 'off'
+                      },
+                title: titulo,
+                text: texto,
+                icon: tipo,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'OK'
+        });
+        return p.value;
+        
+}
+
 function StrToInt(string) {
         string = parseInt(string);
         if (isNaN(string))
@@ -318,10 +351,51 @@ function StrToFloat(string) {
         return string;
 }
 
+function FloatToStr(float) {
+        return float.toString();
+}
+
+function valorMonetarioPorExtenso(float) {
+        //+ Carlos R. L. Rodrigues
+        //@ http://jsfromhell.com/string/extenso [rev. #3]
+        String.prototype.extenso = function (c) {
+                var ex = [
+                        ["zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"],
+                        ["dez", "vinte", "trinta", "quarenta", "cinqüenta", "sessenta", "setenta", "oitenta", "noventa"],
+                        ["cem", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"],
+                        ["mil", "milhão", "bilhão", "trilhão", "quadrilhão", "quintilhão", "sextilhão", "setilhão", "octilhão", "nonilhão", "decilhão", "undecilhão", "dodecilhão", "tredecilhão", "quatrodecilhão", "quindecilhão", "sedecilhão", "septendecilhão", "octencilhão", "nonencilhão"]
+                ];
+                var a, n, v, i, n = this.replace(c ? /[^.\d]/g : /\D/g, "").split("."), e = " e ", $ = "real", d = "centavo", sl;
+                for (var f = n.length - 1, l, j = -1, r = [], s = [], t = ""; ++j <= f; s = []) {
+                        j && (n[j] = (("." + n[j]) * 1).toFixed(2).slice(2));
+                        if (!(a = (v = n[j]).slice((l = v.length) % 3).match(/\d{3}/g), v = l % 3 ? [v.slice(0, l % 3)] : [], v = a ? v.concat(a) : v).length) continue;
+                        for (a = -1, l = v.length; ++a < l; t = "") {
+                                if (!(i = v[a] * 1)) continue;
+                                i % 100 < 20 && (t += ex[0][i % 100]) ||
+                                        i % 100 + 1 && (t += ex[1][(i % 100 / 10 >> 0) - 1] + (i % 10 ? e + ex[0][i % 10] : ""));
+                                s.push((i < 100 ? t : !(i % 100) ? ex[2][i == 100 ? 0 : i / 100 >> 0] : (ex[2][i / 100 >> 0] + e + t)) +
+                                        ((t = l - a - 2) > -1 ? " " + (i > 1 && t > 0 ? ex[3][t].replace("ão", "ões") : ex[3][t]) : ""));
+                        }
+                        a = ((sl = s.length) > 1 ? (a = s.pop(), s.join(" ") + e + a) : s.join("") || ((!j && (n[j + 1] * 1 > 0) || r.length) ? "" : ex[0][0]));
+                        a && r.push(a + (c ? (" " + (v.join("") * 1 > 1 ? j ? d + "s" : (/0{6,}$/.test(n[0]) ? "de " : "") + $.replace("l", "is") : j ? d : $)) : ""));
+                }
+                return r.join(e);
+        }
+
+        return FloatToStr(float).extenso(true);
+}
+
+function formatFloat(float){
+        return float.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+              });
+}
+
 function formatDateTime(dataInput) {
         if (dataInput == null)
-                return "";        
-        
+                return "";
+
         var data = new Date(dataInput),
                 dia = data.getDate().toString(),
                 diaF = (dia.length == 1) ? '0' + dia : dia,
@@ -386,8 +460,7 @@ function pularCampos() {
                         form = self.parents('form:eq(0)'),
                         focusable, next;
 
-                //se pressionar ctrl + enter, confirma o cadastro
-                console.log(e.ctrlKey + ' - ' + e.keyCode);
+                //se pressionar ctrl + enter, confirma o cadastro                
                 if (e.ctrlKey && e.keyCode == 13) {
                         $("#enviar").trigger('click');
                 } else if (e.keyCode == 13) {

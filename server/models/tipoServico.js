@@ -1,6 +1,7 @@
 const selectPromise = require('../servicos/select');
 const deletePromisse = require('../servicos/delete');
 const insertPromise = require('../servicos/insert');
+const updatePromise = require('../servicos/update');
 
 async function pesquisarTipoServico(filtro){
     pesquisa = "";
@@ -27,7 +28,7 @@ async function cadastrarTipoServico(nome){
 }
 
 async function alterarTipoServico(codigo, nome){
-    return await insertPromise("UPDATE tipo_servico set nome_tipo_servico ='"+nome+"' where cod_tipo_servico="+codigo);
+    return await updatePromise("UPDATE tipo_servico set nome_tipo_servico ='"+nome+"' where cod_tipo_servico="+codigo);
 }
 
 module.exports = {

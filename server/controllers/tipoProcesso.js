@@ -53,10 +53,8 @@ async function cadastrarTipoProcesso(req, res){
         } = req.body;
 
         
-        let resposta = await modelTipoProcesso.cadastrarTipoProcesso(nomeTipoProcesso);
-        console.log('resposta');
-        if (resposta){
-            
+        let resposta = await modelTipoProcesso.cadastrarTipoProcesso(nomeTipoProcesso);        
+        if (resposta > 0){            
             res.status(200).json({
                 "title": "Sucesso!",
                 "message": "Cadastrado!",
@@ -90,7 +88,7 @@ async function alterarTipoProcesso(req, res){
         
         let resposta = await modelTipoProcesso.alterarTipoProcesso(codTipoProcesso, nomeTipoProcesso);
         
-        if (resposta){
+        if (resposta > 0){
             
             res.status(200).json({
                 "title": "Sucesso!",

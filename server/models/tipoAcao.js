@@ -1,6 +1,7 @@
 const selectPromise = require('../servicos/select');
 const deletePromisse = require('../servicos/delete');
 const insertPromise = require('../servicos/insert');
+const updatePromise = require('../servicos/update');
 
 async function pesquisarTipoAcao(filtro){
     pesquisa = "";
@@ -26,9 +27,8 @@ async function cadastrarTipoAcao(nome){
     return await insertPromise("INSERT INTO tipo_acao (nome_tipo_acao) values ('"+nome+"')");    
 }
 
-async function alterarTipoAcao(codigo, nome){
-    console.log(codigo+' - '+nome);
-    return await insertPromise("UPDATE tipo_acao set nome_tipo_acao ='"+nome+"' where cod_tipo_acao="+codigo);
+async function alterarTipoAcao(codigo, nome){    
+    return await updatePromise("UPDATE tipo_acao set nome_tipo_acao ='"+nome+"' where cod_tipo_acao="+codigo);
 }
 
 module.exports = {

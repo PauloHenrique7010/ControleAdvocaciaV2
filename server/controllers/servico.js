@@ -85,7 +85,7 @@ async function darBaixaPagamento(req, res) {
     } = req.body;
 
     try {
-        let sucesso = await modelServicoPagamento.darBaixaPagamento(codigo);
+        let sucesso = await modelServico.darBaixaPagamento(codigo);
         if (sucesso.affectedRows > 0) 
             res.status(200).json({
                 "title":"Sucesso!",
@@ -106,10 +106,36 @@ async function darBaixaPagamento(req, res) {
 
 }
 
+async function cadastrarServico(req, res){
+    try {
+        let resposta = await modelServico.cadastrarServico(req.body);
+        if (resposta.OPSucesso) 
+            res.status(200).json({
+                "title":"Sucesso!",
+                "message":"Cadastrado!",
+                "tipo":"success"
+            });
+        else 
+            res.status(202).json({
+                "title":"Erro!",
+                "message":"<h4>Não foi possível concluir a operação devido ao seguinte erro:</h4> <br><br>"+resposta.message,
+                "tipo":'error'
+            });        
+
+    } catch (error) {
+        res.status(202).json({
+            "title": "Erro!",
+            "message": "<h4>Não foi possível concluir a operação devido ao seguinte erro:</h4> <br><br>" + error,
+            "tipo":"error"
+        });
+    }
+
+}
+
 module.exports = {
+    cadastrarServico,
     pesquisarServico,    
     pesquisarPagamento,
     darBaixaPagamento,
     pegarPartesServico
-
 }

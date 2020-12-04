@@ -66,32 +66,42 @@
       });
     });
 
-    $('#tabelaServicos').on('click', 'tbody tr .btnDarBaixa', function() {
+    $('#tabelaServicos').on('click', 'tbody tr .btnDarBaixa', function(e) {
       var itemEscolhido = tabelaServicos.row($(this)).data();
       itemEscolhido = tabelaServicos.row($(this).parents('tr')).data();
 
       var json = new Object();
       json.codigo = StrToInt(itemEscolhido[1]);
 
+      let OPPergunta = exibirPergunta('Deseja dar baixa no pagamento?', '', 'question');
+      let linha = $(this).parent().parent(); //pego a linha antes de ser excluida ??? na faz sentido.. mas se o bd excluir e o datatable tentar pegar.. ele n faz nada              
+      OPPergunta.then(function(resposta) {
+        if (resposta) {
+          $.ajax({
+            url: pegarRotaBack('servico/darBaixaPagamento'),
+            type: "post",
+            data: JSON.stringify(json),
+            contentType: 'application/json',
+          }).done(function(resposta, status, response) {
 
-      $.ajax({
-        url: pegarRotaBack('servico/darBaixaPagamento'),
-        type: "post",
-        data: JSON.stringify(json),
-        contentType: 'application/json',
-      }).done(function(resposta, status, response) {
+            let titulo = response.responseJSON.title;
+            let msg = response.responseJSON.message;
 
-        let titulo = response.responseJSON.title;
-        let msg = response.responseJSON.message;
+            if (response.status = 200) {
+              linha.fadeOut(500, function() {
+                tabelaServicos.row(linha).remove().draw();
+              });
 
-        if (response.status == 200) {
-          exibirMensagemSucesso(titulo, msg);
-        } else {
-          exibirMensagemAviso(titulo, msg);
+            } else {
+              exibirMensagemAviso(titulo, msg);
+            }
+
+          }).fail(function(jqXHR, status, err) {
+            exibirMensagem('ERRO', 'Servidor não encontrado', 'error');
+          });
         }
-      }).fail(function(jqXHR, status, err) {
-        exibirMensagemErro(jqXHR.responseJSON.title, jqXHR.responseJSON.message);
       });
+
     });
 
     let edtDtInicial = $("#edtDtInicial");
@@ -218,7 +228,7 @@
           title: 'Nº Parcela'
         },
         {
-          title: 'Data'
+          title: 'Vencim.'
         },
         {
           title: 'Valor'
@@ -265,7 +275,7 @@
       //apenas na primeira consulta ele tras o do mes
       if (primeiraConsulta) {
         dtInicial = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), 1);
-        dtFinal = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), dataAtual.getDate());
+        dtFinal = new Date(dataAtual.getFullYear(), dataAtual.getMonth() + 1, 0);
       }
 
       //se nao passar nenhuma data, ele pesquisa da primeira data do mes até a data atual
@@ -290,25 +300,37 @@
         var dataSet = [];
         //console.log(resposta);
         $.each(resposta.servicos, function(index, data) {
-          dataVencimentoFormatada = formatDateTime(data.data_vencimento);
-          dataPagoFormatado = formatDateTime(data.data_pago);         
+          let dataPagoFormatado, dataVencimentoFormatada, numeroParcela, codServicoPagamento, valor;
+
+          //data do vencimento
+          dataVencimentoFormatada = data.data_vencimento;                    
+          dataVencimentoFormatada = formatDateTime(dataVencimentoFormatada);
+
+          dataPagoFormatado = data.data_pago;          
+          dataPagoFormatado = formatDateTime(dataPagoFormatado);
+
+          valor = data.valor_parcela;
+          valor = valor.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+          });          
+          numeroParcela = data.numero_parcela;          
+          codServicoPagamento = data.cod_servico_pagamento;          
 
           dataSet.push([
             //Invisivel
             data.cod_servico,
-            data.cod_servico_pagamento,
+            codServicoPagamento,
             //invisivel
 
-            data.numero_parcela,
+            numeroParcela,
             dataVencimentoFormatada,
-            data.valor_parcela.toLocaleString('pt-BR', {
-              style: 'currency',
-              currency: 'BRL'
-            }),
+            valor,
+
             dataPagoFormatado,
             data.nomeParte,
-            '<button type="button" class="btn btn-warning btnBoleto">Boleto</button>' + '&nbsp;&nbsp;'+ //espaço entre os bt
-            '<button type="button" class="btn btn-success btnDarBaixa">Dar Baixa</button>' 
+            //'<button type="button" class="btn btn-warning btnBoleto">Boleto</button>' + '&nbsp;&nbsp;'+ //espaço entre os bt
+            '<button type="button" class="btn btn-success btnDarBaixa">Dar Baixa</button>'
             //'<button type="button" class="btn btn-info btnVerDetalhes" data-toggle="modal" data-target="#mdlDetalhesServico">Detalhes</button>'
           ]);
         });
@@ -364,74 +386,74 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-6 ml-4">              
+              <div class="col-6 ml-4">
                 <input class="form-check-input" type="checkbox" id="chcApenasEmAberto" checked="checked">
                 <label class="form-check-label" for="defaultCheck1">
                   Apenas em aberto
-                </label>                
+                </label>
               </div>
             </div>
-            </div>
+          </div>
           <div class="panel-footer"></div>
         </div>
+      </div>
+    </div>
+  </div>
+  <!-- Div collapse para os filtros -->
+
+  <div class="col-12">
+    <button type="button" id="btnAplicarFiltro" class="btn btn-success">Pesquisar</button>
+  </div>
+  <br>
+
+
+  <div class="col-12 tabela">
+    <table class="table table-hover table-striped" id="tabelaServicos">
+    </table>
+  </div>
+</div>
+
+
+
+<!-- modais -->
+<div class="modal fade" id="mdlDetalhesServico" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Detalhes do serviço</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+      <div class="container"></div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <!--<table class="table table-hover table-striped" id="tabelaDetalhesServico">--->
+            <table class="" id="tabelaDetalhesServico">
+            </table>
           </div>
         </div>
       </div>
-      <!-- Div collapse para os filtros -->
+      <div class="modal-footer">
 
-      <div class="col-12">
-        <button type="button" id="btnAplicarFiltro" class="btn btn-success">Pesquisar</button>
-      </div>
-      <br>
-
-
-      <div class="col-12 tabela">
-        <table class="table table-hover table-striped" id="tabelaServicos">
-        </table>
-      </div>
-    </div>
-
-
-
-    <!-- modais -->
-    <div class="modal fade" id="mdlDetalhesServico" tabindex="-1">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Detalhes do serviço</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          </div>
-          <div class="container"></div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-12">
-                <!--<table class="table table-hover table-striped" id="tabelaDetalhesServico">--->
-                <table class="" id="tabelaDetalhesServico">
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-
-            <!--<a data-toggle="modal" href="#mdlAdicionarPartesProcessoSemCadastro" class="btn btn-warning">Sem cadastro</a>
+        <!--<a data-toggle="modal" href="#mdlAdicionarPartesProcessoSemCadastro" class="btn btn-warning">Sem cadastro</a>
                 <a data-toggle="modal" href="#mdlAdicionarPartesProcesso" class="btn btn-primary">Adicionar</a>                -->
-            <a href="#" data-dismiss="modal" class="btn btn-danger">Fechar</a>
-          </div>
-        </div>
+        <a href="#" data-dismiss="modal" class="btn btn-danger">Fechar</a>
       </div>
     </div>
+  </div>
+</div>
 
 
-    <footer class="footer fixed-bottom">
+<footer class="footer fixed-bottom">
 
-      <!-- Copyright -->
-      <div class="footer-copyright text-center py-3">
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">
 
-        Feito por <b>Paulo Henrique</b> © 2020 Copyright:
-        <!--<a href="https://mdbootstrap.com/"> MDBootstrap.com</a>-->
-      </div>
-      <!-- Copyright -->
+    Feito por <b>Paulo Henrique</b> © 2020 Copyright:
+    <!--<a href="https://mdbootstrap.com/"> MDBootstrap.com</a>-->
+  </div>
+  <!-- Copyright -->
 
-    </footer>
+</footer>
 
-    <?php $this->load->view('rodape'); ?>
+<?php $this->load->view('rodape'); ?>

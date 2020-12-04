@@ -3,7 +3,7 @@ var confConexao = require('./conexao');
 
 var connection = mysql.createConnection(confConexao.conexao);
 
-const insertPromise = (insert) => {
+const updatePromise = (update) => {
 
     return new Promise((resolve, reject) => {
         //se nao possuir conexao, conecta
@@ -11,11 +11,11 @@ const insertPromise = (insert) => {
             connection.connect();
         }
 
-        connection.query(insert, function (err, result) {
-            if (err) return reject(err);
-            resolve(result.insertId);            
+        connection.query(update, function (err, result) {
+            if (err) return reject(err);            
+            resolve(result.affectedRows);            
           });
     })
 }
 
-module.exports = insertPromise;
+module.exports = updatePromise;

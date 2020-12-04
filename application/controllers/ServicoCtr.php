@@ -67,6 +67,7 @@ class ServicoCtr extends CI_Controller
 
         $servico = array(
             "valor_servico" => floatval ($phpObject->valorServico),
+            "valor_entrada" => floatval ($phpObject->valorEntrada),            
             "cod_tipo_servico" => $phpObject->tipoServico,
             "cod_tipo_processo" => $phpObject->tipoProcesso,
             "cod_tipo_acao" => $phpObject->tipoAcao,

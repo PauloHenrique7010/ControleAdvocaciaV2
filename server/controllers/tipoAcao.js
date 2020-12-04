@@ -90,7 +90,7 @@ async function alterarTipoAcao(req, res){
         
         let resposta = await modelTipoAcao.alterarTipoAcao(codTipoAcao, nomeTipoAcao);
         
-        if (resposta){
+        if (resposta > 0){
             
             res.status(200).json({
                 "title": "Sucesso!",

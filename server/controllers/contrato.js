@@ -1,58 +1,37 @@
 const { jsPDF } = require("jspdf"); // will automatically load the node version
+const extenso = require('numero-por-extenso');
+const funcoes = require('../servicos/funcoes');
+const fs = require('fs');
 
-    const pdf = new jsPDF();   
+
 async function criarContrato(req, res) {
- 
-
+    const pdf = new jsPDF();
+    //exclui o antigo
+    let caminho = "./tmp/a4.pdf";
+    //se o arquivo existir, apaga
+    /*if (fs.existsSync(caminho)){
+        await fs.unlink(caminho,function(err){
+            if(err) return console.log(err);
+            //console.log('file deleted successfully');
+       }); 
+    }*/
     
-
-    let margemEsquerda = 20;
-    let YPos = 29;
-    let texto = "";
-
-    pdf.setFontSize(12);
-    pdf.setFont('helvetica'); //sinonimo para Arial
-    pdf.text("São José dos Campos, 24 de outubro de 2020.", margemEsquerda, YPos);
-    YPos = 48.5;
-    texto = "       Prezados Srs. Raiane Lima Cavalcante, Paulo Oliveira Cavalcante, Maria Odete Lima Santos ";
-    pdf.text(texto, margemEsquerda, YPos, { maxWidth: 169, align: 'justify' });
-    YPos += await calcularNewLine(texto);
+    let dataAtual = new Date();
     
-    
-    texto = "       Cordiais saudações:";
-    pdf.text(texto, margemEsquerda, YPos, { maxWidth: 169, align: 'justify' });    
-    YPos += await calcularNewLine(texto)+5;
-
-        
-    texto = "    Venho por meio desta, confirmar nossos atendimentos, segundo os quais estou disposta a " +
-        "prestar-lhe os meus serviços profissionais, consistentes nas ações: Embargos de Terceiro " +
-        "contra ação de Imissão de posse do imóvel sito Rua Benedito Henrique, 20, Campo dos Alemães. ";
-    pdf.text(texto, margemEsquerda, YPos, { maxWidth: 169, align: 'justify' });
-    YPos += await calcularNewLine(texto);
-
-    texto = "    Por tais serviços, V. S.a me pagará os honorários, certos e ajustados por esta carta com " +
-        "força de contrato, no valor de R$ 7000,00 (sete mil reais), pagos R$ 500,00 iniciais e demais " +
-        "parcelas mensais e consecutivas a partir de 24/11, sendo que os honorários de sucumbência também " +
-        "serão como definidos em lei, exclusivos do advogado.";
-    pdf.text(texto, margemEsquerda, YPos, { maxWidth: 169, align: 'justify' });
-    YPos += await calcularNewLine(texto)-17;
-
-    texto = "   Caso haja desistência por parte do cliente, ou qualquer outro ato que venha perder o objeto "+
-            "da ação, ficará obrigado ao pagamento de honorários, à época do ato, no valor mínimo tabelado na "+
-            "OAB, independente do estado em que se encontrar a ação, ainda, importa destacar, que os honorários "+
-            "pactuados serão devidos, na ocorrência de outro advogado assumir as ações, seja por renúncia ou por rescisão.";
-    texto += "Fica pactuado que os herdeiros e sucessores se obrigarão a cumprir os termos desta minuta de contrato. ";
-    pdf.text(texto, margemEsquerda, YPos, { maxWidth: 169, align: 'justify' });
-    YPos += await calcularNewLine(texto)-17;
+    pdf.text(funcoes.formatDateTime(dataAtual, 'DD/MM/YYYY HH:MM:SS'),4,4);
+    pdf.text('kk',3,3);
 
 
-    pdf.save("./tmp/a4.pdf"); // will save the file in the current working directory
+    await pdf.save(caminho); // will save the file in the current working directory    
 
     res.send('kk');
 }
 
-async function calcularNewLine(texto){
-    return (texto.length / 100) * pdf.getLineHeight();
+
+async function calcularNewLine(texto) {
+    var qtdeLinha = pdf.splitTextToSize(texto, 169);
+    qtdeLinha = qtdeLinha.length;
+    return (qtdeLinha * pdf.getLineHeight() / 2.3);
 }
 
 module.exports = {

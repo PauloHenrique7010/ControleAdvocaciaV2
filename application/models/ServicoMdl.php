@@ -19,7 +19,7 @@ class ServicoMdl extends CI_Model
             $this->db->set('cod_servico', $codServico);
             $this->db->set('numero_parcela', $linha->numParcela);
             $this->db->set('data_vencimento', $linha->dataVencimento);
-            $this->db->set('valor_parcela', $linha->valor);
+            $this->db->set('valor_parcela', $linha->valor);            
             $this->db->set('cod_forma_pagamento', $linha->formaPagamento);
             if ($linha->OPPago == 'true')
               $this->db->set('data_pago', date('Y-m-d H:i:s'));

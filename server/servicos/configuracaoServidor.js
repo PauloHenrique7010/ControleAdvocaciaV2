@@ -34,8 +34,11 @@ async function atualizarTabelas() {
     await queryPromisse("ALTER TABLE CLIENTE ADD COLUMN IF NOT EXISTS cnpj varchar(30)");
     //await queryPromisse("CREATE TABLE teste(cod_teste int primary key)");
 
+    await queryPromisse("ALTER TABLE servico_pagamento add column if not exists valor_entrada Decimal(12,2)");
+    
+
     return true;
 }
 
 
-module.exports = { atualizarTabela };
+module.exports = { atualizarTabela, atualizarTabelas };

@@ -14,9 +14,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="<?php echo base_url("assets/js/funcoes.js"); ?>"></script>
 
-  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-
   <!-- datapicker -->
     <link href="<?php echo base_url("assets/js/datapicker/dist/css/datepicker.min.css"); ?>" rel="stylesheet" type="text/css">
     <script src="<?php echo base_url("assets/js/datapicker/dist/js/datepicker.min.js"); ?>"></script>

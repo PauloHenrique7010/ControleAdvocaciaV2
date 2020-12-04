@@ -55,7 +55,7 @@ async function cadastrarTipoServico(req, res){
         
         let resposta = await modelTipoServico.cadastrarTipoServico(nomeTipoServico);
         console.log('resposta');
-        if (resposta){
+        if (resposta > 0){
             
             res.status(200).json({
                 "title": "Sucesso!",

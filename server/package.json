@@ -22,13 +22,14 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
+    "express": "^4.17.1",    
     "gerar-boletos": "^1.4.5",
     "html-pdf": "^2.2.0",
     "jspdf": "^2.1.1",
     "moment": "^2.29.1",
     "mysql": "^2.18.1",
     "node-boleto": "^2.1.1",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "numero-por-extenso": "^1.0.8"
   }
 }

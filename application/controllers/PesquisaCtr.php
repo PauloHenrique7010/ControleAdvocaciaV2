@@ -81,7 +81,7 @@ class PesquisaCtr extends CI_Controller
 
     public function cliente(){
         $pesquisa = $this->input->get('pesquisa');
-        $sql = "SELECT c.cod_cliente, c.nome_cliente, c.cpf from cliente c ";
+        $sql = "SELECT c.cod_cliente, c.nome_cliente, c.cpf, c.rg from cliente c ";
         if ($pesquisa != ""){
             $sql.="WHERE c.nome_cliente like '%".$pesquisa."%'";
         }

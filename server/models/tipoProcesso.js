@@ -1,6 +1,7 @@
 const selectPromise = require('../servicos/select');
 const deletePromisse = require('../servicos/delete');
 const insertPromise = require('../servicos/insert');
+const updatePromise = require('../servicos/update');
 
 async function pesquisarTipoProcesso(filtro){
     pesquisa = "";
@@ -27,7 +28,7 @@ async function cadastrarTipoProcesso(nome){
 }
 
 async function alterarTipoProcesso(codigo, nome){
-    return await insertPromise("UPDATE tipo_processo set nome_tipo_processo ='"+nome+"' where cod_tipo_processo="+codigo);
+    return await updatePromise("UPDATE tipo_processo set nome_tipo_processo ='"+nome+"' where cod_tipo_processo="+codigo);    
 }
 
 module.exports = {
