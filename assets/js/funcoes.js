@@ -407,10 +407,10 @@ function formatDateTime(dataInput) {
         return diaF + "/" + mesF + "/" + anoF;
 }
 
-function StrToDate(string) {
+function StrToDate(string) {        
         if (validaData(string)) {
                 let novaData = string.split('/');
-                novaData = new Date(novaData[2], novaData[1] - 1, novaData[0]);
+                novaData = new Date(novaData[2], novaData[1] - 1, novaData[0]);                
                 return novaData;
         }
         else {

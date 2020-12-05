@@ -42,7 +42,6 @@ async function pesquisarServico(filtros) {
         pesquisa = "WHERE " + pesquisa;
     }
 
-
     return await selectPromise('select * from servico ' + pesquisa);
 }
 
@@ -123,7 +122,7 @@ async function pesquisarPagamento(filtros) {
         pesquisa = "WHERE " + pesquisa;
     }
 
-
+   
     return await selectPromise('select s.cod_servico, ' +
         's.valor_servico, ' +
         'sc.valor_entrada, ' +
@@ -132,8 +131,8 @@ async function pesquisarPagamento(filtros) {
         'sc.data_vencimento, ' +
         'sc.cod_servico_pagamento, ' +
         'sc.data_pago ' +
-        'from servico s ' +
-        'left join servico_pagamento sc on s.cod_servico = sc.cod_servico ' + pesquisa + ' ' +
+        'from servico_pagamento sc ' +
+        'left join servico s on s.cod_servico = sc.cod_servico ' + pesquisa + ' ' +
         'order by sc.data_vencimento ');
 }
 
@@ -188,7 +187,7 @@ async function cadastrarServico(json) {
                 //  Begin transaction 
                 connection.beginTransaction(function (err) {
                     if (err) { return (err); }
-
+                    let log;
                     SQL = "INSERT INTO servico (data_criado, cod_tipo_servico, cod_tipo_processo, cod_tipo_acao, valor_servico) " +
                         "values (date(now())," + tipoServico + ", " + tipoProcesso + ", " + tipoAcao + ", " + valorServico + ");";
                     connection.query(SQL, function (err, result) {
@@ -200,10 +199,8 @@ async function cadastrarServico(json) {
                                 resolve(resposta);
                             });
                         }
-                        let log = result.insertId;
-
-
-
+                        else
+                            log = result.insertId;
 
                         if (prestacoesCartao.length == 0){
                             objPagoAVista = new Object();
@@ -213,11 +210,7 @@ async function cadastrarServico(json) {
                             objPagoAVista.formaPagamento = 1;
                             objPagoAVista.OPPago = true;
                             objPagoAVista.valorEntrada = valorServico;
-
-
-
-                            prestacoesCartao.push(objPagoAVista);                             
-                            
+                            prestacoesCartao.push(objPagoAVista);     
                         }
 
 
@@ -226,7 +219,7 @@ async function cadastrarServico(json) {
                         let pago = "";
                         for (let i = 0; i < prestacoesCartao.length; i++) {
                             dataVencimento = funcoes.formatDateTime(prestacoesCartao[i].dataVencimento, 'YYYY-MM-DD');
-                            pago = "''";
+                            pago = "null";
                             if (prestacoesCartao[i].OPPago) {
                                 pago = "date(now())";
                             }

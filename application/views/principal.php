@@ -287,7 +287,7 @@
       if ($("#chcApenasEmAberto").is(':checked')) {
         OPApenasEmAberto = true;
       }
-
+      
       var filtro = new Object();
       filtro.dtInicial = dtInicial;
       filtro.dtFinal = dtFinal;

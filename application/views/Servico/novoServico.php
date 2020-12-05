@@ -423,11 +423,11 @@
                         if (response.status != 200)
                           exibirMensagem(resposta.titulo, resposta.message, resposta.tipo)
                         else
-                        window.location.href = "http://localhost/ControleAdvocaciaV2";//voltar para a pagina inicial                        
+                            window.location.href = "http://localhost/ControleAdvocaciaV2";//voltar para a pagina inicial                        
 
 
                     }).fail(function(jqXHR, status, err) {
-                        exibirMensagem('Erro!', 'Ocorreu um erro inesperado!' 'error');
+                        exibirMensagem('Erro!', 'Ocorreu um erro inesperado!','error');
                     });
                 });
             }

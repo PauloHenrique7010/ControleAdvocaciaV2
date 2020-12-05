@@ -21,20 +21,23 @@ class ServicoCtr extends CI_Controller
 
     public function novoServico()
     {
+        unset($arrayCobaia);
         $registros = buscarTodosRegistrosTabela('tipo_servico');
         $arrayCobaia[0] = "";
         foreach ($registros as $key => $value) {
             $arrayCobaia[$value->cod_tipo_servico] = $value->nome_tipo_servico;
         }
-        $dados['tipoServico'] = $arrayCobaia;
+        $dados['tipoServico'] = $arrayCobaia;        
 
+        unset($arrayCobaia);
         $registros = buscarTodosRegistrosTabela('tipo_processo');
         $arrayCobaia[0] = "";
         foreach ($registros as $key => $value) {
             $arrayCobaia[$value->cod_tipo_processo] = $value->nome_tipo_processo;
         }
-        $dados['tipoProcesso'] = $arrayCobaia;
+        $dados['tipoProcesso'] = $arrayCobaia;        
 
+        unset($arrayCobaia);
         $registros = buscarTodosRegistrosTabela('tipo_acao');
         $arrayCobaia[0] = "";
         foreach ($registros as $key => $value) {
@@ -42,6 +45,7 @@ class ServicoCtr extends CI_Controller
         }
         $dados['tipoAcao'] = $arrayCobaia;
 
+        unset($arrayCobaia);
         $registros = buscarTodosRegistrosTabela('forma_pagamento');
         $arrayCobaia[0] = "";
         foreach ($registros as $key => $value) {
