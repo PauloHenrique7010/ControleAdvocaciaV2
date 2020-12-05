@@ -24,7 +24,7 @@
 
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <!-- Brand -->
-    <a class="navbar-brand" href="<?php echo base_url(); ?>">Home</a>
+    <a class="navbar-brand" href="<?php echo base_url(); ?>">Principal</a>
     <!-- Links -->
     <ul class="navbar-nav">
       <!-- Dropdown -->

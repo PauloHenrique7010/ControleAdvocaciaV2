@@ -306,7 +306,7 @@
             Confirmar(e);
         });
 
-        function Confirmar(event) {
+        async function Confirmar(event) {
             //declara todas as variaveis 
             let tipoServico = StrToInt($("#cmbTipoServico").val());
             let tipoAcao = StrToInt($("#cmbTipoAcao").val());
@@ -336,9 +336,10 @@
 
             let somaParcelas = 0;
             tabelaPrestacoesCartao.data().each(function(value, index) {
-                valorParcela = tabelaPrestacoesCartao.cell(index, 2).nodes().to$().find('input').val();
-                somaParcelas += StrToFloat(valorParcela); //valor
+                valorParcela = StrToFloat(tabelaPrestacoesCartao.cell(index, 2).nodes().to$().find('input').val());
+                somaParcelas += valorParcela; //valor
             });
+            somaParcelas = parseFloat(somaParcelas.toFixed(2));
 
             if (vlEntrada + somaParcelas != vlTotalServico) {
                 msgConfirmacao += "Valor de serviço em aberto. <br> Total: " + formatFloat(vlTotalServico) +
@@ -395,44 +396,43 @@
                 });
                 objeto.partesServico = datasetPartesServico;
 
-                var json = JSON.stringify(objeto);                
-
-                let OPGerarContrato = exibirPergunta('Deseja gerar o contrato?', '', 'question');
-
-                OPGerarContrato.then(function(e) {
-                    if (e == true) {
-                        OPGerarContrato = exibirPergunta('Contrato de risco?', '', 'question');
-                        OPGerarContrato.then(function(e) {
-                            if (e == true) {
-                                OPGerarContrato = exibirInput('Informe a porcentagem (apenas números)', '', 'info');
-                                OPGerarContrato.then(function(e) {
-                                    objeto.porcentagemRiscoContrato = StrToFloat(e);
-                                    gerarContrato(objeto);
-                                });
-                            } else
-                                gerarContrato(objeto);
-                        });
-
-                    }
-                    $.ajax({
-                        url: pegarRotaBack('servico/cadastrar'),
-                        contentType: 'application/json',
-                        data: json,
-                        type: 'post'
-                    }).done(function(resposta, status, response) {
-                        if (response.status != 200)
-                          exibirMensagem(resposta.titulo, resposta.message, resposta.tipo)
-                        else
-                            window.location.href = "http://localhost/ControleAdvocaciaV2";//voltar para a pagina inicial                        
+                var json = JSON.stringify(objeto);
 
 
-                    }).fail(function(jqXHR, status, err) {
-                        exibirMensagem('Erro!', 'Ocorreu um erro inesperado!','error');
-                    });
+                let OPGerarContrato = await exibirPergunta('Deseja gerar o contrato?', '', 'question');
+                
+                if (OPGerarContrato) {
+
+                    OPGerarContrato = await exibirPergunta('Contrato de risco?', '', 'question');
+                    if (OPGerarContrato == true) {
+                        porcentagem = await exibirInput('Informe a porcentagem (apenas números)', '', 'info');
+                        objeto.porcentagemRiscoContrato = StrToFloat(porcentagem);
+                        gerarContrato(objeto);
+
+                    } else
+                        gerarContrato(objeto);
+                }
+                
+                
+                $.ajax({
+                    url: pegarRotaBack('servico/cadastrar'),
+                    contentType: 'application/json',
+                    data: json,
+                    type: 'post'
+                }).done(function(resposta, status, response) {
+                    if (response.status != 200)
+                      exibirMensagem(resposta.titulo, resposta.message, resposta.tipo)
+                    else
+                        window.location.href = "http://localhost/ControleAdvocaciaV2";//voltar para a pagina inicial                        
+
+
+                }).fail(function(jqXHR, status, err) {
+                    exibirMensagem('Erro!', 'Ocorreu um erro inesperado!','error');
                 });
+
+
             }
         }
-
 
         async function gerarContrato(json) {
             async function calcularNewLine(texto) {

@@ -377,6 +377,7 @@
             </div>
             <div class="row">
               <div class="col-6">
+              <div class="col-6">
                 <label> Data Inicial </label>
                 <input type='text' class="form-control dtpDtInicial" id="edtDtInicial" maxlength="10" onKeyPress="MascaraData(this)" data-position='bottom right' />
               </div>
@@ -384,6 +385,9 @@
                 <label> Data Inicial </label>
                 <input type='text' class="form-control dtpDtFinal" id="edtDtFinal" maxlength="10" onKeyPress="MascaraData(this)" data-position='bottom right' />
               </div>
+              
+              </div>
+              
             </div>
             <div class="row">
               <div class="col-6 ml-4">
@@ -444,16 +448,11 @@
 </div>
 
 
+<!--
 <footer class="footer fixed-bottom">
-
-  <!-- Copyright -->
   <div class="footer-copyright text-center py-3">
-
     Feito por <b>Paulo Henrique</b> © 2020 Copyright:
-    <!--<a href="https://mdbootstrap.com/"> MDBootstrap.com</a>-->
   </div>
-  <!-- Copyright -->
-
-</footer>
+</footer>-->
 
 <?php $this->load->view('rodape'); ?>
