@@ -7,6 +7,7 @@ async function pesquisarServico(req, res) {
     for (const linha of registros) {
         const partes = await modelServico.pegarPartesServico(linha.cod_servico);
         //linha.partesServico = partes; //coloca tudo que vier no partesserivoc
+       
 
         array = [];
         for (const linha1 of partes) {

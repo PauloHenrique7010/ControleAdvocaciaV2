@@ -267,7 +267,6 @@
     });
 
     pesquisarServico();
-
     function pesquisarServico(primeiraConsulta = true) {
       let dataAtual = new Date();
       let dtInicial, dtFinal;
@@ -287,10 +286,10 @@
       if ($("#chcApenasEmAberto").is(':checked')) {
         OPApenasEmAberto = true;
       }
-      
 
 
-      console.log(dtInicial + ' - '+dtFinal);
+
+      console.log(dtInicial + ' - ' + dtFinal);
       var filtro = new Object();
       filtro.dtInicial = dtInicial;
       filtro.dtFinal = dtFinal;
@@ -306,19 +305,19 @@
           let dataPagoFormatado, dataVencimentoFormatada, numeroParcela, codServicoPagamento, valor;
 
           //data do vencimento
-          dataVencimentoFormatada = data.data_vencimento;                    
+          dataVencimentoFormatada = data.data_vencimento;
           dataVencimentoFormatada = formatDateTime(dataVencimentoFormatada);
 
-          dataPagoFormatado = data.data_pago;          
+          dataPagoFormatado = data.data_pago;
           dataPagoFormatado = formatDateTime(dataPagoFormatado);
 
           valor = data.valor_parcela;
           valor = valor.toLocaleString('pt-BR', {
             style: 'currency',
             currency: 'BRL'
-          });          
-          numeroParcela = data.numero_parcela;          
-          codServicoPagamento = data.cod_servico_pagamento;          
+          });
+          numeroParcela = data.numero_parcela;
+          codServicoPagamento = data.cod_servico_pagamento;
 
           dataSet.push([
             //Invisivel
@@ -380,17 +379,17 @@
             </div>
             <div class="row">
               <div class="col-6">
-              <div class="col-6">
-                <label> Data Inicial </label>
-                <input type='text' class="form-control dtpDtInicial" id="edtDtInicial" maxlength="10" onKeyPress="MascaraData(this)" data-position='bottom right' />
+                <div class="col-6">
+                  <label> Data Inicial </label>
+                  <input type='text' class="form-control dtpDtInicial" id="edtDtInicial" maxlength="10" onKeyPress="MascaraData(this)" data-position='bottom right' />
+                </div>
+                <div class="col-6">
+                  <label> Data Inicial </label>
+                  <input type='text' class="form-control dtpDtFinal" id="edtDtFinal" maxlength="10" onKeyPress="MascaraData(this)" data-position='bottom right' />
+                </div>
+
               </div>
-              <div class="col-6">
-                <label> Data Inicial </label>
-                <input type='text' class="form-control dtpDtFinal" id="edtDtFinal" maxlength="10" onKeyPress="MascaraData(this)" data-position='bottom right' />
-              </div>
-              
-              </div>
-              
+
             </div>
             <div class="row">
               <div class="col-6 ml-4">

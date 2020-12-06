@@ -387,7 +387,6 @@ function valorMonetarioPorExtenso(float) {
 }
 
 function formatFloat(float) {
-        
         float = float.toFixed(2);
         var v = float.replace(/\D/g, '');
         v = (v / 100).toFixed(2) + '';
@@ -417,7 +416,7 @@ function formatDateTime(dataInput) {
         return diaF + "/" + mesF + "/" + anoF;
 }
 
-function StrToDate(string) {        
+function StrToDate(string) {
         if (validaData(string)) {
                 let novaData = string.split('/');
                 novaData = new Date(novaData[2], novaData[1] - 1, novaData[0]);
@@ -460,8 +459,15 @@ function formatarMoeda(i) {
         i.value = v;
 }
 
+//https://qastack.com.br/programming/5800927/how-to-identify-server-ip-address-in-php
 function pegarRotaBack(rota) {
-        return "http://localhost:8020/" + rota;
+        /*let caminho = './server/tmp/IP.txt';
+        $.get(caminho, function (conteudoDoArquivo) {                
+                return "http://"+conteudoDoArquivo+":8020/" + rota; 
+        }).fail(function (error){
+                exibirMensagem('Erro!','Arquivo não encontrado no caminho informado: '+caminho,'error');
+        });*/
+        return "http://192.168.0.20:8020/" + rota; 
 }
 
 function pularCampos() {

@@ -8,7 +8,13 @@ class PrincipalCtr extends CI_Controller {
 
     public function Index(){
         //metodo padrão do controller
-        $dados['tituloGuia'] = 'Controle Advocacia';
+        $dados['tituloGuia'] = 'Controle Advocacia';                
+        //Caso precise do IP SERVIDOR
+        /*
+        $host= gethostname();
+        $ip = gethostbyname($host);
+        echo $ip;*/
+        
         $this->load->view('principal',$dados);
     }
     
