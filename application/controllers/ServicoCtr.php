@@ -14,13 +14,12 @@ class ServicoCtr extends CI_Controller
     }
 
     public function Index()
-    {
-        $dados = [];
+    {        
+        $dados['tituloGuia'] = 'Serviços';
         $this->load->view('Servico/cadastroServico', $dados);
     }
 
-    public function novoServico()
-    {
+    public function novoServico($codigo = 0){
         unset($arrayCobaia);
         $registros = buscarTodosRegistrosTabela('tipo_servico');
         $arrayCobaia[0] = "";
@@ -53,8 +52,11 @@ class ServicoCtr extends CI_Controller
         }
         $dados['formasPagamento'] = $arrayCobaia;
 
-
         $dados['tituloGuia'] = 'Novo Serviço';
+        if ($codigo > 0){
+            $dados['codigoCadastro'] = $codigo;
+            $dados['tituloGuia'] = 'Visualizar serviço';
+        }
         $this->load->view('Servico/novoServico', $dados);
     }
 

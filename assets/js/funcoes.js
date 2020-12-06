@@ -1,3 +1,4 @@
+
 /* Máscaras ER */
 function mascara(o, f) {
         v_obj = o
@@ -73,7 +74,7 @@ function ValidaCep(cep) {
 
 //valida data
 function validaData(data) {
-        var RegExPattern = /^((((0?[1-9]|[12]\d|3[01])[\.\-\/](0?[13578]|1[02])      [\.\-\/]((1[6-9]|[2-9]\d)?\d{2}))|((0?[1-9]|[12]\d|30)[\.\-\/](0?[13456789]|1[012])[\.\-\/]((1[6-9]|[2-9]\d)?\d{2}))|((0?[1-9]|1\d|2[0-8])[\.\-\/]0?2[\.\-\/]((1[6-9]|[2-9]\d)?\d{2}))|(29[\.\-\/]0?2[\.\-\/]((1[6-9]|[2-9]\d)?(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00)|00)))|(((0[1-9]|[12]\d|3[01])(0[13578]|1[02])((1[6-9]|[2-9]\d)?\d{2}))|((0[1-9]|[12]\d|30)(0[13456789]|1[012])((1[6-9]|[2-9]\d)?\d{2}))|((0[1-9]|1\d|2[0-8])02((1[6-9]|[2-9]\d)?\d{2}))|(2902((1[6-9]|[2-9]\d)?(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00)|00))))$/;
+        var RegExPattern = /^((((0?[1-9]|[12]\d|3[01])[\.\-\/](0?[13578]|1[02])      [\.\-\/]((1[6-9]|[2-9]\d)?\d{2}))|((0?[1-9]|[12]\d|31)[\.\-\/](0?[13456789]|1[012])[\.\-\/]((1[6-9]|[2-9]\d)?\d{2}))|((0?[1-9]|1\d|2[0-8])[\.\-\/]0?2[\.\-\/]((1[6-9]|[2-9]\d)?\d{2}))|(29[\.\-\/]0?2[\.\-\/]((1[6-9]|[2-9]\d)?(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00)|00)))|(((0[1-9]|[12]\d|3[01])(0[13578]|1[02])((1[6-9]|[2-9]\d)?\d{2}))|((0[1-9]|[12]\d|31)(0[13456789]|1[012])((1[6-9]|[2-9]\d)?\d{2}))|((0[1-9]|1\d|2[0-8])02((1[6-9]|[2-9]\d)?\d{2}))|(2902((1[6-9]|[2-9]\d)?(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00)|00))))$/;
         if (!((data.match(RegExPattern)) && (data != ''))) {
                 return false;
         }
@@ -302,7 +303,7 @@ function exibirMensagem(titulo, texto, tipo) {
 };
 
 async function exibirPergunta(titulo, texto, tipo) {
-       const p = await Swal.fire({
+        const p = await Swal.fire({
                 title: titulo,
                 text: texto,
                 icon: tipo,
@@ -315,12 +316,12 @@ async function exibirPergunta(titulo, texto, tipo) {
         return p.isConfirmed;
 }
 
-async function exibirInput(titulo, texto, tipo){
+async function exibirInput(titulo, texto, tipo) {
         const p = await Swal.fire({
                 input: 'text',
                 inputAttributes: {
                         autocapitalize: 'off'
-                      },
+                },
                 title: titulo,
                 text: texto,
                 icon: tipo,
@@ -331,7 +332,7 @@ async function exibirInput(titulo, texto, tipo){
                 confirmButtonText: 'OK'
         });
         return p.value;
-        
+
 }
 
 function StrToInt(string) {
@@ -385,11 +386,20 @@ function valorMonetarioPorExtenso(float) {
         return FloatToStr(float).extenso(true);
 }
 
-function formatFloat(float){
-        return float.toLocaleString('pt-BR', {
+function formatFloat(float) {
+        
+        float = float.toFixed(2);
+        var v = float.replace(/\D/g, '');
+        v = (v / 100).toFixed(2) + '';
+        v = v.replace(".", ",");
+        v = v.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
+        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+        float = v;
+        return float;
+        /*return float.toLocaleString('pt-BR', {
                 style: 'currency',
                 currency: 'BRL'
-              });
+              });*/
 }
 
 function formatDateTime(dataInput) {
@@ -410,7 +420,7 @@ function formatDateTime(dataInput) {
 function StrToDate(string) {        
         if (validaData(string)) {
                 let novaData = string.split('/');
-                novaData = new Date(novaData[2], novaData[1] - 1, novaData[0]);                
+                novaData = new Date(novaData[2], novaData[1] - 1, novaData[0]);
                 return novaData;
         }
         else {

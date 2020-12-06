@@ -18,7 +18,7 @@ class AdminCtr extends CI_Controller {
 
     public function Banco(){
         $dados['registros'] = $this->banco_model->selectBanco();
-
+        $dados['subMenuAtivo'] = 'banco';
         $this->load->view('Administrador/cadastroBanco',$dados);   
     }
 
@@ -36,6 +36,7 @@ class AdminCtr extends CI_Controller {
 
     public function Profissao(){
         $dados['tituloGuia'] = 'Cadastro profissão';
+        $dados['subMenuAtivo'] = 'profissao';
         $dados['registros'] = $this->profissao_model->selectProfissao();
         $this->load->view('Administrador/cadastroProfissao',$dados);
     }
@@ -54,6 +55,7 @@ class AdminCtr extends CI_Controller {
             }
         }
 
+        $dados['subMenuAtivo'] = 'profissao';
         $dados['tituloGuia'] = 'Cadastrar profissão';
         $this->load->view('Administrador/novoProfissao',$dados);        
     }
@@ -87,6 +89,7 @@ class AdminCtr extends CI_Controller {
             }
         }
         
+        $dados['subMenuAtivo'] = 'profissao';
         $dados['tituloGuia'] = 'Alterar profissão';
         $this->load->view('Administrador/AlterarProfissao',$dados);           
     }
@@ -100,6 +103,7 @@ class AdminCtr extends CI_Controller {
 
     public function OrgaoClasse(){
         $dados['tituloGuia'] = 'Cadastro orgão classe';
+        $dados['subMenuAtivo'] = 'orgaoClasse';
         $dados['registros'] = $this->orgao_classe_model->selectOrgaoClasse();
         $this->load->view('Administrador/cadastroOrgaoClasse',$dados);
     }
@@ -119,6 +123,7 @@ class AdminCtr extends CI_Controller {
         }
 
         $dados['tituloGuia'] = 'Novo orgão classe';
+        $dados['subMenuAtivo'] = 'orgaoClasse';
         $this->load->view('Administrador/novoOrgaoClasse',$dados);
     }
 
@@ -140,7 +145,7 @@ class AdminCtr extends CI_Controller {
                 redirect('Admin/OrgaoClasse','refresh');
             }
         }
-        
+        $dados['subMenuAtivo'] = 'orgaoClasse';
         $dados['tituloGuia'] = 'Alterar orgão classe';
         $this->load->view('Administrador/alterarOrgaoClasse',$dados); 
     }   
@@ -159,6 +164,7 @@ class AdminCtr extends CI_Controller {
     public function estadoCivil(){
         $dados['tituloGuia'] = 'Cadastro estado civil';
         $dados['registros'] = $this->estado_civil_model->selectEstadoCivil();
+        $dados['subMenuAtivo'] = 'estadoCivil';
         $this->load->view('Administrador/cadastroEstadoCivil',$dados);
     }
 
@@ -177,6 +183,7 @@ class AdminCtr extends CI_Controller {
         }
 
         $dados['tituloGuia'] = 'Novo estado civil';
+        $dados['subMenuAtivo'] = 'estadoCivil';
         $this->load->view('Administrador/novoEstadoCivil',$dados);
     }
 
@@ -199,6 +206,7 @@ class AdminCtr extends CI_Controller {
             }
         }
         
+        $dados['subMenuAtivo'] = 'estadoCivil';
         $dados['tituloGuia'] = 'Alterar estado civil';
         $this->load->view('Administrador/alterarEstadoCivil',$dados); 
     } 
@@ -315,6 +323,7 @@ class AdminCtr extends CI_Controller {
         }
         
         $dados['tituloGuia'] = 'Alterar foro';
+
         $this->load->view('Administrador/alterarForo',$dados); 
     } 
 
@@ -416,11 +425,13 @@ class AdminCtr extends CI_Controller {
 
     public function FormaPagamento(){
         $dados['tituloGuia'] = 'Forma pagamento';
+        $dados['subMenuAtivo'] = 'formaPagamento';
         $this->load->view('Administrador/cadastroFormaPagamento',$dados);  
     }
 
     public function NovoFormaPagamento($codigo = 0){
         $dados['tituloGuia'] = 'Novo Forma pagamento';
+        $dados['subMenuAtivo'] = 'formaPagamento';
         if ($codigo > 0){
             $dados['codFormaPagamento'] = $codigo;
             $dados['tituloGuia'] = 'Alterar Forma pagamento';

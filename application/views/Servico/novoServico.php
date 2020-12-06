@@ -28,6 +28,77 @@
         });
 
 
+
+        let OPCadastro = "N";
+        var codServico = 0;
+        var URLAtual = window.location.href;
+
+        //se nao for um cadastro novo, preenche o campo
+        if (URLAtual.indexOf("Novo") == -1) {
+            OPCadastro = "A";
+            codServico = <?php if (isset($codigoCadastro)) echo $codigoCadastro;
+                            else echo "0" ?>;
+            $("#enviar").remove();
+
+
+
+
+            var filtro = new Object();
+            filtro.codServico = codServico;
+            $.ajax({
+                url: pegarRotaBack('servico/'),
+                type: "GET",
+                data: filtro
+            }).done(function(resposta) {
+                let registro = resposta.registros[0];
+
+                $("#cmbTipoProcesso").val(registro.cod_tipo_processo);
+                $("#cmbTipoServico").val(registro.cod_tipo_servico);
+                $("#cmbTipoAcao").val(registro.cod_tipo_acao);
+               
+                $("#edtValorServico").val(formatFloat(registro.valor_servico));
+                $("#edtVlEntrada").val(formatFloat(registro.prestacoesCartao[0].valor_entrada));
+                
+                
+
+
+                let prestacoesCartao = registro.prestacoesCartao;
+                console.log(prestacoesCartao);
+
+
+                let dataSet = [];
+                tabelaPrestacoesCartao.clear();
+                $.each(prestacoesCartao, function(index, data) {
+
+                    let checkado = "";
+                    if (data.data_pago != null)
+                      checkado = "checked";                               
+                    
+
+                    dataSet.push([data.numero_parcela,
+                        '<input type="text" maxlength="10" class="form-control" style="text-align:center" onKeyUp="MascaraData(this);" value="' + formatDateTime(data.data_vencimento) + '">',
+                        '<input type="text" class="form-control" style="text-align:right" onKeyUp="formatarMoeda(this);" value="' + formatFloat(data.valor_parcela) + '">',
+                        //Formas de pagamento
+                        '<select class="form-control cmbFormaPagamento"> ' +
+                        '</select> ',
+                        '<input class="form-check-input mx-auto px-auto" type="checkbox" class="chcPago" '+checkado+'>'
+                    ]);
+                });
+                tabelaPrestacoesCartao.rows.add(dataSet).draw();
+                carregarFormasPagamento();
+
+                //no final, desabilito todos os campos..
+                $(".form-control").prop( "disabled", true );
+                $(".form-check-input").prop( "disabled", true );
+            }).fail(function(jqXHR, status, err) {
+                if (StrToInt(status) == 0) {
+                    exibirMensagemAviso('Aviso!', 'Servidor não encontrado');
+                }
+            });
+        }
+
+
+
         var tabelaPesquisaCliente = $("#tabelaPesquisaCliente").DataTable({
             paging: false,
             searching: false,
@@ -342,9 +413,9 @@
             somaParcelas = parseFloat(somaParcelas.toFixed(2));
 
             if (vlEntrada + somaParcelas != vlTotalServico) {
-                msgConfirmacao += "Valor de serviço em aberto. <br> Total: " + formatFloat(vlTotalServico) +
-                    "<br> Entrada: " + formatFloat(vlEntrada) +
-                    "<br> Soma das parcelas: " + formatFloat(somaParcelas) + ".<br>";
+                msgConfirmacao += "Valor de serviço em aberto. <br> Total: R$ " + formatFloat(vlTotalServico) +
+                    "<br> Entrada: R$ " + formatFloat(vlEntrada) +
+                    "<br> Soma das parcelas: R$ " + formatFloat(somaParcelas) + ".<br>";
 
             }
 
@@ -400,7 +471,7 @@
 
 
                 let OPGerarContrato = await exibirPergunta('Deseja gerar o contrato?', '', 'question');
-                
+
                 if (OPGerarContrato) {
 
                     OPGerarContrato = await exibirPergunta('Contrato de risco?', '', 'question');
@@ -412,8 +483,8 @@
                     } else
                         gerarContrato(objeto);
                 }
-                
-                
+
+
                 $.ajax({
                     url: pegarRotaBack('servico/cadastrar'),
                     contentType: 'application/json',
@@ -421,13 +492,13 @@
                     type: 'post'
                 }).done(function(resposta, status, response) {
                     if (response.status != 200)
-                      exibirMensagem(resposta.titulo, resposta.message, resposta.tipo)
+                        exibirMensagem(resposta.titulo, resposta.message, resposta.tipo)
                     else
-                        window.location.href = "http://localhost/ControleAdvocaciaV2";//voltar para a pagina inicial                        
+                        window.location.href = "http://localhost/ControleAdvocaciaV2"; //voltar para a pagina inicial                        
 
 
                 }).fail(function(jqXHR, status, err) {
-                    exibirMensagem('Erro!', 'Ocorreu um erro inesperado!','error');
+                    exibirMensagem('Erro!', 'Ocorreu um erro inesperado!', 'error');
                 });
 
 

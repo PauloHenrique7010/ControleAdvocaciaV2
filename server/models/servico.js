@@ -2,41 +2,13 @@ const selectPromise = require('../servicos/select');
 const funcoes = require('../servicos/funcoes');
 
 async function pesquisarServico(filtros) {
-
-    let dtInicial = filtros.dtInicial;
-    let dtFinal = filtros.dtFinal;
-    let OPApenasEmAberto = filtros.OPApenasEmAberto;
-    if (OPApenasEmAberto == 'true')
-        OPApenasEmAberto = true
-    else
-        OPApenasEmAberto = false;
-
-
-    if (dtInicial != undefined) {
-        dtInicial = formatarData(dtInicial);
-        dtFinal = formatarData(dtFinal);
-    }
-
-    pesquisa = "";
-
-    if (dtInicial != undefined) {
-        if (pesquisa != "") {
-            pesquisa += " and ";
-        }
-        pesquisa += "sc.data_vencimento >= '" + dtInicial + "'";
-    }
-    if (dtFinal != undefined) {
-        if (pesquisa != "") {
-            pesquisa += " and ";
-        }
-        pesquisa += "sc.data_vencimento <= '" + dtFinal + "'";
-    }
-
-    if (OPApenasEmAberto == true) {
+    let pesquisa = "";
+    
+    if (filtros.codServico > 0){
         if (pesquisa != "")
-            pesquisa += " and ";
-        pesquisa += "sc.data_pago is null";
-    }
+          pesquisa += " and ";
+        pesquisa += "cod_servico="+filtros.codServico;
+    }    
 
     if (pesquisa != "") {
         pesquisa = "WHERE " + pesquisa;
@@ -83,6 +55,7 @@ function formatarData(dataInput) {
 
 async function pesquisarPagamento(filtros) {
 
+    let codServico = filtros.codServico;
     let dtInicial = filtros.dtInicial;
     let dtFinal = filtros.dtFinal;
     let OPApenasEmAberto = filtros.OPApenasEmAberto;
@@ -118,10 +91,17 @@ async function pesquisarPagamento(filtros) {
         pesquisa += "sc.data_pago is null";
     }
 
-    if (pesquisa != "") {
-        pesquisa = "WHERE " + pesquisa;
+    if (codServico > 0){
+        if (pesquisa != "")
+          pesquisa += " and ";
+        pesquisa += "s.cod_servico = "+codServico;
     }
 
+
+    if (pesquisa != "") {
+        pesquisa = "WHERE " + pesquisa;
+    }       
+    console.log(pesquisa);
    
     return await selectPromise('select s.cod_servico, ' +
         's.valor_servico, ' +

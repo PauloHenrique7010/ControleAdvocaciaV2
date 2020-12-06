@@ -262,31 +262,31 @@ Header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE'); //metho
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?php echo base_url("Admin/Banco"); ?>" class="nav-link">
+                <a href="<?php echo base_url("Admin/Banco"); ?>" class="nav-link <?php if ((isset($subMenuAtivo) && ($subMenuAtivo == "banco"))) echo "active";?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Banco</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo base_url("Admin/EstadoCivil"); ?>" class="nav-link">
+                <a href="<?php echo base_url("Admin/EstadoCivil"); ?>" class="nav-link <?php if ((isset($subMenuAtivo) && ($subMenuAtivo == "estadoCivil"))) echo "active";?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Estado civil</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo base_url("Admin/FormaPagamento"); ?>" class="nav-link">
+                <a href="<?php echo base_url("Admin/FormaPagamento"); ?>" class="nav-link <?php if ((isset($subMenuAtivo) && ($subMenuAtivo == "formaPagamento"))) echo "active";?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Formas de pagamento</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo base_url("Admin/OrgaoClasse"); ?>" class="nav-link">
+                <a href="<?php echo base_url("Admin/OrgaoClasse"); ?>" class="nav-link <?php if ((isset($subMenuAtivo) && ($subMenuAtivo == "orgaoClasse"))) echo "active";?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Orgão de classe</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo base_url("Admin/Profissao"); ?>" class="nav-link">
+                <a href="<?php echo base_url("Admin/Profissao"); ?>" class="nav-link <?php if ((isset($subMenuAtivo) && ($subMenuAtivo == "profissao"))) echo "active";?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Profissão</p>
                 </a>

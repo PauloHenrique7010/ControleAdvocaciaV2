@@ -63,6 +63,8 @@ $route['EditarCliente'] = 'ClienteCtr';
 
 $route['Servico'] = 'ServicoCtr';
 $route['NovoServico'] = 'ServicoCtr/novoServico';
+$route['AlterarServico/(:any)'] = 'ServicoCtr/novoServico/$1';
+
 $route['ConfirmarNovoServico'] = 'ServicoCtr/confirmarNovoServico';
 $route['PesquisarServico'] = 'ServicoCtr/pesquisar';
 /*

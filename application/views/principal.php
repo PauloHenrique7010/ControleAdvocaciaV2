@@ -288,6 +288,9 @@
         OPApenasEmAberto = true;
       }
       
+
+
+      console.log(dtInicial + ' - '+dtFinal);
       var filtro = new Object();
       filtro.dtInicial = dtInicial;
       filtro.dtFinal = dtFinal;

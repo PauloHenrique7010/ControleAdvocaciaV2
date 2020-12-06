@@ -34,7 +34,7 @@
         </a>
         <div class="dropdown-menu">
           <a class="dropdown-item" href="<?php echo base_url('Cliente'); ?>">Cliente</a>
-          <!--<a class="dropdown-item" href="<?php echo base_url('Servicos'); ?>">Serviços</a>-
+          <a class="dropdown-item" href="<?php echo base_url('Servico'); ?>">Serviços</a><!--
         <a class="dropdown-item" href="<?php echo base_url('Caixa'); ?>">Caixa</a>        -->
         </div>
       </li>

@@ -207,49 +207,17 @@
       ordering: false,
       info: false,
       columns: [{
-          title: 'Cód servico',
-          visible: false
+          title: 'Serviço'
         },
         {
-          title: 'Cód servico pagamento',
-          visible: false
+          title: 'Criado'
         },
         {
-          title: 'Nº Parcela'
-        },
-        {
-          title: 'Data'
-        },
-        {
-          title: 'Valor'
-        },
-        {
-          title: 'Pago'
-        },
-        {
-          title: 'Partes'
+          title: 'Valor Total'
         },
         {
           title: 'Ações'
         }
-      ],
-      columnDefs: [{
-          "width": "2%",
-          "targets": 2
-        }, //n prestaacao
-        {
-          "width": "2%",
-          "targets": 3
-        }, //data
-        {
-          "width": "2%",
-          "targets": 4
-        }, //valor
-        {
-          "width": "15%",
-          "targets": 6
-        } //ações
-
       ],
       language: {
         "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Portuguese.json"
@@ -286,29 +254,20 @@
         url: pegarRotaBack('servico/'),
         type: "GET",
         data: filtro
-      }).done(function(resposta) {
+      }).done(function(resposta) {        
         var dataSet = [];
         //console.log(resposta);
-        $.each(resposta.servicos, function(index, data) {
-          dataVencimentoFormatada = formatDateTime(data.data_vencimento);
-          dataPagoFormatado = formatDateTime(data.data_pago);         
-
+        $.each(resposta.registros, function(index, data) {
+          dataFormatada = formatDateTime(data.data_criado);
           dataSet.push([
             //Invisivel
             data.cod_servico,
-            data.cod_servico_pagamento,
-            //invisivel
-
-            data.numero_parcela,
-            dataVencimentoFormatada,
-            data.valor_parcela.toLocaleString('pt-BR', {
+            dataFormatada,
+            data.valor_servico.toLocaleString('pt-BR', {
               style: 'currency',
               currency: 'BRL'
             }),
-            dataPagoFormatado,
-            data.nomeParte,
-            '<button type="button" class="btn btn-warning btnBoleto">Boleto</button>' + '&nbsp;&nbsp;'+ //espaço entre os bt
-            '<button type="button" class="btn btn-success btnDarBaixa">Dar Baixa</button>' 
+            '<a href="./AlterarServico/'+data.cod_servico+'"><button type="button" class="btn btn-info btnDetalhes">Detalhes</button></a:'            
             //'<button type="button" class="btn btn-info btnVerDetalhes" data-toggle="modal" data-target="#mdlDetalhesServico">Detalhes</button>'
           ]);
         });
@@ -364,74 +323,74 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-6 ml-4">              
+              <div class="col-6 ml-4">
                 <input class="form-check-input" type="checkbox" id="chcApenasEmAberto" checked="checked">
                 <label class="form-check-label" for="defaultCheck1">
                   Apenas em aberto
-                </label>                
+                </label>
               </div>
             </div>
-            </div>
+          </div>
           <div class="panel-footer"></div>
         </div>
+      </div>
+    </div>
+  </div>
+  <!-- Div collapse para os filtros -->
+
+  <div class="col-12">
+    <button type="button" id="btnAplicarFiltro" class="btn btn-success">Pesquisar</button>
+  </div>
+  <br>
+
+
+  <div class="col-12 tabela">
+    <table class="table table-hover table-striped" id="tabelaServicos">
+    </table>
+  </div>
+</div>
+
+
+
+<!-- modais -->
+<div class="modal fade" id="mdlDetalhesServico" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Detalhes do serviço</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+      <div class="container"></div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <!--<table class="table table-hover table-striped" id="tabelaDetalhesServico">--->
+            <table class="" id="tabelaDetalhesServico">
+            </table>
           </div>
         </div>
       </div>
-      <!-- Div collapse para os filtros -->
+      <div class="modal-footer">
 
-      <div class="col-12">
-        <button type="button" id="btnAplicarFiltro" class="btn btn-success">Pesquisar</button>
-      </div>
-      <br>
-
-
-      <div class="col-12 tabela">
-        <table class="table table-hover table-striped" id="tabelaServicos">
-        </table>
-      </div>
-    </div>
-
-
-
-    <!-- modais -->
-    <div class="modal fade" id="mdlDetalhesServico" tabindex="-1">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Detalhes do serviço</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          </div>
-          <div class="container"></div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-12">
-                <!--<table class="table table-hover table-striped" id="tabelaDetalhesServico">--->
-                <table class="" id="tabelaDetalhesServico">
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-
-            <!--<a data-toggle="modal" href="#mdlAdicionarPartesProcessoSemCadastro" class="btn btn-warning">Sem cadastro</a>
+        <!--<a data-toggle="modal" href="#mdlAdicionarPartesProcessoSemCadastro" class="btn btn-warning">Sem cadastro</a>
                 <a data-toggle="modal" href="#mdlAdicionarPartesProcesso" class="btn btn-primary">Adicionar</a>                -->
-            <a href="#" data-dismiss="modal" class="btn btn-danger">Fechar</a>
-          </div>
-        </div>
+        <a href="#" data-dismiss="modal" class="btn btn-danger">Fechar</a>
       </div>
     </div>
+  </div>
+</div>
 
 
-    <footer class="footer fixed-bottom">
+<footer class="footer fixed-bottom">
 
-      <!-- Copyright -->
-      <div class="footer-copyright text-center py-3">
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">
 
-        Feito por <b>Paulo Henrique</b> © 2020 Copyright:
-        <!--<a href="https://mdbootstrap.com/"> MDBootstrap.com</a>-->
-      </div>
-      <!-- Copyright -->
+    Feito por <b>Paulo Henrique</b> © 2020 Copyright:
+    <!--<a href="https://mdbootstrap.com/"> MDBootstrap.com</a>-->
+  </div>
+  <!-- Copyright -->
 
-    </footer>
+</footer>
 
-    <?php $this->load->view('rodape'); ?>
+<?php $this->load->view('rodape'); ?>
