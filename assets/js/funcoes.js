@@ -318,9 +318,10 @@ async function exibirPergunta(titulo, texto, tipo) {
 
 async function exibirInput(titulo, texto, tipo) {
         const p = await Swal.fire({
-                input: 'text',
+                input: 'number',
                 inputAttributes: {
                         autocapitalize: 'off'
+                        
                 },
                 title: titulo,
                 text: texto,
@@ -329,7 +330,12 @@ async function exibirInput(titulo, texto, tipo) {
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 cancelButtonText: 'Cancelar',
-                confirmButtonText: 'OK'
+                confirmButtonText: 'OK',
+                inputValidator: (value) => {
+                        if (!value) {
+                          return 'Apenas números inteiros (Maiores que zero)!'
+                        }
+                      }
         });
         return p.value;
 
@@ -356,7 +362,7 @@ function FloatToStr(float) {
         return float.toString();
 }
 
-function valorMonetarioPorExtenso(float) {
+function valorMonetarioPorExtenso(float, OPMonetario = true) {
         //+ Carlos R. L. Rodrigues
         //@ http://jsfromhell.com/string/extenso [rev. #3]
         String.prototype.extenso = function (c) {
@@ -383,7 +389,7 @@ function valorMonetarioPorExtenso(float) {
                 return r.join(e);
         }
 
-        return FloatToStr(float).extenso(true);
+        return FloatToStr(float).extenso(OPMonetario);
 }
 
 function formatFloat(float) {

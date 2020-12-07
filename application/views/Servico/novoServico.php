@@ -498,7 +498,7 @@
 
                     OPGerarContrato = await exibirPergunta('Contrato de risco?', '', 'question');
                     if (OPGerarContrato == true) {
-                        porcentagem = await exibirInput('Informe a porcentagem (apenas números)', '', 'info');
+                        porcentagem = await exibirInput('Informe a porcentagem ','', 'info');
                         objeto.porcentagemRiscoContrato = StrToFloat(porcentagem);
                         gerarContrato(objeto);
 
@@ -571,7 +571,13 @@
                     pagamento += "e demais parcelas mensais e consecutivas a partir de " + formatDateTime(prestacoesCartao[0].dataVencimento, 'DD/MM/YY');
                 }
             } else { //contrato de risco
-                pagamento = "o valor relativo a " + porcentagemRiscoContrato + "% " +
+                let porcentagemRiscoContratoExtenso = valorMonetarioPorExtenso(porcentagemRiscoContrato);
+                porcentagemRiscoContratoExtenso = porcentagemRiscoContratoExtenso.replace(/reais/gi, '');
+                porcentagemRiscoContratoExtenso = porcentagemRiscoContratoExtenso.replace(/real/gi, '');
+                porcentagemRiscoContratoExtenso = porcentagemRiscoContratoExtenso.replace(/centavo/gi, '');
+                porcentagemRiscoContratoExtenso = porcentagemRiscoContratoExtenso.replace(/centavos/gi, '');
+
+                pagamento = "o valor relativo a " + porcentagemRiscoContrato + "% ("+porcentagemRiscoContratoExtenso+"porcento) " +
                     "de todo o valor recebido ao final do processo, independentemente de título";
             }
 
