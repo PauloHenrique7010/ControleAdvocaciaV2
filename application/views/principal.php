@@ -73,34 +73,40 @@
       var json = new Object();
       json.codigo = StrToInt(itemEscolhido[1]);
 
-      let OPPergunta = exibirPergunta('Deseja dar baixa no pagamento?', '', 'question');
-      let linha = $(this).parent().parent(); //pego a linha antes de ser excluida ??? na faz sentido.. mas se o bd excluir e o datatable tentar pegar.. ele n faz nada              
-      OPPergunta.then(function(resposta) {
-        if (resposta) {
-          $.ajax({
-            url: pegarRotaBack('servico/darBaixaPagamento'),
-            type: "post",
-            data: JSON.stringify(json),
-            contentType: 'application/json',
-          }).done(function(resposta, status, response) {
+      let dataPago = itemEscolhido[5];
+      if (dataPago != "")
+        exibirMensagem('Aviso!', 'Pagamento já efetuado!', 'warning');
+      else {
 
-            let titulo = response.responseJSON.title;
-            let msg = response.responseJSON.message;
+        let OPPergunta = exibirPergunta('Deseja dar baixa no pagamento?', '', 'question');
+        let linha = $(this).parent().parent(); //pego a linha antes de ser excluida ??? na faz sentido.. mas se o bd excluir e o datatable tentar pegar.. ele n faz nada              
+        OPPergunta.then(function(resposta) {
+          if (resposta) {
+            $.ajax({
+              url: pegarRotaBack('servico/darBaixaPagamento'),
+              type: "post",
+              data: JSON.stringify(json),
+              contentType: 'application/json',
+            }).done(function(resposta, status, response) {
 
-            if (response.status = 200) {
-              linha.fadeOut(500, function() {
-                tabelaServicos.row(linha).remove().draw();
-              });
+              let titulo = response.responseJSON.title;
+              let msg = response.responseJSON.message;
 
-            } else {
-              exibirMensagemAviso(titulo, msg);
-            }
+              if (response.status = 200) {
+                linha.fadeOut(500, function() {
+                  tabelaServicos.row(linha).remove().draw();
+                });
 
-          }).fail(function(jqXHR, status, err) {
-            exibirMensagem('ERRO', 'Servidor não encontrado', 'error');
-          });
-        }
-      });
+              } else {
+                exibirMensagemAviso(titulo, msg);
+              }
+
+            }).fail(function(jqXHR, status, err) {
+              exibirMensagem('ERRO', 'Servidor não encontrado', 'error');
+            });
+          }
+        });
+      }
 
     });
 
@@ -267,6 +273,7 @@
     });
 
     pesquisarServico();
+
     function pesquisarServico(primeiraConsulta = true) {
       let dataAtual = new Date();
       let dtInicial, dtFinal;
@@ -286,10 +293,6 @@
       if ($("#chcApenasEmAberto").is(':checked')) {
         OPApenasEmAberto = true;
       }
-
-
-
-      console.log(dtInicial + ' - ' + dtFinal);
       var filtro = new Object();
       filtro.dtInicial = dtInicial;
       filtro.dtFinal = dtFinal;
@@ -332,8 +335,8 @@
             dataPagoFormatado,
             data.nomeParte,
             //'<button type="button" class="btn btn-warning btnBoleto">Boleto</button>' + '&nbsp;&nbsp;'+ //espaço entre os bt
-            '<button type="button" class="btn btn-success btnDarBaixa">Dar Baixa</button>'
-            //'<button type="button" class="btn btn-info btnVerDetalhes" data-toggle="modal" data-target="#mdlDetalhesServico">Detalhes</button>'
+            '<button type="button" class="btn btn-success btnDarBaixa">Dar Baixa</button>' + '&nbsp;&nbsp;' +
+            '<a href="./AlterarServico/' + data.cod_servico + '"><button type="button" class="btn btn-info">Detalhes</button></a>'
           ]);
         });
 

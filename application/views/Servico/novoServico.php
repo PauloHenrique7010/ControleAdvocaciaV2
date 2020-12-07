@@ -27,8 +27,6 @@
             pesquisaCliente();
         });
 
-
-
         let OPCadastro = "N";
         var codServico = 0;
         var URLAtual = window.location.href;
@@ -38,9 +36,7 @@
             OPCadastro = "A";
             codServico = <?php if (isset($codigoCadastro)) echo $codigoCadastro;
                             else echo "0" ?>;
-            $("#enviar").remove();
-
-
+            $("#enviar").val("Gerar contrato");
 
 
             var filtro = new Object();
@@ -55,41 +51,63 @@
                 $("#cmbTipoProcesso").val(registro.cod_tipo_processo);
                 $("#cmbTipoServico").val(registro.cod_tipo_servico);
                 $("#cmbTipoAcao").val(registro.cod_tipo_acao);
-               
+
                 $("#edtValorServico").val(formatFloat(registro.valor_servico));
                 $("#edtVlEntrada").val(formatFloat(registro.prestacoesCartao[0].valor_entrada));
-                
-                
+
+
+
+                //partes Servico
+                let partesServico = registro.partesServico;                
+                tabelaPartesServico.clear();
+                let dataSet = [];
+                tabelaPartesServico.clear();
+                $.each(partesServico, function(index, data) {
+                    dataSet.push([
+                        data.cod_parte,
+                        data.nome_parte,
+                        data.cpf,
+                        data.rg,
+                        ''                        
+                    ]);
+                });
+                tabelaPartesServico.rows.add(dataSet).draw();            
+
 
 
                 let prestacoesCartao = registro.prestacoesCartao;
-                console.log(prestacoesCartao);
+                $("#edtNumeroPrestacoes").val(prestacoesCartao.length);
 
-
-                let dataSet = [];
+                dataSet = [];
                 tabelaPrestacoesCartao.clear();
                 $.each(prestacoesCartao, function(index, data) {
+                    let dataPago = formatDateTime(data.data_pago);
+                    if (dataPago == "")
+                        dataPago = "<b>Em aberto</b>";
 
-                    let checkado = "";
+
+                    /*let checkado = "";
                     if (data.data_pago != null)
-                      checkado = "checked";                               
-                    
-
+                        checkado = "checked";*/
                     dataSet.push([data.numero_parcela,
                         '<input type="text" maxlength="10" class="form-control" style="text-align:center" onKeyUp="MascaraData(this);" value="' + formatDateTime(data.data_vencimento) + '">',
                         '<input type="text" class="form-control" style="text-align:right" onKeyUp="formatarMoeda(this);" value="' + formatFloat(data.valor_parcela) + '">',
                         //Formas de pagamento
                         '<select class="form-control cmbFormaPagamento"> ' +
+                        '<option value="' + data.cod_forma_pagamento + '">' + data.nome_forma_pagamento + '</option>' +
                         '</select> ',
-                        '<input class="form-check-input mx-auto px-auto" type="checkbox" class="chcPago" '+checkado+'>'
+                        dataPago
+                        //'<input class="form-check-input mx-auto px-auto" type="checkbox" class="chcPago" ' + checkado + '>'
                     ]);
                 });
                 tabelaPrestacoesCartao.rows.add(dataSet).draw();
-                carregarFormasPagamento();
+
 
                 //no final, desabilito todos os campos..
-                $(".form-control").prop( "disabled", true );
-                $(".form-check-input").prop( "disabled", true );
+                $(".form-control").prop("disabled", true);
+                $(".desabilitar").remove();
+                $(".form-check-input").prop("disabled", true);
+                $("#enviar").prop("disabled", false);
             }).fail(function(jqXHR, status, err) {
                 if (StrToInt(status) == 0) {
                     exibirMensagemAviso('Aviso!', 'Servidor não encontrado');
@@ -328,23 +346,27 @@
         }
 
         function carregarFormasPagamento() {
-            let formaPagamento = [];
-            $.ajax({
-                url: '<?php echo base_url('pFormaPagamento'); ?>',
-                type: "get",
-            }).done(function(resposta) {
-                formaPagamento = resposta.registros;
-                $(".cmbFormaPagamento").each(function(index) {
-                    $('.cmbFormaPagamento option').remove();
-                    $('.cmbFormaPagamento').append(new Option("", 0));
+            if (OPCadastro == "N") {
 
-                    $.each(formaPagamento, function(index, linha) {
-                        $('.cmbFormaPagamento').append(new Option(linha.nome_forma_pagamento, linha.cod_forma_pagamento));
+                let formaPagamento = [];
+                $.ajax({
+                    url: '<?php echo base_url('pFormaPagamento'); ?>',
+                    type: "get",
+                }).done(function(resposta) {
+                    formaPagamento = resposta.registros;
+                    $(".cmbFormaPagamento").each(function(index) {
+                        $('.cmbFormaPagamento option').remove();
+                        $('.cmbFormaPagamento').append(new Option("", 0));
+
+                        $.each(formaPagamento, function(index, linha) {
+                            $('.cmbFormaPagamento').append(new Option(linha.nome_forma_pagamento, linha.cod_forma_pagamento));
+                        });
+
+                        $('.cmbFormaPagamento').val("2"); //fica predefinido o cartao
+
                     });
-                    $('.cmbFormaPagamento').val("2"); //fica predefinido o cartao
-
                 });
-            });
+            }
         }
 
         var tabelaPrestacoesCartao = $("#tabelaPrestacoesCartao").DataTable({
@@ -483,25 +505,25 @@
                     } else
                         gerarContrato(objeto);
                 }
+                
+                
+                if (OPCadastro == "N") {
+                    $.ajax({
+                        url: pegarRotaBack('servico/cadastrar'),
+                        contentType: 'application/json',
+                        data: json,
+                        type: 'post'
+                    }).done(function(resposta, status, response) {
+                        if (response.status != 200)
+                            exibirMensagem(resposta.titulo, resposta.message, resposta.tipo)
+                        else
+                            window.location.href = "http://localhost/ControleAdvocaciaV2"; //voltar para a pagina inicial                        
 
 
-                $.ajax({
-                    url: pegarRotaBack('servico/cadastrar'),
-                    contentType: 'application/json',
-                    data: json,
-                    type: 'post'
-                }).done(function(resposta, status, response) {
-                    if (response.status != 200)
-                        exibirMensagem(resposta.titulo, resposta.message, resposta.tipo)
-                    else
-                        window.location.href = "http://localhost/ControleAdvocaciaV2"; //voltar para a pagina inicial                        
-
-
-                }).fail(function(jqXHR, status, err) {
-                    exibirMensagem('Erro!', 'Ocorreu um erro inesperado!', 'error');
-                });
-
-
+                    }).fail(function(jqXHR, status, err) {
+                        exibirMensagem('Erro!', 'Ocorreu um erro inesperado!', 'error');
+                    });
+                }
             }
         }
 
@@ -850,8 +872,8 @@
             </div>
             <div class="modal-footer">
 
-                <a data-toggle="modal" href="#mdlAdicionarPartesProcessoSemCadastro" class="btn btn-warning">Sem cadastro</a>
-                <a data-toggle="modal" href="#mdlAdicionarPartesProcesso" class="btn btn-primary">Adicionar</a>
+                <a data-toggle="modal" href="#mdlAdicionarPartesProcessoSemCadastro" class="btn btn-warning desabilitar">Sem cadastro</a>
+                <a data-toggle="modal" href="#mdlAdicionarPartesProcesso" class="btn btn-primary desabilitar">Adicionar</a>
                 <a href="#" data-dismiss="modal" class="btn btn-secondary">Fechar</a>
             </div>
         </div>

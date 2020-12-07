@@ -110,9 +110,12 @@ async function pesquisarPagamento(filtros) {
         'sc.numero_parcela, ' +
         'sc.data_vencimento, ' +
         'sc.cod_servico_pagamento, ' +
-        'sc.data_pago ' +
+        'sc.data_pago, ' +
+        'sc.cod_forma_pagamento, '+
+        'fp.nome_forma_pagamento '+
         'from servico_pagamento sc ' +
-        'left join servico s on s.cod_servico = sc.cod_servico ' + pesquisa + ' ' +
+        'left join servico s on s.cod_servico = sc.cod_servico '+
+        'left join forma_pagamento fp on sc.cod_forma_pagamento = fp.cod_forma_pagamento ' + pesquisa + ' ' +
         'order by sc.data_vencimento ');
 }
 
@@ -121,8 +124,12 @@ async function pegarPartesServico(codServico) {
     return await selectPromise('SELECT s.cod_servico_parte, ' +
         's.cod_parte, ' +
         's.nome_parte, ' +
-        's.cod_servico ' +
+        's.cod_servico, ' +
+        'c.cpf, '+
+        'c.cnpj, '+
+        'c.rg '+        
         'FROM servico_parte s ' +
+        'LEFT JOIN cliente c on s.cod_parte = c.cod_cliente '+
         'WHERE cod_servico = ' + codServico);
 }
 

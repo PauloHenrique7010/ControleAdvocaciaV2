@@ -14,7 +14,10 @@ async function pesquisarServico(req, res) {
             parte = new Object();
             parte.cod_servico = linha1.cod_servico;
             parte.cod_parte = linha1.cod_parte;
-            parte.nome_parte = linha1.nome_parte;           
+            parte.nome_parte = linha1.nome_parte;    
+            parte.rg        = linha1.rg;       
+            parte.cpf        = linha1.cpf;       
+            parte.cnpj        = linha1.cnpj;       
 
             array.push(parte);
         }
