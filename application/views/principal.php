@@ -18,9 +18,10 @@
 </style>
 <script type="text/javascript" src="<?php echo base_url("assets/js/funcoes.js"); ?>"></script>
 <script>
-  $(document).ready(function() {
+  $(document).ready(async function() {
+    
 
-    $('#tabelaServicos').on('click', 'tbody tr .btnVerDetalhes', function() {
+    $('#tabelaServicos').on('click', 'tbody tr .btnVerDetalhes', async function() {
       var itemEscolhido = tabelaServicos.row($(this)).data();
       itemEscolhido = tabelaServicos.row($(this).parents('tr')).data();
 
@@ -28,7 +29,7 @@
       codServico = StrToInt(itemEscolhido[0]);
 
       $.ajax({
-        url: pegarRotaBack('servico/partes'),
+        url: await pegarRotaBack('servico/partes'),
         type: "GET",
         data: "codigo=" + codServico
       }).done(function(resposta) {
@@ -40,7 +41,7 @@
       });
     });
 
-    $('#tabelaServicos').on('click', 'tbody tr .btnBoleto', function() {
+    $('#tabelaServicos').on('click', 'tbody tr .btnBoleto', async function() {
       var itemEscolhido = tabelaServicos.row($(this)).data();
       itemEscolhido = tabelaServicos.row($(this).parents('tr')).data();
       codServicoPagamento = StrToInt(itemEscolhido[1]);
@@ -51,7 +52,7 @@
       json.dataVencimento = itemEscolhido[3];
 
       $.ajax({
-        url: pegarRotaBack('boleto/'),
+        url: await pegarRotaBack('boleto/'),
         type: "GET",
         data: json
       }).done(function(resposta) {
@@ -66,7 +67,7 @@
       });
     });
 
-    $('#tabelaServicos').on('click', 'tbody tr .btnDarBaixa', function(e) {
+    $('#tabelaServicos').on('click', 'tbody tr .btnDarBaixa', async function(e) {
       var itemEscolhido = tabelaServicos.row($(this)).data();
       itemEscolhido = tabelaServicos.row($(this).parents('tr')).data();
 
@@ -80,10 +81,10 @@
 
         let OPPergunta = exibirPergunta('Deseja dar baixa no pagamento?', '', 'question');
         let linha = $(this).parent().parent(); //pego a linha antes de ser excluida ??? na faz sentido.. mas se o bd excluir e o datatable tentar pegar.. ele n faz nada              
-        OPPergunta.then(function(resposta) {
+        OPPergunta.then(async function(resposta) {
           if (resposta) {
             $.ajax({
-              url: pegarRotaBack('servico/darBaixaPagamento'),
+              url: await pegarRotaBack('servico/darBaixaPagamento'),
               type: "post",
               data: JSON.stringify(json),
               contentType: 'application/json',
@@ -112,13 +113,13 @@
 
     let edtDtInicial = $("#edtDtInicial");
     let edtDtFinal = $("#edtDtFinal");
-    edtDtInicial.on('keyup', function() {
+    edtDtInicial.on('keyup', async function() {
       if (edtDtInicial.val().length == 10) { //quando completar a data joga pro data time
         var json = new Object();
         json.data = edtDtInicial.val();
         json.formato = "DD/MM/YYYY";
         $.ajax({
-          url: pegarRotaBack('funcoes/strToDate'),
+          url: await pegarRotaBack('funcoes/strToDate'),
           type: "get",
           data: json,
           contentType: 'application/json',
@@ -145,13 +146,13 @@
 
     });
 
-    edtDtFinal.on('keyup', function() {
+    edtDtFinal.on('keyup', async function() {
       if (edtDtFinal.val().length == 10) { //quando completar a data joga pro data time
         var json = new Object();
         json.data = edtDtFinal.val();
         json.formato = "DD/MM/YYYY";
         $.ajax({
-          url: pegarRotaBack('funcoes/strToDate'),
+          url: await pegarRotaBack('funcoes/strToDate'),
           type: "get",
           data: json,
           contentType: 'application/json',
@@ -272,9 +273,9 @@
       }
     });
 
-    pesquisarServico();
+    await pesquisarServico();
 
-    function pesquisarServico(primeiraConsulta = true) {
+    async function pesquisarServico(primeiraConsulta = true) {
       let dataAtual = new Date();
       let dtInicial, dtFinal;
 
@@ -296,9 +297,9 @@
       var filtro = new Object();
       filtro.dtInicial = dtInicial;
       filtro.dtFinal = dtFinal;
-      filtro.OPApenasEmAberto = OPApenasEmAberto;
+      filtro.OPApenasEmAberto = OPApenasEmAberto;      
       $.ajax({
-        url: pegarRotaBack('servico/pagamento'),
+        url: await pegarRotaBack('servico/pagamento'),
         type: "GET",
         data: filtro
       }).done(function(resposta) {

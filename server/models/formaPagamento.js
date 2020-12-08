@@ -1,6 +1,7 @@
 const selectPromise = require('../servicos/select');
 const deletePromisse = require('../servicos/delete');
 const insertPromise = require('../servicos/insert');
+const updatePromise = require('../servicos/update');
 
 async function pesquisarFormaPagamento(filtro){
     pesquisa = "";
@@ -27,7 +28,7 @@ async function cadastrarFormaPagamento(nome){
 }
 
 async function alterarFormaPagamento(codigo, nome){
-    return await insertPromise("UPDATE forma_pagamento set nome_forma_pagamento ='"+nome+"' where cod_forma_pagamento="+codigo);
+    return await updatePromise("UPDATE forma_pagamento set nome_forma_pagamento ='"+nome+"' where cod_forma_pagamento="+codigo);
 }
 
 module.exports = {

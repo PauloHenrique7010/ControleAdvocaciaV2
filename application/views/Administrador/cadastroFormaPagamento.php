@@ -17,19 +17,17 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url("assets/Administrador/dist/js/demo.js"); ?>"></script>
 <!-- page script -->
-<!-- DataTables -->
 
 
 <script>
-  $(document).ready(function() {
+  $(document).ready(async function() {
     function msgDeletar(codigo, nome) {
 
     }
 
-    var tabelaFormaPagamento = $("#tabelaFormaPagamento").DataTable({      
+    var tabelaFormaPagamento = $("#tabelaFormaPagamento").DataTable({
       columns: [{
           title: 'Código'
-
         },
         {
           title: 'Nome'
@@ -64,12 +62,12 @@
       pesquisar();
     });
 
-    $('#tabelaFormaPagamento').on('click', 'tbody tr .btnAlterar', function(e){
+    $('#tabelaFormaPagamento').on('click', 'tbody tr .btnAlterar', function(e) {
       let codigo = $(this).data("codigo");
       var dados = JSON.stringify(codigo);
-      sessionStorage.setItem('codFormaPagamento', dados );
+      sessionStorage.setItem('codFormaPagamento', dados);
     })
-    $('#tabelaFormaPagamento').on('click', 'tbody tr .btnExcluir', function(e) {
+    $('#tabelaFormaPagamento').on('click', 'tbody tr .btnExcluir', async function(e) {
       let codigo = $(this).data("codigo");
       let nome = $(this).data("nome");
 
@@ -82,12 +80,12 @@
         cancelButtonColor: '#d33',
         cancelButtonText: 'Não',
         confirmButtonText: 'Sim'
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.value) {
           let linha = $(this).parent().parent(); //pego a linha antes de ser excluida ??? na faz sentido.. mas se o bd excluir e o datatable tentar pegar.. ele n faz nada
           $.ajax({
             type: 'DELETE',
-            url: pegarRotaBack('FormaPagamento/'),
+            url: await pegarRotaBack('FormaPagamento/'),
             contentType: 'application/json',
             data: JSON.stringify({
               'codigo': codigo
@@ -114,19 +112,18 @@
     });
 
 
-    function pesquisar() {
+    async function pesquisar() {
       $.ajax({
-        url: pegarRotaBack('FormaPagamento/'),
+        url: await pegarRotaBack('FormaPagamento/'),
         type: "GET"
         //data: filtro
       }).done(function(resposta) {
         var dataSet = [];
-        console.log(resposta);
         $.each(resposta.registros, function(index, data) {
           dataSet.push([
             data.cod_forma_pagamento,
             data.nome_forma_pagamento,
-            '<a href="<?php echo base_url("Admin/AlterarFormaPagamento/"); ?>"><button type="button" class="btn btn-warning btnAlterar" data-codigo="' + data.cod_forma_pagamento + '">Alterar</button></a> &nbsp;&nbsp;' +
+            '<a href="./AlterarFormaPagamento/' + data.cod_forma_pagamento + '"><button type="button" class="btn btn-warning btnAlterar" data-codigo="' + data.cod_forma_pagamento + '">Alterar</button></a> &nbsp;&nbsp;' +
             '<button type="button" class="btn btn-danger btnExcluir" data-codigo="' + data.cod_forma_pagamento + '" data-nome="' + data.nome_forma_pagamento + '">Excluir</button>'
           ]);
         });
@@ -175,7 +172,7 @@
               </button>
             </a>
             <button class="btn btn-success" id="btnPesquisar">
-                Pesquisar
+              Pesquisar
             </button>
 
           </div>

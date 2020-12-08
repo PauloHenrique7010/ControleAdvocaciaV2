@@ -8,24 +8,8 @@ async function atualizarTabela(req, res) {
 
 async function pegarIPServidor(req, res) {
 
-    var fs = require('fs');
-    var ip = require("ip");
-
-
-    console.log(ip.address());
-
-
-    fs.writeFile("./tmp/IP.txt", ip.address(), function (erro) {
-
-        if (erro) {
-            throw erro;
-        }
-
-        console.log("Arquivo salvo");
-    });
-
-
-    res.json({ 'IP': ip.address() });
+    let ip = await servico.pegarIPServidor();
+    res.json({ 'IP': ip });
 }
 
 

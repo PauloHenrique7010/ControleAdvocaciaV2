@@ -15,7 +15,7 @@
 <script src="<?php echo base_url("assets/Administrador/dist/js/demo.js"); ?>"></script>
 <!-- page script -->
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(async function() {
         let OPCadastro = "N";
         var codTipoProcesso = 0;
         var URLAtual = window.location.href;
@@ -28,7 +28,7 @@
             var json = new Object();
             json.codTipoProcesso = codTipoProcesso;
             $.ajax({
-                url: pegarRotaBack('tipoProcesso/'),
+                url: await pegarRotaBack('tipoProcesso/'),
                 type: 'GET',
                 data: json
             }).done(function(resposta, status, response) {
@@ -48,32 +48,13 @@
 
         //ao apertar enter pula para o proximo campo
         //----------------------------------------------------------------------------------------
-        jQuery('body').on('keydown', 'input, select, textarea, button', function(e) {
-            var self = $(this),
-                form = self.parents('form:eq(0)'),
-                focusable, next;
-
-            //se pressionar ctrl + enter, confirma o cadastro
-            if (e.ctrlKey && e.keyCode == 13) {
-                $("#enviar").trigger('click');
-            } else if (e.keyCode == 13) {
-                focusable = form.find('input,a,select,button,textarea').filter(':visible');
-                next = focusable.eq(focusable.index(this) + 1);
-                if (next.length) {
-                    next.focus();
-                } else {
-                    form.submit();
-                }
-                return false;
-            }
-
-        });
+        pularCampos();
 
         $('#btnConfirmar').on('click', function(e) {
             Confirmar(e);
         });
 
-        function Confirmar(event) {
+        async function Confirmar(event) {
             //declara todas as variaveis 
             var nomeTipoProcesso = $("#edtNomeTipoProcesso").val();
 
@@ -98,7 +79,7 @@
                 json.nomeTipoProcesso = nomeTipoProcesso;
 
                 $.ajax({
-                    url: pegarRotaBack('tipoProcesso/'),
+                    url: await pegarRotaBack('tipoProcesso/'),
                     type: tipoRequisicao,
                     contentType: 'application/json',
                     data: JSON.stringify(json)

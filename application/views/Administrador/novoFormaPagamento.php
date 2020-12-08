@@ -15,20 +15,20 @@
 <script src="<?php echo base_url("assets/Administrador/dist/js/demo.js"); ?>"></script>
 <!-- page script -->
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(async function() {
         let OPCadastro = "N";
-        var codFormaPagamento= 0;
+        var codFormaPagamento = 0;
         var URLAtual = window.location.href;
 
         //se nao for um cadastro novo, preenche o campo
         if (URLAtual.indexOf("Novo") == -1) {
             OPCadastro = "A";
-            codFormaPagamento = JSON.parse(sessionStorage.getItem('codFormaPagamento'));
+            codFormaPagamento = <?php if (isset($codFormaPagamento)) echo $codFormaPagamento; else echo "0" ?>;
 
             var json = new Object();
             json.codFormaPagamento = codFormaPagamento;
             $.ajax({
-                url: pegarRotaBack('formaPagamento/'),
+                url: await pegarRotaBack('formaPagamento/'),
                 type: 'GET',
                 data: json
             }).done(function(resposta, status, response) {
@@ -48,32 +48,13 @@
 
         //ao apertar enter pula para o proximo campo
         //----------------------------------------------------------------------------------------
-        jQuery('body').on('keydown', 'input, select, textarea, button', function(e) {
-            var self = $(this),
-                form = self.parents('form:eq(0)'),
-                focusable, next;
-
-            //se pressionar ctrl + enter, confirma o cadastro
-            if (e.ctrlKey && e.keyCode == 13) {
-                $("#enviar").trigger('click');
-            } else if (e.keyCode == 13) {
-                focusable = form.find('input,a,select,button,textarea').filter(':visible');
-                next = focusable.eq(focusable.index(this) + 1);
-                if (next.length) {
-                    next.focus();
-                } else {
-                    form.submit();
-                }
-                return false;
-            }
-
-        });
+        pularCampos();
 
         $('#btnConfirmar').on('click', function(e) {
             Confirmar(e);
         });
 
-        function Confirmar(event) {
+        async function Confirmar(event) {
             //declara todas as variaveis 
             var nomeFormaPagamento = $("#edtNomeFormaPagamento").val();
 
@@ -90,7 +71,7 @@
             } else {
                 tipoRequisicao = "PUT";
                 if (OPCadastro == "N")
-                    tipoRequisicao = "POST";            
+                    tipoRequisicao = "POST";
 
                 //monto o json para mandaar pro back
                 var json = new Object();
@@ -98,7 +79,7 @@
                 json.nomeFormaPagamento = nomeFormaPagamento;
 
                 $.ajax({
-                    url: pegarRotaBack('formaPagamento/'),
+                    url: await pegarRotaBack('formaPagamento/'),
                     type: tipoRequisicao,
                     contentType: 'application/json',
                     data: JSON.stringify(json)
@@ -156,6 +137,7 @@
                             <div class="form-group">
                                 <label>Nome forma de pagamento</label>
                                 <input type="text" id="edtNomeFormaPagamento" class="form-control" placeholder="Exemplo: Dinheiro, Cartão" maxlength="30" autofocus="autofocus">
+                                <input type="text" id="edtNdomeFormaPagamento" class="form-control" placeholder="Exemplo: Dinheiro, Cartão" maxlength="30" autofocus="autofocus">
                             </div>
                         </div>
                         <!-- /.card-body -->

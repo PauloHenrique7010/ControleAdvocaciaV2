@@ -321,7 +321,7 @@ async function exibirInput(titulo, texto, tipo) {
                 input: 'number',
                 inputAttributes: {
                         autocapitalize: 'off'
-                        
+
                 },
                 title: titulo,
                 text: texto,
@@ -333,9 +333,9 @@ async function exibirInput(titulo, texto, tipo) {
                 confirmButtonText: 'OK',
                 inputValidator: (value) => {
                         if (!value) {
-                          return 'Apenas números inteiros (Maiores que zero)!'
+                                return 'Apenas números inteiros (Maiores que zero)!'
                         }
-                      }
+                }
         });
         return p.value;
 
@@ -466,14 +466,24 @@ function formatarMoeda(i) {
 }
 
 //https://qastack.com.br/programming/5800927/how-to-identify-server-ip-address-in-php
-function pegarRotaBack(rota) {
-        /*let caminho = './server/tmp/IP.txt';
-        $.get(caminho, function (conteudoDoArquivo) {                
-                return "http://"+conteudoDoArquivo+":8020/" + rota; 
-        }).fail(function (error){
-                exibirMensagem('Erro!','Arquivo não encontrado no caminho informado: '+caminho,'error');
-        });*/
-        return "http://192.168.0.20:8020/" + rota; 
+async function pegarRotaBack(rota) {
+        //volta tudo e seta o projeto...
+
+        //Ao rodar o node, ele pega o ip da maquina do servidor e esta funcao le o arquivo .txt
+        var caminho = '../../../../../../ControleAdvocaciaV2/server/tmp/IP.txt';
+
+        let IP = await $.get(caminho, function (conteudoDoArquivo) {
+                //
+        }).fail(function (error) {
+                exibirMensagem('Erro!', 'Arquivo não encontrado no caminho informado: ' + caminho, 'error');
+        });
+        IP = "http://" + IP + ":8020/" + rota;
+        return IP;
+
+
+
+
+        //return "http://192.168.0.20:8020/" + rota; 
 }
 
 function pularCampos() {
@@ -484,14 +494,16 @@ function pularCampos() {
 
                 //se pressionar ctrl + enter, confirma o cadastro                
                 if (e.ctrlKey && e.keyCode == 13) {
-                        $("#enviar").trigger('click');
-                } else if (e.keyCode == 13) {
-                        focusable = form.find('input,a,select,button,textarea').filter(':visible');
-                        next = focusable.eq(focusable.index(this) + 1);
+                        $("#btnConfirmar").trigger('click');
+                } else if (e.keyCode == 13) {                        
+                        focusable = form.find('input,a,select,button,textarea');//.filter(':visible');
+                        next = focusable.eq(focusable.index(this) + 1);                        
+                        console.log(next);
                         if (next.length) {
                                 next.focus();
                         } else {
-                                Confirmar();
+                                next.focus();
+                                //Confirmar();
                         }
                         return false;
                 }

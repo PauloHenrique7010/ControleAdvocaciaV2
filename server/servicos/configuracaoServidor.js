@@ -41,4 +41,29 @@ async function atualizarTabelas() {
 }
 
 
-module.exports = { atualizarTabela, atualizarTabelas };
+async function pegarIPServidor(){
+    var fs = require('fs');
+    var ip = require("ip");
+
+
+    console.log("IP Servidor: "+ip.address());
+
+
+    fs.writeFile("./tmp/IP.txt", ip.address(), function (erro) {
+
+        if (erro) {
+            throw erro;
+        }
+
+        console.log("Arquivo salvo");
+    });
+
+    return ip.address();    
+}
+
+
+module.exports = { 
+    atualizarTabela, 
+    atualizarTabelas,
+    pegarIPServidor
+ };

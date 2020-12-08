@@ -36,6 +36,8 @@ app.use('/tipoServico', tipoServico);
 process.env.versaoServidor = 1.0;
 configuracao.atualizarTabela();
 
+configuracao.pegarIPServidor();
+
 app.get('/', (req, res) => {
   res.send('Rota principal');
 });

@@ -60,12 +60,12 @@
     //Assim que carregar a pagina, pesquisa no banco
     pesquisar();
 
-    $("#btnPesquisar").on('click', function() {
+    $("#btnPesquisar").on('click', async function() {
       pesquisar();
     });
 
   
-    $('#tabelaTipoServico').on('click', 'tbody tr .btnExcluir', function(e) {
+    $('#tabelaTipoServico').on('click', 'tbody tr .btnExcluir',async function(e) {
       let codigo = $(this).data("codigo");
       let nome = $(this).data("nome");
 
@@ -78,12 +78,12 @@
         cancelButtonColor: '#d33',
         cancelButtonText: 'Não',
         confirmButtonText: 'Sim'
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.value) {
           let linha = $(this).parent().parent(); //pego a linha antes de ser excluida ??? na faz sentido.. mas se o bd excluir e o datatable tentar pegar.. ele n faz nada
           $.ajax({
             type: 'DELETE',
-            url: pegarRotaBack('tipoServico/'),
+            url: await pegarRotaBack('tipoServico/'),
             contentType: 'application/json',
             data: JSON.stringify({
               'codigo': codigo
@@ -110,9 +110,9 @@
     });
 
 
-    function pesquisar() {
+    async function pesquisar() {
       $.ajax({
-        url: pegarRotaBack('tipoServico/'),
+        url: await pegarRotaBack('tipoServico/'),
         type: "GET"
         //data: filtro
       }).done(function(resposta) {

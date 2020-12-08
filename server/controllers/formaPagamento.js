@@ -80,7 +80,7 @@ async function cadastrarFormaPagamento(req, res){
     }
 }
 
-async function alterarFormaPagamento(req, res){
+async function alterarFormaPagamento(req, res){    
     try {        
         const {
             codFormaPagamento,            
@@ -88,7 +88,7 @@ async function alterarFormaPagamento(req, res){
         } = req.body;
 
         
-        let resposta = await modelFormaPagamento.alterarFormaPagamento(codFormaPagamento, nomeFormaPagamento);
+        let resposta = await modelFormaPagamento.alterarFormaPagamento(codFormaPagamento, nomeFormaPagamento);        
         
         if (resposta){
             

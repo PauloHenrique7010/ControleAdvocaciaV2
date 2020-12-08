@@ -18,7 +18,7 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/funcoes.js"); ?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.1.1/jspdf.umd.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(async function() {
         //ao apertar enter pula para o proximo campo
         //----------------------------------------------------------------------------------------        
         pularCampos();
@@ -42,7 +42,7 @@
             var filtro = new Object();
             filtro.codServico = codServico;
             $.ajax({
-                url: pegarRotaBack('servico/'),
+                url: await pegarRotaBack('servico/'),
                 type: "GET",
                 data: filtro
             }).done(function(resposta) {
@@ -395,7 +395,7 @@
             }
         });
 
-        $('#enviar').on('click', function(e) {
+        $('#enviar').on('click', async function(e) {
             Confirmar(e);
         });
 
@@ -509,7 +509,7 @@
                 
                 if (OPCadastro == "N") {
                     $.ajax({
-                        url: pegarRotaBack('servico/cadastrar'),
+                        url: await pegarRotaBack('servico/cadastrar'),
                         contentType: 'application/json',
                         data: json,
                         type: 'post'
