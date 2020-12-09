@@ -543,7 +543,8 @@
                 valorEntrada,
                 prestacoesCartao,
                 partesServico,
-                porcentagemRiscoContrato
+                porcentagemRiscoContrato,
+                tipoAcao
             } = json;
 
             valorServicoExtenso = valorMonetarioPorExtenso(valorServico); //true para valor quebrados(centavos)
@@ -628,8 +629,7 @@
 
 
             texto = "    Venho por meio desta, confirmar nossos atendimentos, segundo os quais estou disposta a " +
-                "prestar-lhe os meus serviços profissionais, consistentes nas ações: Embargos de Terceiro " +
-                "contra ação de Imissão de posse do imóvel sito Rua Benedito Henrique, 20, Campo dos Alemães. ";
+                "prestar-lhe os meus serviços profissionais, consistentes na ação de "+$("#cmbTipoAcao option:selected" ).text().toLocaleLowerCase()+". ";
             await pdf.text(texto, margemEsquerda, YPos, {
                 maxWidth: limiteLinha,
                 align: 'justify'
@@ -812,6 +812,7 @@
                 ?>
             </div>
         </div>
+        <br>
         <div class="form-row mt-2">
             <div class="col-4">
                 <h4>Escolha as partes do processo</h4>
@@ -877,7 +878,6 @@
                 </div>
             </div>
             <div class="modal-footer">
-
                 <a data-toggle="modal" href="#mdlAdicionarPartesProcessoSemCadastro" class="btn btn-warning desabilitar">Sem cadastro</a>
                 <a data-toggle="modal" href="#mdlAdicionarPartesProcesso" class="btn btn-primary desabilitar">Adicionar</a>
                 <a href="#" data-dismiss="modal" class="btn btn-secondary">Fechar</a>

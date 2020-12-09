@@ -136,8 +136,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Nome forma de pagamento</label>
-                                <input type="text" id="edtNomeFormaPagamento" class="form-control" placeholder="Exemplo: Dinheiro, Cartão" maxlength="30" autofocus="autofocus">
-                                <input type="text" id="edtNdomeFormaPagamento" class="form-control" placeholder="Exemplo: Dinheiro, Cartão" maxlength="30" autofocus="autofocus">
+                                <input type="text" id="edtNomeFormaPagamento" class="form-control" placeholder="Exemplo: Dinheiro, Cartão" maxlength="30" autofocus="autofocus">                                
                             </div>
                         </div>
                         <!-- /.card-body -->

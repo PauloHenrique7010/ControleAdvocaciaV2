@@ -368,7 +368,7 @@ function valorMonetarioPorExtenso(float, OPMonetario = true) {
         String.prototype.extenso = function (c) {
                 var ex = [
                         ["zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"],
-                        ["dez", "vinte", "trinta", "quarenta", "cinqüenta", "sessenta", "setenta", "oitenta", "noventa"],
+                        ["dez", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"],
                         ["cem", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"],
                         ["mil", "milhão", "bilhão", "trilhão", "quadrilhão", "quintilhão", "sextilhão", "setilhão", "octilhão", "nonilhão", "decilhão", "undecilhão", "dodecilhão", "tredecilhão", "quatrodecilhão", "quindecilhão", "sedecilhão", "septendecilhão", "octencilhão", "nonencilhão"]
                 ];
@@ -467,6 +467,7 @@ function formatarMoeda(i) {
 
 //https://qastack.com.br/programming/5800927/how-to-identify-server-ip-address-in-php
 async function pegarRotaBack(rota) {
+        
         //volta tudo e seta o projeto...
 
         //Ao rodar o node, ele pega o ip da maquina do servidor e esta funcao le o arquivo .txt
@@ -480,16 +481,14 @@ async function pegarRotaBack(rota) {
         IP = "http://" + IP + ":8020/" + rota;
         return IP;
 
-
-
-
-        //return "http://192.168.0.20:8020/" + rota; 
+        return "http://192.168.0.20:8020/" + rota; 
+        
 }
 
 function pularCampos() {
         jQuery('body').on('keydown', 'input, select, textarea', function (e) {
                 var self = $(this),
-                        form = self.parents('form:eq(0)'),
+                        form = self.parents(/*'form:eq(0)'*/),
                         focusable, next;
 
                 //se pressionar ctrl + enter, confirma o cadastro                

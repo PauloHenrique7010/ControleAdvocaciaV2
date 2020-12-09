@@ -15,7 +15,7 @@
 <script src="<?php echo base_url("assets/Administrador/dist/js/demo.js"); ?>"></script>
 <!-- page script -->
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(async function() {
         let OPCadastro = "N";
         var codTipoServico = 0;
         var URLAtual = window.location.href;
@@ -28,7 +28,7 @@
             var json = new Object();
             json.codTipoServico = codTipoServico;
             $.ajax({
-                url: pegarRotaBack('tipoServico/'),
+                url: await pegarRotaBack('tipoServico/'),
                 type: 'GET',
                 data: json
             }).done(function(resposta, status, response) {
@@ -73,7 +73,7 @@
             Confirmar(e);
         });
 
-        function Confirmar(event) {
+        async function Confirmar(event) {
             //declara todas as variaveis 
             var nomeTipoServico = $("#edtNomeTipoServico").val();
 
@@ -98,7 +98,7 @@
                 json.nomeTipoServico = nomeTipoServico;
 
                 $.ajax({
-                    url: pegarRotaBack('tipoServico/'),
+                    url: await pegarRotaBack('tipoServico/'),
                     type: tipoRequisicao,
                     contentType: 'application/json',
                     data: JSON.stringify(json)

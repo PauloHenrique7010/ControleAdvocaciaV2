@@ -2,7 +2,7 @@
 <style>
   /*deixa o modal com scrool*/
   .tabela {
-    max-height: calc(100vh - 200px);
+    max-height: 70vh; /*calc(100vh - 200px);*/
     overflow-y: auto;
   }
 
@@ -19,15 +19,17 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/funcoes.js"); ?>"></script>
 <script>
   $(document).ready(async function() {
+    let dataAtual = new Date();
+    let edtDtInicial = $("#edtDtInicial");
+    let edtDtFinal = $("#edtDtFinal");
+    edtDtInicial.val(formatDateTime(new Date(dataAtual.getFullYear(), dataAtual.getMonth(), 1)));
+    edtDtFinal.val(formatDateTime(new Date(dataAtual.getFullYear(), dataAtual.getMonth() + 1, 0)));
     
 
     $('#tabelaServicos').on('click', 'tbody tr .btnVerDetalhes', async function() {
       var itemEscolhido = tabelaServicos.row($(this)).data();
       itemEscolhido = tabelaServicos.row($(this).parents('tr')).data();
-
-
       codServico = StrToInt(itemEscolhido[0]);
-
       $.ajax({
         url: await pegarRotaBack('servico/partes'),
         type: "GET",
@@ -111,8 +113,7 @@
 
     });
 
-    let edtDtInicial = $("#edtDtInicial");
-    let edtDtFinal = $("#edtDtFinal");
+    
     edtDtInicial.on('keyup', async function() {
       if (edtDtInicial.val().length == 10) { //quando completar a data joga pro data time
         var json = new Object();
@@ -249,7 +250,7 @@
         {
           title: 'Ações'
         }
-      ],
+      ],/*
       columnDefs: [{
           "width": "2%",
           "targets": 2
@@ -263,11 +264,10 @@
           "targets": 4
         }, //valor
         {
-          "width": "15%",
+          "width": "30%",
           "targets": 6
         } //ações
-
-      ],
+      ],*/
       language: {
         "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Portuguese.json"
       }
@@ -275,15 +275,9 @@
 
     await pesquisarServico();
 
-    async function pesquisarServico(primeiraConsulta = true) {
-      let dataAtual = new Date();
+    async function pesquisarServico() {
       let dtInicial, dtFinal;
 
-      //apenas na primeira consulta ele tras o do mes
-      if (primeiraConsulta) {
-        dtInicial = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), 1);
-        dtFinal = new Date(dataAtual.getFullYear(), dataAtual.getMonth() + 1, 0);
-      }
 
       //se nao passar nenhuma data, ele pesquisa da primeira data do mes até a data atual
       if ($("#chcPeriodo").is(':checked')) {
@@ -303,8 +297,7 @@
         type: "GET",
         data: filtro
       }).done(function(resposta) {
-        var dataSet = [];
-        //console.log(resposta);
+        var dataSet = [];        
         $.each(resposta.servicos, function(index, data) {
           let dataPagoFormatado, dataVencimentoFormatada, numeroParcela, codServicoPagamento, valor;
 
@@ -351,7 +344,7 @@
     }
 
     $("#btnAplicarFiltro").on('click', function() {
-      pesquisarServico(false);
+      pesquisarServico();
     });
 
   });

@@ -3,6 +3,7 @@
 
 <head>
   <title><?php echo $tituloGuia; ?></title>
+  <link rel="shortcut icon" href="<?php echo base_url("assets/imagens/logo.png")?>" >
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -47,9 +48,9 @@
           <a class="dropdown-item" href="<?php echo base_url('NovoServico'); ?>">Serviço</a>          
         </div>
       </li>
-      <li class="nav-item">
+      <!--<li class="nav-item">
         <a class="nav-link" href="#">Sobre</a>
-      </li>
+      </li>-->
       <li class="nav-item">
         <a class="nav-link" href="<?php echo base_url('Configuracoes'); ?>">Configurações</a>
       </li>

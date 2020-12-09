@@ -15,7 +15,7 @@
 <script src="<?php echo base_url("assets/Administrador/dist/js/demo.js"); ?>"></script>
 <!-- page script -->
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(async function() {
         pularCampos();
         let OPCadastro = "N";
         var codTipoAcao= 0;
@@ -29,7 +29,7 @@
             var json = new Object();
             json.codTipoAcao = codTipoAcao;
             $.ajax({
-                url: pegarRotaBack('tipoAcao/'),
+                url: await pegarRotaBack('tipoAcao/'),
                 type: 'GET',
                 data: json
             }).done(function(resposta, status, response) {
@@ -52,7 +52,7 @@
             Confirmar(e);
         });
 
-        function Confirmar(event) {
+        async function Confirmar(event) {
             //declara todas as variaveis 
             var nomeTipoAcao = $("#edtNomeTipoAcao").val();
 
@@ -77,7 +77,7 @@
                 json.nomeTipoAcao = nomeTipoAcao;
 
                 $.ajax({
-                    url: pegarRotaBack('tipoAcao/'),
+                    url: await pegarRotaBack('tipoAcao/'),
                     type: tipoRequisicao,
                     contentType: 'application/json',
                     data: JSON.stringify(json)

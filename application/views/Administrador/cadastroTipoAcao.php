@@ -21,7 +21,7 @@
 
 
 <script>
-  $(document).ready(function() {
+  $(document).ready(async function() {
     function msgDeletar(codigo, nome) {
 
     }
@@ -73,12 +73,12 @@
         cancelButtonColor: '#d33',
         cancelButtonText: 'Não',
         confirmButtonText: 'Sim'
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.value) {
           let linha = $(this).parent().parent(); //pego a linha antes de ser excluida ??? na faz sentido.. mas se o bd excluir e o datatable tentar pegar.. ele n faz nada
           $.ajax({
             type: 'DELETE',
-            url: pegarRotaBack('tipoAcao/'),
+            url: await pegarRotaBack('tipoAcao/'),
             contentType: 'application/json',
             data: JSON.stringify({
               'codigo': codigo
@@ -104,19 +104,18 @@
       });
     });
 
-    $("#btnPesquisar").on('click', function() {
-      pesquisar();
+    $("#btnPesquisar").on('click', async function() {
+      await pesquisar();
     });
 
 
-    function pesquisar() {
+    async function pesquisar() {
       $.ajax({
-        url: pegarRotaBack('tipoAcao/'),
+        url: await pegarRotaBack('tipoAcao/'),
         type: "GET"
         //data: filtro
       }).done(function(resposta) {
-        var dataSet = [];
-        console.log(resposta);
+        var dataSet = [];        
         $.each(resposta.registros, function(index, data) {
           dataSet.push([
             data.cod_tipo_acao,

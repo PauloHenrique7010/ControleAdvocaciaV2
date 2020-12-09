@@ -2,7 +2,7 @@
 <style>
   /*deixa o modal com scrool*/
   .tabela {
-    max-height: calc(100vh - 200px);
+    max-height: 70vh;/*calc(100vh - 200px);*/
     overflow-y: auto;
   }
 
@@ -18,29 +18,9 @@
 </style>
 <script type="text/javascript" src="<?php echo base_url("assets/js/funcoes.js"); ?>"></script>
 <script>
-  $(document).ready(function() {
+  $(document).ready(async function() {
 
-    $('#tabelaServicos').on('click', 'tbody tr .btnVerDetalhes', function() {
-      var itemEscolhido = tabelaServicos.row($(this)).data();
-      itemEscolhido = tabelaServicos.row($(this).parents('tr')).data();
-
-
-      codServico = StrToInt(itemEscolhido[0]);
-
-      $.ajax({
-        url: pegarRotaBack('servico/partes'),
-        type: "GET",
-        data: "codigo=" + codServico
-      }).done(function(resposta) {
-        console.log(resposta.partes);
-      }).fail(function(jqXHR, status, err) {
-        if (StrToInt(status) == 0) {
-          exibirMensagemAviso('Aviso!', 'Servidor não está respondendo');
-        }
-      });
-    });
-
-    $('#tabelaServicos').on('click', 'tbody tr .btnBoleto', function() {
+    $('#tabelaServicos').on('click', 'tbody tr .btnBoleto', async function() {
       var itemEscolhido = tabelaServicos.row($(this)).data();
       itemEscolhido = tabelaServicos.row($(this).parents('tr')).data();
       codServicoPagamento = StrToInt(itemEscolhido[1]);
@@ -51,7 +31,7 @@
       json.dataVencimento = itemEscolhido[3];
 
       $.ajax({
-        url: pegarRotaBack('boleto/'),
+        url: await pegarRotaBack('boleto/'),
         type: "GET",
         data: json
       }).done(function(resposta) {
@@ -66,7 +46,7 @@
       });
     });
 
-    $('#tabelaServicos').on('click', 'tbody tr .btnDarBaixa', function() {
+    $('#tabelaServicos').on('click', 'tbody tr .btnDarBaixa', async function() {
       var itemEscolhido = tabelaServicos.row($(this)).data();
       itemEscolhido = tabelaServicos.row($(this).parents('tr')).data();
 
@@ -75,7 +55,7 @@
 
 
       $.ajax({
-        url: pegarRotaBack('servico/darBaixaPagamento'),
+        url: await pegarRotaBack('servico/darBaixaPagamento'),
         type: "post",
         data: JSON.stringify(json),
         contentType: 'application/json',
@@ -96,13 +76,13 @@
 
     let edtDtInicial = $("#edtDtInicial");
     let edtDtFinal = $("#edtDtFinal");
-    edtDtInicial.on('keyup', function() {
+    edtDtInicial.on('keyup', async function() {
       if (edtDtInicial.val().length == 10) { //quando completar a data joga pro data time
         var json = new Object();
         json.data = edtDtInicial.val();
         json.formato = "DD/MM/YYYY";
         $.ajax({
-          url: pegarRotaBack('funcoes/strToDate'),
+          url: await pegarRotaBack('funcoes/strToDate'),
           type: "get",
           data: json,
           contentType: 'application/json',
@@ -129,13 +109,13 @@
 
     });
 
-    edtDtFinal.on('keyup', function() {
+    edtDtFinal.on('keyup', async function() {
       if (edtDtFinal.val().length == 10) { //quando completar a data joga pro data time
         var json = new Object();
         json.data = edtDtFinal.val();
         json.formato = "DD/MM/YYYY";
         $.ajax({
-          url: pegarRotaBack('funcoes/strToDate'),
+          url: await pegarRotaBack('funcoes/strToDate'),
           type: "get",
           data: json,
           contentType: 'application/json',
@@ -202,10 +182,10 @@
 
 
     var tabelaServicos = $("#tabelaServicos").DataTable({
-      paging: false,
+      
       searching: false,
-      ordering: false,
-      info: false,
+      
+      
       columns: [{
           title: 'Serviço'
         },
@@ -224,9 +204,9 @@
       }
     });
 
-    pesquisarServico();
+    await pesquisarServico();
 
-    function pesquisarServico(primeiraConsulta = true) {
+    async function pesquisarServico(primeiraConsulta = true) {
       let dataAtual = new Date();
       let dtInicial, dtFinal;
 
@@ -251,7 +231,7 @@
       filtro.dtFinal = dtFinal;
       filtro.OPApenasEmAberto = OPApenasEmAberto;
       $.ajax({
-        url: pegarRotaBack('servico/'),
+        url: await pegarRotaBack('servico/'),
         type: "GET",
         data: filtro
       }).done(function(resposta) {        
@@ -267,8 +247,7 @@
               style: 'currency',
               currency: 'BRL'
             }),
-            '<a href="./AlterarServico/'+data.cod_servico+'"><button type="button" class="btn btn-info btnDetalhes">Detalhes</button></a:'            
-            //'<button type="button" class="btn btn-info btnVerDetalhes" data-toggle="modal" data-target="#mdlDetalhesServico">Detalhes</button>'
+            '<a href="./AlterarServico/'+data.cod_servico+'"><button type="button" class="btn btn-info btnDetalhes">Detalhes</button></a:'                        
           ]);
         });
 
@@ -281,8 +260,8 @@
       });
     }
 
-    $("#btnAplicarFiltro").on('click', function() {
-      pesquisarServico(false);
+    $("#btnAplicarFiltro").on('click', async function() {
+      await pesquisarServico(false);
     });
 
   });
@@ -290,11 +269,6 @@
 
 
 <div class="container-fluid">
-  <div class="container">
-    <h3>Controle financeiro e de Clientes para advogados</h3>
-    Mostrando pagamentos pendentes do mês atual
-  </div>
-
   <!-- Div collapse para os filtros -->
   <div class="col-12">
     <div class="panel-group form-group">
