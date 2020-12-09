@@ -30,6 +30,7 @@ async function criarTabelaConfiguracoes() {
 }
 
 async function atualizarTabelas() {
+    console.log('Atualizando as tabelas.')
     //PODE COLOCAR OS COMANDOS SQL, ALTER TABLE, CREATE TABLE E TUDO QUE QUISER
     await queryPromisse("ALTER TABLE CLIENTE ADD COLUMN IF NOT EXISTS cnpj varchar(30)");
     //await queryPromisse("CREATE TABLE teste(cod_teste int primary key)");

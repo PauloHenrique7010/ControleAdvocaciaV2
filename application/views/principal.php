@@ -369,7 +369,7 @@
         <div id="collapse1" class="panel-collapse collapse">
           <div class="panel-body">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="chcPeriodo">
+              <input class="form-check-input" type="checkbox" id="chcPeriodo" checked>
               <label class="form-check-label" for="defaultCheck1">
                 Periodo
               </label>
