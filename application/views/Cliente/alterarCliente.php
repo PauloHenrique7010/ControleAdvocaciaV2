@@ -139,6 +139,7 @@
             $dataNascimento = "";
         }                    
         $cpf                = $cliente->cpf;
+        $cnpj               = $cliente->cnpj;
         $rg                 = $cliente->rg;
         $codNacionalidade   = $cliente->cod_nacionalidade;
         $email              = $cliente->email_cliente;
@@ -279,6 +280,17 @@
                 ?>
             </div>
             <div class="col-md-2">                    
+                <h4>CNPJ</h4>
+                <?php 
+                    echo form_input(array(  'id'    => 'cnpj',
+                                            'name'  => 'cnpj',
+                                            'class' => 'form-control',
+                                            'maxlength' => 18,
+                                            'onKeyPress' => 'MascaraCNPJ(this)'), 
+                                            set_value('cnpj',$cnpj));                        
+                ?>
+            </div>
+            <div class="col-md-2">                    
                 <h4>RG</h4>
                 <?php
                     echo form_input(array(  'id'    => 'rg',
@@ -300,7 +312,7 @@
                                                 set_value('cod_nacionalidade',$codNacionalidade));
                 ?>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <h4>E-mail</h4>
                 <?php
                     echo form_input(array(  'id'    => 'email_cliente',

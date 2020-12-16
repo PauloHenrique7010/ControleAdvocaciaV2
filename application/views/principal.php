@@ -81,8 +81,7 @@
         exibirMensagem('Aviso!', 'Pagamento já efetuado!', 'warning');
       else {
 
-        let OPPergunta = exibirPergunta('Deseja dar baixa no pagamento?', '', 'question');
-        let linha = $(this).parent().parent(); //pego a linha antes de ser excluida ??? na faz sentido.. mas se o bd excluir e o datatable tentar pegar.. ele n faz nada              
+        let OPPergunta = exibirPergunta('Deseja dar baixa no pagamento?', '', 'question');        
         OPPergunta.then(async function(resposta) {
           if (resposta) {
             $.ajax({
@@ -96,10 +95,7 @@
               let msg = response.responseJSON.message;
 
               if (response.status = 200) {
-                linha.fadeOut(500, function() {
-                  tabelaServicos.row(linha).remove().draw();
-                });
-
+                $("#btnAplicarFiltro").trigger('click');
               } else {
                 exibirMensagemAviso(titulo, msg);
               }
@@ -220,9 +216,9 @@
 
 
     var tabelaServicos = $("#tabelaServicos").DataTable({
-      paging: false,
+      //paging: false,
       searching: false,
-      ordering: false,
+      //ordering: false,
       info: false,
       columns: [{
           title: 'Cód servico',
