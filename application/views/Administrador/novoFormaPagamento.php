@@ -50,8 +50,8 @@
         //----------------------------------------------------------------------------------------
         pularCampos();
 
-        $('#btnConfirmar').on('click', function(e) {
-            Confirmar(e);
+        $('#btnConfirmar').on('click',async function(e) {
+            await Confirmar(e);
         });
 
         async function Confirmar(event) {
@@ -83,7 +83,7 @@
                     type: tipoRequisicao,
                     contentType: 'application/json',
                     data: JSON.stringify(json)
-                }).done(function(resposta, status, response) {
+                }).done(async function(resposta, status, response) {
                     let titulo = response.responseJSON.title;
                     let msg = response.responseJSON.message;
                     let tipo = response.responseJSON.tipo;
@@ -92,7 +92,7 @@
                     if (response.status != 200)
                         exibirMensagem(titulo, msg, tipo)
                     else
-                        window.location.href = "http://localhost/ControleAdvocaciaV2/Admin/FormaPagamento"; //voltar para a pagina inicial                  
+                        window.location = await URLBase('Admin/FormaPagamento');                            
                 }).fail(function(jqXHR, status, err) {
                     exibirMensagemErro(jqXHR.responseJSON.title, jqXHR.responseJSON.message);
                 });

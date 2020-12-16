@@ -485,6 +485,22 @@ async function pegarRotaBack(rota) {
         
 }
 
+async function URLBase(rota) {
+        
+        //volta tudo e seta o projeto...
+
+        //Ao rodar o node, ele pega o ip da maquina do servidor e esta funcao le o arquivo .txt
+        var caminho = '../../../../../../ControleAdvocaciaV2/server/tmp/IP.txt';
+
+        let IP = await $.get(caminho, function (conteudoDoArquivo) {
+                //
+        }).fail(function (error) {
+                exibirMensagem('Erro!', 'Arquivo não encontrado no caminho informado: ' + caminho, 'error');
+        });
+        IP = "http://" + IP + "/ControleAdvocaciaV2/" + rota;
+        return IP;
+}
+
 function pularCampos() {
         jQuery('body').on('keydown', 'input, select, textarea', function (e) {
                 var self = $(this),

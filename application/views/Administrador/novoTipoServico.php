@@ -48,29 +48,10 @@
 
         //ao apertar enter pula para o proximo campo
         //----------------------------------------------------------------------------------------
-        jQuery('body').on('keydown', 'input, select, textarea, button', function(e) {
-            var self = $(this),
-                form = self.parents('form:eq(0)'),
-                focusable, next;
+        pularCampos();
 
-            //se pressionar ctrl + enter, confirma o cadastro
-            if (e.ctrlKey && e.keyCode == 13) {
-                $("#enviar").trigger('click');
-            } else if (e.keyCode == 13) {
-                focusable = form.find('input,a,select,button,textarea').filter(':visible');
-                next = focusable.eq(focusable.index(this) + 1);
-                if (next.length) {
-                    next.focus();
-                } else {
-                    form.submit();
-                }
-                return false;
-            }
-
-        });
-
-        $('#btnConfirmar').on('click', function(e) {
-            Confirmar(e);
+        $('#btnConfirmar').on('click', async function(e) {
+            await Confirmar(e);
         });
 
         async function Confirmar(event) {
@@ -95,14 +76,13 @@
                 //monto o json para mandaar pro back
                 var json = new Object();
                 json.codTipoServico = codTipoServico;
-                json.nomeTipoServico = nomeTipoServico;
-
+                json.nomeTipoServico = nomeTipoServico;                                
                 $.ajax({
                     url: await pegarRotaBack('tipoServico/'),
                     type: tipoRequisicao,
                     contentType: 'application/json',
                     data: JSON.stringify(json)
-                }).done(function(resposta, status, response) {
+                }).done(async function(resposta, status, response) {
                     let titulo = response.responseJSON.title;
                     let msg = response.responseJSON.message;
                     let tipo = response.responseJSON.tipo;
@@ -110,8 +90,9 @@
                     //se nao foi sucesso, exibe msg..
                     if (response.status != 200)
                         exibirMensagem(titulo, msg, tipo)
-                    else
-                        window.location.href = "http://localhost/ControleAdvocaciaV2/Admin/TipoServico"; //voltar para a pagina inicial                  
+                    else{
+                        window.location = await URLBase('Admin/TipoServico');    
+                    }                      
                 }).fail(function(jqXHR, status, err) {
                     exibirMensagemErro(jqXHR.responseJSON.title, jqXHR.responseJSON.message);
                 });

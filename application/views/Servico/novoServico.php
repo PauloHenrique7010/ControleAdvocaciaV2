@@ -396,7 +396,7 @@
         });
 
         $('#enviar').on('click', async function(e) {
-            Confirmar(e);
+            await Confirmar(e);
         });
 
         async function Confirmar(event) {
@@ -513,12 +513,11 @@
                         contentType: 'application/json',
                         data: json,
                         type: 'post'
-                    }).done(function(resposta, status, response) {
+                    }).done(async function(resposta, status, response) {
                         if (response.status != 200)
                             exibirMensagem(resposta.titulo, resposta.message, resposta.tipo)
                         else
-                            window.location.href = "http://localhost/ControleAdvocaciaV2"; //voltar para a pagina inicial                        
-
+                            window.location = await URLBase('');    
 
                     }).fail(function(jqXHR, status, err) {
                         exibirMensagem('Erro!', 'Ocorreu um erro inesperado!', 'error');
